@@ -1,0 +1,15 @@
+{
+  "name": "Tender Sprout Comm. School – SBA System",
+  "short_name": "TSCS SBA",
+  "description": "Scores, attendance, report cards and mock results for Tender Sprout Comm. School.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b2a8f",
+  "theme_color": "#0b2a8f",
+  "icons": [
+    { "src": "Screenshot_20261030-124739.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "Screenshot_20261030-124739.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

@@ -1,5 +1,5 @@
 /* TSCS SBA – offline support. Change VERSION whenever you upload a new index.html. */
-const VERSION="tscs-sba-v1";
+const VERSION="tscs-sba-v2";
 const CORE=["./","./index.html","./manifest.json","./Screenshot_20261030-124739.png",
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",

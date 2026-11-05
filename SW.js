@@ -1,10 +1,10 @@
 /* TSCS SBA – offline support. Change VERSION whenever you upload a new index.html. */
-const VERSION="tscs-sba-v2";
+const VERSION="tscs-sba-v4";
 const CORE=["./","./index.html","./manifest.json","./Screenshot_20261030-124739.png",
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"];
-const HOSTS=["www.gstatic.com","fonts.googleapis.com","fonts.gstatic.com"];
+const HOSTS=["www.gstatic.com","fonts.googleapis.com","fonts.gstatic.com","cdnjs.cloudflare.com"];
 
 self.addEventListener("install",e=>{
  e.waitUntil(caches.open(VERSION).then(c=>Promise.allSettled(CORE.map(u=>c.add(u)))).then(()=>self.skipWaiting()))});

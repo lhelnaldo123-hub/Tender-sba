@@ -230,7 +230,7 @@ const subs=c=>jhs(c)?["English","Mathematics","Science","Social Studies","Comput
 function gr(t,j){
  if(j){const a=[[80,1],[70,2],[60,3],[55,4],[50,5],[45,6],[40,7],[35,8],[0,9]].find(x=>t>=x[0]);return[a[1],["","Highest","Higher","High","High Average","Average","Low Average","Low","Lower","Lowest"][a[1]]]}
  const a=[[90,"A+","Excellent"],[80,"A","Very Good"],[70,"B","Good"],[60,"C","Satisfactory"],[50,"D","Fair"],[40,"E","Weak"],[0,"F","Needs Improvement"]].find(x=>t>=x[0]);return[a[1],a[2]]}
-function cs(a){if(!a||a.every(v=>v==null))return null;const m=a.slice(0,5).reduce((x,v)=>x+(+v||0),0),c=Math.round(m/80*500)/10,e=Math.round((+a[5]||0)*5)/10;return{c,e,t:Math.round(c+e)}}
+function cs(a){if(!a||a.every(v=>v==null))return null;const m=a.slice(0,5).reduce((x,v)=>x+(+v||0),0),c=Math.round(m/80*50),e=Math.round((+a[5]||0)*.5);return{c,e,t:c+e}}
 const rank=v=>{const s=v.filter(x=>x!=null).sort((a,b)=>b-a);return v.map(x=>x==null?"":s.indexOf(x)+1)};
 const agg=(sub,ss)=>{const core=["English","Mathematics","Science","Social Studies"],g=ss.filter(x=>sub[x]).map(x=>({x,g:sub[x].g})),a=g.filter(v=>core.includes(v.x)),b=g.filter(v=>!core.includes(v.x)).map(v=>v.g).sort((p,q)=>p-q).slice(0,2);return a.length==4&&b.length==2?a.reduce((s,v)=>s+v.g,0)+b.reduce((s,v)=>s+v,0):null};
 const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
@@ -320,7 +320,7 @@ window.goC=c=>{cls=c;tab="sc";watch();draw()};
 
 /* ---------- Scores ---------- */
 function table(){
- $("#bd").innerHTML=stu.length?`<p class="mu">3 tests /20 · project /10 · group /10 → scaled to 50. Exam /100 → scaled to 50. Saves instantly and every teacher sees it live.</p><div class="tw"><table class="t"><tr><th class="pn">Pupil</th><th>Test 1<br>/20</th><th>Test 2<br>/20</th><th>Test 3<br>/20</th><th>Project<br>/10</th><th>Group<br>/10</th><th>Exam<br>/100</th><th>Class<br>/50</th><th>Exam<br>/50</th><th>Total</th><th>Grd</th><th>Pos</th><th>Remark</th></tr>${stu.map(s=>`<tr data-id="${s.id}"><td class="pn">${esc(s.name)}</td>${MX.map((m,i)=>`<td><input type="number" inputmode="decimal" min="0" max="${m}" data-i="${i}" data-m="${m}"></td>`).join("")}<td class="c1"></td><td class="e1"></td><td class="t1 sb"></td><td class="g1"></td><td class="p1"></td><td class="r1"></td></tr>`).join("")}</table></div>`:'<p class="mu">No pupils in this class yet. Add them in the Pupils tab.</p>';fill()}
+ $("#bd").innerHTML=stu.length?`<p class="mu">3 tests /20 · project /10 · group /10 → scaled to 50. Exam /100 → scaled to 50. Saves instantly and every teacher sees it live.</p><div class="tw"><table class="t"><tr><th class="pn">Pupil</th><th>Test 1<br>/20</th><th>Test 2<br>/20</th><th>Test 3<br>/20</th><th>Project<br>/10</th><th>Group<br>/10</th><th>Exam<br>/100</th><th>Class<br>/50</th><th>Exam<br>/50</th><th>Total</th><th>Grd</th><th>Pos</th><th>Remark</th></tr>${stu.map(s=>`<tr data-id="${s.id}"><td class="pn">${esc(s.name)}</td>${MX.map((m,i)=>`<td><input type="number" inputmode="numeric" step="1" min="0" max="${m}" data-i="${i}" data-m="${m}"></td>`).join("")}<td class="c1"></td><td class="e1"></td><td class="t1 sb"></td><td class="g1"></td><td class="p1"></td><td class="r1"></td></tr>`).join("")}</table></div>`:'<p class="mu">No pupils in this class yet. Add them in the Pupils tab.</p>';fill()}
 function fill(){if(tab!="sc"||!stu.length)return;
  const j=jhs(cls),V=sc[sub]||{},r=stu.map(s=>cs(V[s.id])),p=rank(r.map(x=>x&&x.t));
  stu.forEach((s,k)=>{const tr=document.querySelector(`tr[data-id="${s.id}"]`);if(!tr)return;
@@ -331,13 +331,13 @@ $("#bd").addEventListener("change",async e=>{
  const el=e.target;
  if(el.dataset.ms!==undefined){ /* mock score */
   const id=el.closest("tr").dataset.id,x=el.dataset.ms,k=mkey(x);
-  const v=el.value===""?null:Math.max(0,Math.min(100,+el.value));if(v!==null&&v!=+el.value)el.value=v;
+  const v=el.value===""?null:Math.round(Math.max(0,Math.min(100,+el.value)));if(v!==null&&v!=+el.value)el.value=v;
   (sc[k]=sc[k]||{})[id]=[v];mockF();
   try{await setDoc(doc(db,"scores",(cls+"_"+YT()+"_"+k).replace(/[\s|]/g,"")),{cls,yt:YT(),subject:k,v:{[id]:[v]}},{merge:true})}catch(er){toast("Not saved: "+er.code)}
   return}
  if(el.dataset.i===undefined)return;
  const id=el.closest("tr").dataset.id,k=+el.dataset.i,m=+el.dataset.m;
- const v=el.value===""?null:Math.max(0,Math.min(m,+el.value));if(v!==null&&v!=+el.value)el.value=v;
+ const v=el.value===""?null:Math.round(Math.max(0,Math.min(m,+el.value)));if(v!==null&&v!=+el.value)el.value=v;
  const a=((sc[sub]||{})[id]||[null,null,null,null,null,null]).slice();a[k]=v;(sc[sub]=sc[sub]||{})[id]=a;fill();
  try{await setDoc(doc(db,"scores",did()),{cls,yt:YT(),subject:sub,v:{[id]:a}},{merge:true})}catch(er){toast("Not saved: "+er.code)}});
 
@@ -346,7 +346,7 @@ function calc(){
  const j=jhs(cls),ss=subs(cls),rows=stu.map(s=>({s,sub:{},gt:0,n:0}));
  ss.forEach(x=>{const r=rows.map(o=>cs((sc[x]||{})[o.s.id])),p=rank(r.map(y=>y&&y.t));
   rows.forEach((o,i)=>{const y=r[i];if(y){const g=gr(y.t,j);o.sub[x]={c:y.c,e:y.e,t:y.t,g:g[0],m:g[1],p:p[i]};o.gt+=y.t;o.n++}})});
- rows.forEach(o=>{o.avg=o.n?Math.round(o.gt/o.n*10)/10:0;o.ag=j?agg(o.sub,ss):null});
+ rows.forEach(o=>{o.avg=o.n?Math.round(o.gt/o.n):0;o.ag=j?agg(o.sub,ss):null});
  const rk=rows.filter(o=>o.n).sort((a,b)=>j?((a.ag??99)-(b.ag??99))||b.gt-a.gt:b.gt-a.gt);
  rows.forEach(o=>o.pos=o.n?rk.findIndex(x=>x.gt===o.gt&&x.ag===o.ag)+1:"");
  return rows}
@@ -449,7 +449,7 @@ async function saveC(k,v){meta._c=Object.assign({},meta._c||{},{[k]:v});
 window.pc=all=>{const rows=calc(),l=all?stu:stu.filter(s=>s.id==rpid);printHTML(l.map(s=>`<div class="pgc">${card(s,rows)}</div>`).join(""))};
 
 /* ---------- Mock exams (Basic 9, Mock 1–7) ---------- */
-const r1=x=>Math.round(x*10)/10;
+const r1=x=>Math.round(x);
 const ABR={"English":"ENG","Mathematics":"MATHS","Science":"SCI","Social Studies":"SOC.STD","Computing":"COMP","RME":"RME","Creative Arts":"C.ARTS","French":"FRE","Twi":"TWI","Career Technology":"CAR.TECH","History":"HIST"};
 const ab=x=>ABR[x]||x.slice(0,5).toUpperCase();
 const KEYJ="1: 80–100 Highest · 2: 70–79 Higher · 3: 60–69 High · 4: 55–59 High Average · 5: 50–54 Average · 6: 45–49 Low Average · 7: 40–44 Low · 8: 35–39 Lower · 9: 0–34 Lowest";
@@ -470,7 +470,7 @@ window.setM=v=>{mk=v;localStorage.mk=v;unfocus();mockRender()};
 window.setMV=v=>{mv=v;unfocus();mockRender()};
 window.setRP2=v=>{rpid=v;unfocus();mockRC()};
 function mockT(){const ss=subs(cls);
- $("#bd").innerHTML=mhead()+(stu.length?`<p class="mu">Basic 9 BECE mock — enter each subject out of 100. Grades 1–9, aggregate (4 core + best 2) and position are automatic. Every teacher sees it live. Use the menu above for the analysis sheet and report cards.</p><div class="tw"><table class="t"><tr><th class="pn">Pupil</th>${ss.map(x=>`<th>${x}<br>/100</th>`).join("")}<th>Total</th><th>Agg</th><th>Pos</th></tr>${stu.map(s=>`<tr data-id="${s.id}"><td class="pn">${esc(s.name)}</td>${ss.map(x=>`<td><input type="number" inputmode="decimal" min="0" max="100" data-ms="${x}"><div class="gx"></div></td>`).join("")}<td class="mt sb"></td><td class="ma sb"></td><td class="mp sb"></td></tr>`).join("")}</table></div>`:'<p class="mu">No pupils in this class yet.</p>');mockF()}
+ $("#bd").innerHTML=mhead()+(stu.length?`<p class="mu">Basic 9 BECE mock — enter each subject out of 100. Grades 1–9, aggregate (4 core + best 2) and position are automatic. Every teacher sees it live. Use the menu above for the analysis sheet and report cards.</p><div class="tw"><table class="t"><tr><th class="pn">Pupil</th>${ss.map(x=>`<th>${x}<br>/100</th>`).join("")}<th>Total</th><th>Agg</th><th>Pos</th></tr>${stu.map(s=>`<tr data-id="${s.id}"><td class="pn">${esc(s.name)}</td>${ss.map(x=>`<td><input type="number" inputmode="numeric" step="1" min="0" max="100" data-ms="${x}"><div class="gx"></div></td>`).join("")}<td class="mt sb"></td><td class="ma sb"></td><td class="mp sb"></td></tr>`).join("")}</table></div>`:'<p class="mu">No pupils in this class yet.</p>');mockF()}
 function mockF(){if(tab!="mk"||mv!="e"||!stu.length)return;
  mockCalc().forEach(o=>{const tr=document.querySelector(`tr[data-id="${o.s.id}"]`);if(!tr)return;
   tr.querySelectorAll("input").forEach(e=>{const x=e.dataset.ms,v=((sc[mkey(x)]||{})[o.s.id]||[])[0];if(document.activeElement!==e)e.value=v??"";e.nextElementSibling.textContent=o.sub[x]?"("+o.sub[x].g+")":""});

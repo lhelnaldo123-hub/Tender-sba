@@ -169,11 +169,20 @@ table.t{border-collapse:collapse;width:100%;font-size:12px}.t th{background:var(
 @page card{size:A4 portrait;margin:8mm}
 @page sheet{size:A4 landscape;margin:8mm}
 @media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-body{background:#fff}#ap,#lg,#sp,#tt{display:none!important}.prt{display:block}
+body{background:#fff}#ap,#lg,#sp,#tt,#pm,#pg,.pdfx{display:none!important}.prt{display:block}
 .pgc{page:card;break-after:page;page-break-after:always}.pgs{page:sheet;break-after:page;page-break-after:always}
 .pgc .card,.pgc .rc2{margin:0;max-width:none;font-size:12px}.pgc .rc2{font-size:11.5px}.pgc:last-child,.pgs:last-child{break-after:auto;page-break-after:auto}.msheet{box-shadow:none}
 .prt .t{font-size:9.5px;margin-bottom:10px}.prt .t td,.prt .t th{padding:2px}.prt .t tr{page-break-inside:avoid}.prt thead{display:table-header-group}
 .t td.pn,.t th.pn{position:static}.prt .rm{font-size:8px}}
+/* ---- save-as-PDF menu + progress ---- */
+#pm{position:fixed;inset:0;z-index:50;background:#0006;display:flex;align-items:flex-end}
+.sh{background:#fff;width:100%;max-width:560px;margin:auto auto 0;border-radius:18px 18px 0 0;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+.sh button{width:100%;padding:13px;margin:5px 0}
+#pg{position:fixed;inset:0;z-index:200;background:var(--b);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+#pg p{font-size:17px;font-weight:700;margin:18px 0 4px}
+.pdfx{position:fixed;left:0;top:0;width:794px;background:#fff;z-index:150}
+.pdfx .rc2,.pdfx .card{margin:0!important;max-width:none!important}
+.pdfx .rc2{font-size:11.5px}.pdfx .card{font-size:12px}
 </style></head><body>
 
 <div id="sp" class="bg"><div><div class="lgo"><img src="Screenshot_20261030-124739.png" alt="" onerror="this.hidden=true;this.nextElementSibling.style.display='block'"><b class="fb">TSCS</b></div>
@@ -198,6 +207,8 @@ body{background:#fff}#ap,#lg,#sp,#tt{display:none!important}.prt{display:block}
 <div id="bd"></div></main></div>
 <div id="pp" class="prt"></div>
 <div id="tt"></div>
+<div id="pm" hidden></div>
+<div id="pg" hidden><div class="ld"><i></i><i></i><i></i></div><p></p><small>Please keep this screen open</small></div>
 
 <script>
 window.eye=()=>{const p=document.getElementById("pw");p.type=p.type=="password"?"text":"password"};
@@ -424,7 +435,7 @@ function rcv(){
  if(!stu.length){$("#bd").innerHTML='<p class="mu">No pupils in this class yet.</p>';return}
  if(!stu.find(s=>s.id==rpid))rpid=stu[0].id;
  const s=stu.find(x=>x.id==rpid),M=meta[rpid]||{},C=meta._c||{},inp=(l,id,v,t)=>`<label class="l1">${l}</label><input id="${id}" ${t||""} value="${esc(v||"")}">`;
- $("#bd").innerHTML=`<select id="rp" onchange="setRP(this.value)">${stu.map(x=>`<option value="${x.id}" ${x.id==rpid?"selected":""}>${esc(x.name)}</option>`).join("")}</select>${thSel()}<div class="r2"><button class="y" onclick="pc(0)">🖨 Print this card</button><button onclick="pc(1)">🖨 Print all ${stu.length}</button></div><div style="overflow-x:auto"><div style="min-width:640px">${card(s)}</div></div>
+ $("#bd").innerHTML=`<select id="rp" onchange="setRP(this.value)">${stu.map(x=>`<option value="${x.id}" ${x.id==rpid?"selected":""}>${esc(x.name)}</option>`).join("")}</select>${thSel()}<div class="r2"><button class="y" onclick="pc(0)">🖨 Print / save this card</button><button onclick="pc(1)">🖨 Print / save all ${stu.length}</button></div><div style="overflow-x:auto"><div style="min-width:640px">${card(s)}</div></div>
 <div class="fm"><b>Notes for ${esc(s.name)}</b><p class="mu">Conduct, attitude and interest are chosen in the 🎭 Conduct tab. Attendance is in the 📅 Attendance tab.</p><label class="l1">Class teacher's remarks (leave empty to auto-write from the average)</label><textarea id="mtr" rows="2">${esc(M.tr)}</textarea>${pick("mtr","tr","remark")}<label class="l1">Head teacher's remarks</label><textarea id="mhr" rows="2">${esc(M.hr)}</textarea>${inp("Promoted to (optional, usually Term 3)","mpr",M.promo)}${inp("Arrears for next term bill (GH₵)","mar",M.arr,'type="number" inputmode="decimal"')}<label class="l1">Pupil photo (optional)</label><input type="file" id="phf" accept="image/*">${M.ph?'<button class="r" onclick="clrPh()">Remove photo</button>':""}</div>
 <div class="fm"><b>Whole class — ${cls}, Term ${term}</b>${inp("Days school opened (empty = counted from attendance)","cop",C.opened,'type="number" inputmode="numeric"')}${inp("Next term begins (Open date)","cre",C.reopen)}${inp("Vacation date (Vac date)","cva",C.vacate)}${inp("Tuition for next term (GH₵)","ctu",C.tui,'type="number" inputmode="decimal"')}${inp("P.T.A (GH₵)","cpa",C.pta,'type="number" inputmode="decimal"')}${inp("Toiletries (GH₵)","cto",C.toi,'type="number" inputmode="decimal"')}</div>${sigBox()}`}
 window.setRP=v=>{rpid=v;rcv()};
@@ -446,7 +457,58 @@ async function saveMid(pid,k,v){meta[pid]=Object.assign({},meta[pid]||{},{[k]:v}
 async function saveM(k,v){await saveMid(rpid,k,v);if(tab=="rc")rcv()}
 async function saveC(k,v){meta._c=Object.assign({},meta._c||{},{[k]:v});
  try{await setDoc(doc(db,"scores",mid()),{cls,yt:YT(),subject:"__META",v:{_c:meta._c}},{merge:true});toast("Saved ✅")}catch(er){toast("Not saved: "+er.code)}if(tab=="rc")rcv()}
-window.pc=all=>{const rows=calc(),l=all?stu:stu.filter(s=>s.id==rpid);printHTML(l.map(s=>`<div class="pgc">${card(s,rows)}</div>`).join(""))};
+/* ---------- Print or save as PDF (one file / ZIP of separate PDFs / separate downloads) ---------- */
+const U_H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",U_PDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",U_ZIP="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+const LP={};
+const loadJS=u=>LP[u]||(LP[u]=new Promise((res,rej)=>{const e=document.createElement("script");e.src=u;e.onload=res;e.onerror=()=>{delete LP[u];rej(new Error("load"))};document.head.appendChild(e)}));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const fnm=x=>String(x).replace(/[\\\/:*?"<>|]+/g,"").trim().replace(/\s+/g,"_")||"pupil";
+let PM=[],PK="rc";
+function pdfItems(kind,all){
+ const l=all?stu:stu.filter(s=>s.id==rpid);
+ if(kind=="rc"){const rows=calc();return l.map(s=>({name:s.name,html:card(s,rows)}))}
+ const rows=mockCalc(),prev=mk>1?mockCalc(mk-1):null;return l.map(s=>({name:s.name,html:mcard(s,rows,prev,+mk)}))}
+function pdfMenu(kind,all){PK=kind;PM=pdfItems(kind,all);
+ if(!PM.length)return toast("No pupils in this class yet");
+ const n=PM.length;
+ $("#pm").innerHTML=`<div class="sh"><b>${all?"All "+n+" "+(kind=="rc"?"report cards":"mock slips"):esc(PM[0].name)}</b><p class="mu">Choose what to do. Saved files go to your phone's Downloads folder.</p><button onclick="pdfGo('print')">🖨 Print now</button>${all&&n>1?`<button class="y" onclick="pdfGo('one')">📄 One PDF – all together</button><button class="y" onclick="pdfGo('zip')">🗂 Separate PDFs inside one ZIP file</button><button class="y" onclick="pdfGo('each')">📑 Separate PDFs, downloaded one by one</button>`:`<button class="y" onclick="pdfGo('one')">📄 Save as PDF</button>`}<button class="r" onclick="pdfX()">Cancel</button></div>`;
+ $("#pm").hidden=false}
+window.pdfX=()=>{$("#pm").hidden=true};
+window.pc=all=>pdfMenu("rc",all);
+function prog(m){const g=$("#pg");if(!m){g.hidden=true;return}g.hidden=false;g.querySelector("p").textContent=m}
+async function cardCanvas(html){
+ const h=document.createElement("div");h.className="pdfx";h.innerHTML=html;document.body.appendChild(h);
+ try{
+  h.querySelectorAll("svg rect").forEach(r=>{const f=getComputedStyle(r).fill;r.removeAttribute("style");r.setAttribute("fill",f)});
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  await sleep(80);
+  return await window.html2canvas(h,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false,scrollX:0,scrollY:0,windowWidth:794,windowHeight:1400})
+ }finally{h.remove()}}
+function addCanvas(pdf,cv,first){
+ if(!first)pdf.addPage();
+ const pw=210,ph=297,m=6,mw=pw-2*m,mh=ph-2*m;let w=mw,h=cv.height*w/cv.width;if(h>mh){h=mh;w=cv.width*h/cv.height}
+ pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",(pw-w)/2,m,w,h)}
+function dl(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),30000)}
+window.pdfGo=async mode=>{
+ const it=PM;pdfX();if(!it.length)return;
+ if(mode=="print"){printHTML(it.map(i=>`<div class="pgc">${i.html}</div>`).join(""));return}
+ const base=(cls+"_"+yr+"_Term"+term+(PK=="mk"?"_Mock"+mk:"")).replace(/[^\w-]+/g,"_");
+ try{
+  prog("Getting ready…");
+  await Promise.all([loadJS(U_H2C),loadJS(U_PDF),mode=="zip"?loadJS(U_ZIP):0]);
+  const J=window.jspdf.jsPDF,newPdf=()=>new J({unit:"mm",format:"a4",orientation:"portrait"});
+  const one=mode=="one"?newPdf():null,z=mode=="zip"?new window.JSZip():null,used=new Set();
+  for(let i=0;i<it.length;i++){
+   prog("Making PDF "+(i+1)+" of "+it.length+"…");
+   const cv=await cardCanvas(it[i].html);
+   let fn=fnm(it[i].name);if(used.has(fn))fn+="_"+(i+1);used.add(fn);
+   if(one)addCanvas(one,cv,i==0);
+   else{const p=newPdf();addCanvas(p,cv,true);const b=p.output("blob");if(z)z.file(fn+".pdf",b);else{dl(b,fn+".pdf");await sleep(900)}}
+   await sleep(20)}
+  if(one)dl(one.output("blob"),(it.length==1?fnm(it[0].name):base)+".pdf");
+  if(z){prog("Making the ZIP…");dl(await z.generateAsync({type:"blob"}),base+".zip")}
+  prog("");toast("Done ✅ Check your Downloads folder")
+ }catch(e){prog("");toast("Could not make the PDF. Check your internet and try again.")}};
 
 /* ---------- Mock exams (Basic 9, Mock 1–7) ---------- */
 const r1=x=>Math.round(x);
@@ -515,8 +577,8 @@ function mockRC(){
  if(!stu.length){$("#bd").innerHTML=mhead()+'<p class="mu">No pupils in this class yet.</p>';return}
  if(!stu.find(s=>s.id==rpid))rpid=stu[0].id;
  const rows=mockCalc(),prev=mk>1?mockCalc(mk-1):null,s=stu.find(x=>x.id==rpid);
- $("#bd").innerHTML=mhead()+`<select onchange="setRP2(this.value)">${stu.map(x=>`<option value="${x.id}" ${x.id==rpid?"selected":""}>${esc(x.name)}</option>`).join("")}</select>${thSel()}<div class="r2"><button class="y" onclick="pmc(0)">🖨 Print this slip</button><button onclick="pmc(1)">🖨 Print all ${stu.length}</button></div><div style="overflow-x:auto"><div style="min-width:640px">${mcard(s,rows,prev,+mk)}</div></div>${sigBox()}`}
-window.pmc=all=>{const rows=mockCalc(),prev=mk>1?mockCalc(mk-1):null,l=all?stu:stu.filter(s=>s.id==rpid);printHTML(l.map(s=>`<div class="pgc">${mcard(s,rows,prev,+mk)}</div>`).join(""))};
+ $("#bd").innerHTML=mhead()+`<select onchange="setRP2(this.value)">${stu.map(x=>`<option value="${x.id}" ${x.id==rpid?"selected":""}>${esc(x.name)}</option>`).join("")}</select>${thSel()}<div class="r2"><button class="y" onclick="pmc(0)">🖨 Print / save this slip</button><button onclick="pmc(1)">🖨 Print / save all ${stu.length}</button></div><div style="overflow-x:auto"><div style="min-width:640px">${mcard(s,rows,prev,+mk)}</div></div>${sigBox()}`}
+window.pmc=all=>pdfMenu("mk",all);
 
 /* ---------- Admin: overview ---------- */
 function ov(){if(tab!="ov")return;

@@ -183,11 +183,13 @@ body{background:#fff}#ap,#lg,#sp,#tt,#pm,#pg,.pdfx{display:none!important}.prt{d
 .pdfx{position:fixed;left:0;top:0;width:794px;background:#fff;z-index:150}
 .pdfx .rc2,.pdfx .card{margin:0!important;max-width:none!important}
 .pdfx .rc2{font-size:11.5px}.pdfx .card{font-size:12px}
+/* A4 FIX: card fills the page from top to bottom */
 .rc2.fit,.card.fit{display:flex;flex-direction:column}
 .rc2.fit .bd2{flex:1;display:flex;flex-direction:column}
-.rc2.fit .ft2{margin-top:auto}
-.card.fit .sg{margin-top:auto;padding-top:30px}
+.rc2.fit .bd2{justify-content:space-between}
+.card.fit{justify-content:space-between}
 </style><style id="ps"></style></head><body>
+
 <div id="sp" class="bg"><div><div class="lgo"><img src="Screenshot_20261030-124739.png" alt="" onerror="this.hidden=true;this.nextElementSibling.style.display='block'"><b class="fb">TSCS</b></div>
 <h1>TENDER SPROUT<br>COMM. SCHOOL</h1><div class="pill">SBA SYSTEM</div><div class="ld"><i></i><i></i><i></i></div></div>
 <div class="vis">Our Vision · Your Future</div></div>
@@ -269,6 +271,11 @@ addEventListener("online",net);addEventListener("offline",net);
 addEventListener("afterprint",()=>{$("#pp").innerHTML=""});
 const ready=()=>{ar=true;if(mn)$("#sp").classList.add("out")};
 setTimeout(()=>{mn=true;if(ar)$("#sp").classList.add("out")},2300);
+/* A4 FIX: stretch a card to the full page height by spreading its sections and growing the table rows */
+const fillTo=(c,T)=>{const e=T-c.offsetHeight;c.style.minHeight=T+"px";if(e<=0)return;
+ const rs=c.querySelectorAll(".rt2 tr,.rt tr");if(!rs.length)return;
+ const p=Math.min(e*.45/rs.length/2,16);
+ c.querySelectorAll(".rt2 td,.rt td,.rt2 th,.rt th").forEach(x=>{x.style.paddingTop=x.style.paddingBottom=(3+p)+"px"})};
 /* A4 FIX: every report card / mock slip is scaled to fill exactly one A4 portrait page */
 window.printHTML=h=>{
  const land=h.includes('class="pgs"'),pp=$("#pp");
@@ -281,7 +288,7 @@ window.printHTML=h=>{
    const c=g.firstElementChild;if(!c)return;
    c.style.width="760px";c.style.maxWidth="none";c.style.margin="0";c.style.transformOrigin="0 0";
    const k=Math.min(W/760,H/c.offsetHeight);
-   c.classList.add("fit");c.style.minHeight=(H/k)+"px";
+   c.classList.add("fit");fillTo(c,H/k);
    c.style.marginLeft=((W-760*k)/2)+"px";c.style.transform="scale("+k+")";
    g.style.cssText="width:"+W+"px;height:"+H+"px;overflow:hidden;position:relative"});
   pp.style.cssText="";
@@ -496,8 +503,8 @@ window.pc=all=>pdfMenu("rc",all);
 function prog(m){const g=$("#pg");if(!m){g.hidden=true;return}g.hidden=false;g.querySelector("p").textContent=m}
 async function cardCanvas(html){
  const h=document.createElement("div");h.className="pdfx";h.innerHTML=html;document.body.appendChild(h);
- /* A4 FIX: stretch the card to the exact A4 shape so it fills the whole page */
- const c0=h.firstElementChild;if(c0){c0.classList.add("fit");c0.style.minHeight=Math.round(794*285/198)+"px"}
+ /* A4 FIX: stretch the card to the exact A4 shape so it fills the whole page top to bottom */
+ const c0=h.firstElementChild;if(c0){c0.classList.add("fit");fillTo(c0,Math.round(794*285/198))}
  try{
   h.querySelectorAll("svg rect").forEach(r=>{const f=getComputedStyle(r).fill;r.removeAttribute("style");r.setAttribute("fill",f)});
   if(document.fonts&&document.fonts.ready)await document.fonts.ready;

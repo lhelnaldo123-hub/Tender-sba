@@ -194,7 +194,7 @@ body{background:#fff}#ap,#lg,#sp,#tt{display:none!important}.prt{display:block}
 <main>
 <div class="r2"><select id="cs" onchange="setC(this.value)"></select><select id="tm" onchange="setT(this.value)"><option value="1">Term 1</option><option value="2">Term 2</option><option value="3">Term 3</option></select><input id="yr" onchange="setY(this.value)"></div>
 <select id="ss" onchange="setS(this.value)"></select>
-<div class="tabs"><button class="tb ad" data-t="ov" onclick="setTab('ov')">📊 Overview</button><button class="tb" data-t="sc" onclick="setTab('sc')">📝 Scores</button><button class="tb" data-t="at" onclick="setTab('at')">📅 Attendance</button><button class="tb" data-t="rc" onclick="setTab('rc')">📄 Report cards</button><button class="tb" data-t="rs" onclick="setTab('rs')">🏆 Analysis</button><button class="tb mk" data-t="mk" onclick="setTab('mk')">🎯 Mock</button><button class="tb ad" data-t="pu" onclick="setTab('pu')">👥 Pupils</button><button class="tb ad" data-t="tc" onclick="setTab('tc')">🧑‍🏫 Teachers</button></div>
+<div class="tabs"><button class="tb ad" data-t="ov" onclick="setTab('ov')">📊 Overview</button><button class="tb" data-t="sc" onclick="setTab('sc')">📝 Scores</button><button class="tb" data-t="at" onclick="setTab('at')">📅 Attendance</button><button class="tb" data-t="cn" onclick="setTab('cn')">🎭 Conduct</button><button class="tb" data-t="rc" onclick="setTab('rc')">📄 Report cards</button><button class="tb" data-t="rs" onclick="setTab('rs')">🏆 Analysis</button><button class="tb mk" data-t="mk" onclick="setTab('mk')">🎯 Mock</button><button class="tb" data-t="pu" onclick="setTab('pu')">👥 Pupils</button><button class="tb ad" data-t="tc" onclick="setTab('tc')">🧑‍🏫 Teachers</button></div>
 <div id="bd"></div></main></div>
 <div id="pp" class="prt"></div>
 <div id="tt"></div>
@@ -235,8 +235,9 @@ const rank=v=>{const s=v.filter(x=>x!=null).sort((a,b)=>b-a);return v.map(x=>x==
 const agg=(sub,ss)=>{const core=["English","Mathematics","Science","Social Studies"],g=ss.filter(x=>sub[x]).map(x=>({x,g:sub[x].g})),a=g.filter(v=>core.includes(v.x)),b=g.filter(v=>!core.includes(v.x)).map(v=>v.g).sort((p,q)=>p-q).slice(0,2);return a.length==4&&b.length==2?a.reduce((s,v)=>s+v.g,0)+b.reduce((s,v)=>s+v,0):null};
 const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
 const LOGO='<div class="lo2"><img src="Screenshot_20261030-124739.png" alt="" onerror="this.hidden=true;this.nextElementSibling.style.display=\'block\'"><b>TS</b></div>';
+const SITE="lhelnaldo123-hub.github.io/Tender-sba";
 
-let me=null,cls="",term=localStorage.t||"1",yr=localStorage.y||"2026/2027",sub="",tab="sc",stu=[],sc={},att={},meta={},un=[],ua=[],SIG="",aS=[],aC={},tl=[],ar=false,mn=false,adate=today(),rpid="",mk=localStorage.mk||"1",mv="e",th=localStorage.th||"c";
+let me=null,cls="",term=localStorage.t||"1",yr=localStorage.y||"2026/2027",sub="",tab="sc",stu=[],sc={},att={},meta={},un=[],ua=[],SIG="",aS=[],aC={},tl=[],ar=false,mn=false,adate=today(),rpid="",mk=localStorage.mk||"1",mv="e",th=localStorage.th||"c",am="d";
 /* shared lists + headmaster signature (same for every class) */
 let G={};try{G=JSON.parse(localStorage.G||"{}")}catch(_){G={}}
 const DEF={cd:["Respectful and well-behaved","Obedient and hardworking","Polite and cooperative","Disciplined and responsible","Is an enthusiastic learner who seems to enjoy school","Needs to improve his/her conduct"],at:["Humble","Hardworking","Cheerful","Attentive","Eager to learn","Needs to be more serious"],it:["Literacy","Numeracy","Reading","Sports","Drawing and Colouring","Music and Dance","Science","Creative Arts","Computing"],tr:["Well done.","Keep it up.","Excellent performance. Keep it up!","Good effort. Aim higher.","Needs to work harder."]};
@@ -259,7 +260,7 @@ const ttl=t=>`<div class="ph"><b>TENDER SPROUT COMM. SCHOOL</b><span>${t} — ${
 function shrink(file,w,q){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const k=Math.min(1,w/i.width),c=document.createElement("canvas");c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(i,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",q))};i.onerror=rej;i.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
 async function saveG(p){G=Object.assign({},G,p);try{localStorage.G=JSON.stringify(G)}catch(_){}
  try{await setDoc(doc(db,"scores","__LISTS"),{cls:"ALL",yt:"ALL",subject:"__LISTS",v:p},{merge:true});toast("Saved ✅")}catch(er){toast("Not saved: "+er.code)}
- if(tab=="rc")rcv();else if(tab=="mk"&&mv=="r")mockRC()}
+ if(tab=="rc")rcv();else if(tab=="cn")cnv();else if(tab=="mk"&&mv=="r")mockRC()}
 
 /* ---------- Login ---------- */
 const AE={"auth/invalid-credential":"Wrong email or password, or this email has not been added in Firebase Authentication yet.","auth/wrong-password":"Wrong password.","auth/user-not-found":"No account with this email. Ask the admin to add you.","auth/invalid-email":"That email is not valid.","auth/operation-not-allowed":"Email/Password sign-in is not switched on in Firebase (Authentication → Sign-in method).","auth/network-request-failed":"No internet connection.","auth/too-many-requests":"Too many tries. Please wait a few minutes.","auth/invalid-api-key":"Your Firebase config is wrong (apiKey). Check CFG in the file.","auth/user-disabled":"This account has been disabled."};
@@ -293,7 +294,7 @@ function live(){
  if(tab=="sc"){const g=stu.map(s=>s.id).join()+"|"+cls+sub+YT();if(g!==SIG){SIG=g;table()}else fill()}
  else if(tab=="rs")results();else if(tab=="pu")pupils();
  else if(tab=="mk"){if(mv=="e"){const g=mg();if(g!==SIG){SIG=g;mockT()}else mockF()}else if(!busy()){if(mv=="a")mockAn();else mockRC()}}
- else if(!busy()){if(tab=="at")attView();else if(tab=="rc")rcv()}}
+ else if(!busy()){if(tab=="at")attView();else if(tab=="rc")rcv();else if(tab=="cn")cnv()}}
 function wAll(){
  ua.push(onSnapshot(collection(db,"students"),s=>{aS=s.docs.map(d=>({id:d.id,...d.data()}));ov()},e=>toast(e.code)));
  ua.push(onSnapshot(query(collection(db,"scores"),where("yt","==",YT())),s=>{aC={};s.docs.forEach(d=>{const x=d.data();(aC[x.cls]=aC[x.cls]||{})[x.subject]=x.v||{}});ov()},e=>toast(e.code)))}
@@ -319,7 +320,7 @@ window.goC=c=>{cls=c;tab="sc";watch();draw()};
 
 /* ---------- Scores ---------- */
 function table(){
- $("#bd").innerHTML=stu.length?`<p class="mu">3 tests /20 · project /10 · group /10 → scaled to 50. Exam /100 → scaled to 50. Saves instantly and every teacher sees it live.</p><div class="tw"><table class="t"><tr><th class="pn">Pupil</th><th>Test 1<br>/20</th><th>Test 2<br>/20</th><th>Test 3<br>/20</th><th>Project<br>/10</th><th>Group<br>/10</th><th>Exam<br>/100</th><th>Class<br>/50</th><th>Exam<br>/50</th><th>Total</th><th>Grd</th><th>Pos</th><th>Remark</th></tr>${stu.map(s=>`<tr data-id="${s.id}"><td class="pn">${esc(s.name)}</td>${MX.map((m,i)=>`<td><input type="number" inputmode="decimal" min="0" max="${m}" data-i="${i}" data-m="${m}"></td>`).join("")}<td class="c1"></td><td class="e1"></td><td class="t1 sb"></td><td class="g1"></td><td class="p1"></td><td class="r1"></td></tr>`).join("")}</table></div>`:'<p class="mu">No pupils in this class yet. The admin adds them in the Pupils tab.</p>';fill()}
+ $("#bd").innerHTML=stu.length?`<p class="mu">3 tests /20 · project /10 · group /10 → scaled to 50. Exam /100 → scaled to 50. Saves instantly and every teacher sees it live.</p><div class="tw"><table class="t"><tr><th class="pn">Pupil</th><th>Test 1<br>/20</th><th>Test 2<br>/20</th><th>Test 3<br>/20</th><th>Project<br>/10</th><th>Group<br>/10</th><th>Exam<br>/100</th><th>Class<br>/50</th><th>Exam<br>/50</th><th>Total</th><th>Grd</th><th>Pos</th><th>Remark</th></tr>${stu.map(s=>`<tr data-id="${s.id}"><td class="pn">${esc(s.name)}</td>${MX.map((m,i)=>`<td><input type="number" inputmode="decimal" min="0" max="${m}" data-i="${i}" data-m="${m}"></td>`).join("")}<td class="c1"></td><td class="e1"></td><td class="t1 sb"></td><td class="g1"></td><td class="p1"></td><td class="r1"></td></tr>`).join("")}</table></div>`:'<p class="mu">No pupils in this class yet. Add them in the Pupils tab.</p>';fill()}
 function fill(){if(tab!="sc"||!stu.length)return;
  const j=jhs(cls),V=sc[sub]||{},r=stu.map(s=>cs(V[s.id])),p=rank(r.map(x=>x&&x.t));
  stu.forEach((s,k)=>{const tr=document.querySelector(`tr[data-id="${s.id}"]`);if(!tr)return;
@@ -360,10 +361,16 @@ window.pa=()=>{const ss=subs(cls),rows=calc(),n=Math.ceil(ss.length/3);let h="";
  for(let b=0;b<n;b++){const p=ss.slice(b*3,b*3+3);h+=`<div class="pgs">${ttl("TERMINAL REPORT ANALYSIS")}<p style="margin:0 0 4px;font-size:11px"><b>Part ${b+1} of ${n}</b></p>${anTable(rows,p,b==n-1)}</div>`}
  printHTML(h)};
 
-/* ---------- Attendance ---------- */
+/* ---------- Attendance (daily marking + term totals) ---------- */
+const abar=()=>`<div class="r2"><button class="${am=="d"?"y":""}" onclick="setAM('d')">📅 Daily marking</button><button class="${am=="s"?"y":""}" onclick="setAM('s')">🧮 Term totals</button></div>`;
+window.setAM=v=>{am=v;unfocus();attView()};
 function attView(){
+ if(am=="s")return attSum();
  const A=att[adate]||{},days=Object.keys(att).length,pr=stu.filter(s=>A[s.id]=="P").length,ab=stu.filter(s=>A[s.id]=="A").length;
- $("#bd").innerHTML=`<div class="fm"><b>Daily attendance — ${cls}</b><input type="date" id="ad" value="${adate}" onchange="setD(this.value)"><div class="r2"><button class="y" onclick="allP()">✔ Everyone present</button><button class="r" style="padding:11px" onclick="clrD()">Clear this day</button></div><p class="mu" style="margin-bottom:0">Present ${pr} · Absent ${ab} · Not marked ${stu.length-pr-ab} · ${days} school day(s) recorded this term. Tap to mark; it saves instantly and feeds the report cards.</p></div>`+(stu.map(s=>{const p=Object.values(att).filter(d=>d[s.id]=="P").length;return`<div class="c"><div class="g1"><b>${esc(s.name)}</b><div class="mu">Present ${p} of ${days} days</div></div><div class="ac"><button class="${A[s.id]=="P"?"pp1":"off"}" onclick="mark('${s.id}','P')">P</button><button class="${A[s.id]=="A"?"aa1":"off"}" onclick="mark('${s.id}','A')">A</button></div></div>`}).join("")||'<p class="mu">No pupils in this class yet.</p>')}
+ $("#bd").innerHTML=abar()+`<div class="fm"><b>Daily attendance — ${cls}</b><input type="date" id="ad" value="${adate}" onchange="setD(this.value)"><div class="r2"><button class="y" onclick="allP()">✔ Everyone present</button><button class="r" style="padding:11px" onclick="clrD()">Clear this day</button></div><p class="mu" style="margin-bottom:0">Present ${pr} · Absent ${ab} · Not marked ${stu.length-pr-ab} · ${days} school day(s) recorded this term. Tap to mark; it saves instantly and feeds the report cards.</p></div>`+(stu.map(s=>{const p=Object.values(att).filter(d=>d[s.id]=="P").length;return`<div class="c"><div class="g1"><b>${esc(s.name)}</b><div class="mu">Present ${p} of ${days} days</div></div><div class="ac"><button class="${A[s.id]=="P"?"pp1":"off"}" onclick="mark('${s.id}','P')">P</button><button class="${A[s.id]=="A"?"aa1":"off"}" onclick="mark('${s.id}','A')">A</button></div></div>`}).join("")||'<p class="mu">No pupils in this class yet.</p>')}
+function attSum(){
+ const C=meta._c||{},days=Object.keys(att).length;
+ $("#bd").innerHTML=abar()+`<div class="fm"><b>Term attendance totals — ${cls}</b><label class="l1">Total days school opened this term (write once for the whole class)</label><input id="aop" type="number" inputmode="numeric" min="0" value="${esc(C.opened)}" placeholder="${days?days+" (counted from daily marks)":"e.g. 60"}"><p class="mu" style="margin-bottom:0">Then write the number of days each pupil came. It goes straight to the report cards. If you leave a pupil empty, that pupil's daily marks are used instead.</p></div>`+(stu.map(s=>{const M=meta[s.id]||{},dp=Object.values(att).filter(d=>d[s.id]=="P").length;return`<div class="c"><div class="g1"><b>${esc(s.name)}</b><div class="mu">Daily marks: ${dp} present</div></div><input type="number" inputmode="numeric" min="0" data-ad="${s.id}" value="${esc(M.days)}" placeholder="days" style="width:84px;text-align:center"></div>`}).join("")||'<p class="mu">No pupils in this class yet.</p>')}
 window.setD=v=>{if(!v)return;const d=new Date(v+"T12:00:00").getDay();if((d==0||d==6)&&!confirm("That date is a weekend. Mark attendance anyway?")){attView();return}adate=v;attView()};
 window.mark=async(id,v)=>{(att[adate]=att[adate]||{})[id]=v;attView();
  try{await setDoc(doc(db,"scores",aid()),{cls,yt:YT(),subject:"__ATT",date:adate,v:{[id]:v}},{merge:true})}catch(er){toast("Not saved: "+er.code)}};
@@ -371,6 +378,20 @@ window.allP=async()=>{if(!stu.length)return;const v={};stu.forEach(s=>v[s.id]="P
  try{await setDoc(doc(db,"scores",aid()),{cls,yt:YT(),subject:"__ATT",date:adate,v},{merge:true});toast("Everyone marked present ✅")}catch(er){toast("Not saved: "+er.code)}};
 window.clrD=async()=>{if(!confirm("Clear all attendance for "+adate+"?"))return;delete att[adate];attView();
  try{await deleteDoc(doc(db,"scores",aid()));toast("Day cleared")}catch(er){toast(er.code)}};
+
+/* ---------- Conduct / Attitude / Interest (its own page) ---------- */
+const CNF=[["cd","Conduct"],["at","Attitude"],["it","Interest"]];
+function cnOpts(k,cur){const l=LST(k).slice();if(cur&&!l.includes(cur))l.unshift(cur);return'<option value="">— choose —</option>'+l.map(x=>`<option value="${esc(x)}" ${x==cur?"selected":""}>${esc(x)}</option>`).join("")}
+function cnv(){
+ if(!stu.length){$("#bd").innerHTML='<p class="mu">No pupils in this class yet. Add them in the Pupils tab.</p>';return}
+ $("#bd").innerHTML=`<p class="mu">${cls} · ${esc(yr)} · Term ${term} — choose conduct, attitude and interest for each pupil. It saves instantly and shows on the report card.</p>
+<div class="fm"><b>Same for the whole class</b><p class="mu">Pick one and tap Apply to give it to every pupil. You can still change single pupils below.</p>${CNF.map(f=>`<label class="l1">${f[1]}</label><div class="r2"><select id="ca_${f[0]}">${cnOpts(f[0],"")}</select><button class="y" style="flex:none;width:90px" onclick="cnAll('${f[0]}')">Apply</button></div>`).join("")}</div>`
+ +stu.map(s=>{const M=meta[s.id]||{};return`<div class="fm"><b>${esc(s.name)}</b>${CNF.map(f=>`<label class="l1">${f[1]}</label><select data-cn="${f[0]}" data-pid="${s.id}">${cnOpts(f[0],M[f[0]])}</select>`).join("")}</div>`}).join("")
+ +`<div class="fm"><b>Ready-made lists (shared by every class)</b><p class="mu">One per line. They show in the choose menus for conduct, attitude, interest and the class teacher's remarks in all classes.</p><label class="l1">Conduct</label><textarea id="lcd" rows="4">${esc(LST("cd").join("\n"))}</textarea><label class="l1">Attitude</label><textarea id="lat" rows="3">${esc(LST("at").join("\n"))}</textarea><label class="l1">Interest</label><textarea id="lit" rows="3">${esc(LST("it").join("\n"))}</textarea><label class="l1">Class teacher's remarks</label><textarea id="ltr" rows="3">${esc(LST("tr").join("\n"))}</textarea><button class="y" style="width:100%" onclick="saveL()">Save lists</button></div>`}
+window.cnAll=async k=>{const v=$("#ca_"+k).value;if(!v||!stu.length)return;if(!confirm("Give this to all "+stu.length+" pupils in "+cls+"?"))return;
+ const p={};stu.forEach(s=>{meta[s.id]=Object.assign({},meta[s.id]||{},{[k]:v});p[s.id]=meta[s.id]});
+ try{await setDoc(doc(db,"scores",mid()),{cls,yt:YT(),subject:"__META",v:p},{merge:true});toast("Applied to whole class ✅")}catch(er){toast("Not saved: "+er.code)}
+ cnv()};
 
 /* ---------- Report cards (END OF TERM – picture style) ---------- */
 const auto=a=>a>=80?"Excellent performance. Keep it up!":a>=70?"Very good work. Aim even higher.":a>=60?"Good effort. Keep working hard.":a>=50?"Fair performance. More effort is needed.":a>=40?"Weak result. Needs serious improvement.":"Very poor result. Needs close supervision.";
@@ -385,14 +406,15 @@ function chart(o,ss){const L=ss.filter(x=>o.sub[x]);if(!L.length)return"";
  return s+`</svg>`}
 function card(s,rows){
  const j=jhs(cls),ss=subs(cls),o=(rows||calc()).find(r=>r.s.id==s.id),M=meta[s.id]||{},C=meta._c||{};
- const p=Object.values(att).filter(d=>d[s.id]=="P").length,dd=+C.opened||Object.keys(att).length;
+ const hasD=M.days!==undefined&&M.days!==""&&M.days!==null;
+ const p=hasD?+M.days:Object.values(att).filter(d=>d[s.id]=="P").length,dd=+C.opened||Object.keys(att).length;
  const hasB=[C.tui,C.pta,C.toi,M.arr].some(v=>v!==undefined&&v!==""&&v!==null),tot=(+M.arr||0)+(+C.tui||0)+(+C.pta||0)+(+C.toi||0);
  const sig=G.sig?`<img class="sgi" src="${G.sig}" alt="">`:"";
  const b=v=>`<b>${esc(v||"")}</b>`;
- return`<div class="rc2 th-${th}"><div class="rh">${LOGO}<div><h2>TENDER SPROUT COMMUNITY SCHOOL</h2><p><b>Contact:</b> 0243587607 | 0599317422</p><p><b>Email:</b> tenderschool2021@gmail.com | <b>Website:</b> tendersproutcommunityschool.kesug.com</p><p><b>Location:</b> Dodowa</p></div></div>
+ return`<div class="rc2 th-${th}"><div class="rh">${LOGO}<div><h2>TENDER SPROUT COMMUNITY SCHOOL</h2><p><b>Contact:</b> 0243587607 | 0599317422</p><p><b>Email:</b> tenderschool2021@gmail.com | <b>Website:</b> ${SITE}</p><p><b>Location:</b> Dodowa</p></div></div>
 <div class="bd2"><div class="ri"><div>Name: <b>${esc(s.name.toUpperCase())}</b><br>Class: <b>${cls.toUpperCase()}</b><br>Term / Year: <b>Term ${term} / ${esc(yr)}</b></div><div>No. on Roll: <b>${stu.length}</b><br>Vac date: ${b(C.vacate)}<br>Open date: ${b(C.reopen)}</div><div class="ph2">${M.ph?`<img src="${M.ph}" alt="">`:"Photo"}</div></div>
 <table class="rt2"><tr><th>Subject</th><th>Class Score (50%)</th><th>Exam Score (50%)</th><th>Total (100%)</th><th>Grade</th><th>Pos.</th><th>Remarks</th></tr>${ss.map(x=>{const y=o.sub[x];return`<tr><td class="sj">${x}</td><td>${y?y.c:""}</td><td>${y?y.e:""}</td><td>${y?y.t:""}</td><td>${y?y.g:""}</td><td>${y?ord(y.p):""}</td><td>${y?y.m:""}</td></tr>`}).join("")}</table>
-<div class="rs"><div>Average Score: <b>${o.n?o.avg:""}</b><br>Total Marks: <b>${o.n?o.gt:""}</b><br>${j?`Aggregate: <b>${o.ag??""}</b><br>`:""}Attendance: <b>${dd?p+" out of "+dd:""}</b></div><div><b>Conduct:</b> ${b(M.cd)}<br>Attitude: ${b(M.at)}<br>Interest: ${b(M.it)}</div></div>
+<div class="rs"><div>Average Score: <b>${o.n?o.avg:""}</b><br>Total Marks: <b>${o.n?o.gt:""}</b><br>${j?`Aggregate: <b>${o.ag??""}</b><br>`:""}Attendance: <b>${dd?p+" out of "+dd:(hasD?p+" days":"")}</b></div><div><b>Conduct:</b> ${b(M.cd)}<br>Attitude: ${b(M.at)}<br>Interest: ${b(M.it)}</div></div>
 <div class="cg"><div><h4>Graphical Representation of Scores</h4>${chart(o,ss)}</div><div><h4>Grading System</h4><table class="gt2"><tr><th>Min</th><th>Max</th><th>Grade</th><th>Remarks</th></tr>${GT(j).map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("")}</table></div></div>
 ${hasB?`<div class="bl"><h4>Student Bill for Next Term</h4><table><tr><th>Arrears</th><th>Tuition</th><th>P.T.A</th><th>Toiletries</th><th>Total</th></tr><tr><td>${fm(M.arr)}</td><td>${fm(C.tui)}</td><td>${fm(C.pta)}</td><td>${fm(C.toi)}</td><td><b>${fm(tot)}</b></td></tr></table></div>`:""}
 <div class="ft2"><div><b>Class Teacher's Comment:</b> ${esc(M.tr||(o.n?auto(o.avg):""))}${M.hr?`<br><b>Head Teacher's Remarks:</b> ${esc(M.hr)}`:""}${M.promo?`<br><b>Promoted to:</b> ${esc(M.promo)}`:""}</div><div class="hs"><b>Headmaster's Signature:</b> ${sig||"<span style='display:inline-block;width:110px;border-bottom:1px dotted #333;height:24px'></span>"}</div></div></div></div>`}
@@ -403,24 +425,27 @@ function rcv(){
  if(!stu.find(s=>s.id==rpid))rpid=stu[0].id;
  const s=stu.find(x=>x.id==rpid),M=meta[rpid]||{},C=meta._c||{},inp=(l,id,v,t)=>`<label class="l1">${l}</label><input id="${id}" ${t||""} value="${esc(v||"")}">`;
  $("#bd").innerHTML=`<select id="rp" onchange="setRP(this.value)">${stu.map(x=>`<option value="${x.id}" ${x.id==rpid?"selected":""}>${esc(x.name)}</option>`).join("")}</select>${thSel()}<div class="r2"><button class="y" onclick="pc(0)">🖨 Print this card</button><button onclick="pc(1)">🖨 Print all ${stu.length}</button></div><div style="overflow-x:auto"><div style="min-width:640px">${card(s)}</div></div>
-<div class="fm"><b>Notes for ${esc(s.name)}</b>${inp("Conduct","mcd",M.cd)}${pick("mcd","cd","conduct")}${inp("Attitude","mat",M.at)}${pick("mat","at","attitude")}${inp("Interest","mit",M.it)}${pick("mit","it","interest")}<label class="l1">Class teacher's remarks (leave empty to auto-write from the average)</label><textarea id="mtr" rows="2">${esc(M.tr)}</textarea>${pick("mtr","tr","remark")}<label class="l1">Head teacher's remarks</label><textarea id="mhr" rows="2">${esc(M.hr)}</textarea>${inp("Promoted to (optional, usually Term 3)","mpr",M.promo)}${inp("Arrears for next term bill (GH₵)","mar",M.arr,'type="number" inputmode="decimal"')}<label class="l1">Pupil photo (optional)</label><input type="file" id="phf" accept="image/*">${M.ph?'<button class="r" onclick="clrPh()">Remove photo</button>':""}</div>
-<div class="fm"><b>Whole class — ${cls}, Term ${term}</b>${inp("Days school opened (empty = counted from attendance)","cop",C.opened,'type="number" inputmode="numeric"')}${inp("Next term begins (Open date)","cre",C.reopen)}${inp("Vacation date (Vac date)","cva",C.vacate)}${inp("Tuition for next term (GH₵)","ctu",C.tui,'type="number" inputmode="decimal"')}${inp("P.T.A (GH₵)","cpa",C.pta,'type="number" inputmode="decimal"')}${inp("Toiletries (GH₵)","cto",C.toi,'type="number" inputmode="decimal"')}</div>
-<div class="fm"><b>Ready-made lists (shared by every class)</b><p class="mu">One per line. They show in the "pick" menus for conduct, attitude, interest and remarks in all classes.</p><label class="l1">Conduct</label><textarea id="lcd" rows="4">${esc(LST("cd").join("\n"))}</textarea><label class="l1">Attitude</label><textarea id="lat" rows="3">${esc(LST("at").join("\n"))}</textarea><label class="l1">Interest</label><textarea id="lit" rows="3">${esc(LST("it").join("\n"))}</textarea><label class="l1">Class teacher's remarks</label><textarea id="ltr" rows="3">${esc(LST("tr").join("\n"))}</textarea><button class="y" style="width:100%" onclick="saveL()">Save lists</button></div>${sigBox()}`}
+<div class="fm"><b>Notes for ${esc(s.name)}</b><p class="mu">Conduct, attitude and interest are chosen in the 🎭 Conduct tab. Attendance is in the 📅 Attendance tab.</p><label class="l1">Class teacher's remarks (leave empty to auto-write from the average)</label><textarea id="mtr" rows="2">${esc(M.tr)}</textarea>${pick("mtr","tr","remark")}<label class="l1">Head teacher's remarks</label><textarea id="mhr" rows="2">${esc(M.hr)}</textarea>${inp("Promoted to (optional, usually Term 3)","mpr",M.promo)}${inp("Arrears for next term bill (GH₵)","mar",M.arr,'type="number" inputmode="decimal"')}<label class="l1">Pupil photo (optional)</label><input type="file" id="phf" accept="image/*">${M.ph?'<button class="r" onclick="clrPh()">Remove photo</button>':""}</div>
+<div class="fm"><b>Whole class — ${cls}, Term ${term}</b>${inp("Days school opened (empty = counted from attendance)","cop",C.opened,'type="number" inputmode="numeric"')}${inp("Next term begins (Open date)","cre",C.reopen)}${inp("Vacation date (Vac date)","cva",C.vacate)}${inp("Tuition for next term (GH₵)","ctu",C.tui,'type="number" inputmode="decimal"')}${inp("P.T.A (GH₵)","cpa",C.pta,'type="number" inputmode="decimal"')}${inp("Toiletries (GH₵)","cto",C.toi,'type="number" inputmode="decimal"')}</div>${sigBox()}`}
 window.setRP=v=>{rpid=v;rcv()};
 window.pick=(k,v)=>{if(v)saveM(k,v)};
 window.saveL=()=>{const g=id=>$("#"+id).value.split("\n").map(x=>x.trim()).filter(Boolean);saveG({cd:g("lcd"),at:g("lat"),it:g("lit"),tr:g("ltr")})};
 window.clrSig=()=>saveG({sig:""});
 window.clrPh=()=>saveM("ph","");
 $("#bd").addEventListener("change",async e=>{
- const id=e.target.id;
+ const id=e.target.id,d=e.target.dataset;
+ if(d.ad!==undefined){let v=e.target.value;if(v!==""){v=Math.max(0,Math.round(+v));const o=+((meta._c||{}).opened);if(o&&v>o)v=o;e.target.value=v}saveMid(d.ad,"days",v);return}
+ if(id=="aop"){saveC("opened",e.target.value);return}
+ if(d.cn){saveMid(d.pid,d.cn,e.target.value);return}
  if(id=="sgf"&&e.target.files[0]){try{saveG({sig:await shrink(e.target.files[0],380,.8)})}catch(_){toast("Could not read that image")}return}
  if(id=="phf"&&e.target.files[0]){try{saveM("ph",await shrink(e.target.files[0],140,.7))}catch(_){toast("Could not read that image")}return}
- const m={mcd:"cd",mat:"at",mit:"it",mtr:"tr",mhr:"hr",mpr:"promo",mar:"arr"},c={cop:"opened",cre:"reopen",cva:"vacate",ctu:"tui",cpa:"pta",cto:"toi"};
+ const m={mtr:"tr",mhr:"hr",mpr:"promo",mar:"arr"},c={cop:"opened",cre:"reopen",cva:"vacate",ctu:"tui",cpa:"pta",cto:"toi"};
  if(m[id])saveM(m[id],e.target.value);else if(c[id])saveC(c[id],e.target.value)});
-async function saveM(k,v){meta[rpid]=Object.assign({},meta[rpid]||{},{[k]:v});
- try{await setDoc(doc(db,"scores",mid()),{cls,yt:YT(),subject:"__META",v:{[rpid]:meta[rpid]}},{merge:true});toast("Saved ✅")}catch(er){toast("Not saved: "+er.code)}rcv()}
+async function saveMid(pid,k,v){meta[pid]=Object.assign({},meta[pid]||{},{[k]:v});
+ try{await setDoc(doc(db,"scores",mid()),{cls,yt:YT(),subject:"__META",v:{[pid]:meta[pid]}},{merge:true});toast("Saved ✅")}catch(er){toast("Not saved: "+er.code)}}
+async function saveM(k,v){await saveMid(rpid,k,v);if(tab=="rc")rcv()}
 async function saveC(k,v){meta._c=Object.assign({},meta._c||{},{[k]:v});
- try{await setDoc(doc(db,"scores",mid()),{cls,yt:YT(),subject:"__META",v:{_c:meta._c}},{merge:true});toast("Saved ✅")}catch(er){toast("Not saved: "+er.code)}rcv()}
+ try{await setDoc(doc(db,"scores",mid()),{cls,yt:YT(),subject:"__META",v:{_c:meta._c}},{merge:true});toast("Saved ✅")}catch(er){toast("Not saved: "+er.code)}if(tab=="rc")rcv()}
 window.pc=all=>{const rows=calc(),l=all?stu:stu.filter(s=>s.id==rpid);printHTML(l.map(s=>`<div class="pgc">${card(s,rows)}</div>`).join(""))};
 
 /* ---------- Mock exams (Basic 9, Mock 1–7) ---------- */
@@ -501,7 +526,7 @@ function ov(){if(tab!="ov")return;
   const t=P.length*ss.length,pc=t?Math.round(done/t*100):0,st=ss.filter(x=>V[x]).length;
   return`<div class="c" style="cursor:pointer" onclick="goC('${c}')"><div class="g1"><b>${c}</b><div class="mu">${P.length} pupils · ${st} of ${ss.length} subjects started</div><div class="bar"><i style="width:${pc}%"></i></div></div><b style="color:#0b2a8f">${pc}%</b></div>`}).join("")}
 
-/* ---------- Admin: pupils ---------- */
+/* ---------- Pupils (admin AND teachers, for their own classes) ---------- */
 function pupils(){
  const keep=$("#nm")?$("#nm").value:"";
  $("#bd").innerHTML=`<div class="fm"><b>Add pupils to ${cls}</b><p class="mu">One full name per line.</p><textarea id="nm" rows="5" placeholder="Ama Mensah&#10;Kofi Boateng">${esc(keep)}</textarea><button class="y" style="width:100%" onclick="addP()">+ Add pupils</button></div><p class="mu">${stu.length} pupils in ${cls}</p>${stu.map(s=>`<div class="c"><div class="g1">${esc(s.name)}</div><button class="r" onclick="delP('${s.id}')">🗑</button></div>`).join("")}`}

@@ -171,7 +171,7 @@ table.t{border-collapse:collapse;width:100%;font-size:12px}.t th{background:var(
 @media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 body{background:#fff}#ap,#lg,#sp,#tt,#pm,#pg,.pdfx{display:none!important}.prt{display:block}
 .pgc{page:card;break-after:page;page-break-after:always}.pgs{page:sheet;break-after:page;page-break-after:always}
-.pgc .card,.pgc .rc2{margin:0;max-width:none;font-size:12px}.pgc .rc2{font-size:11.5px}.pgc:last-child,.pgs:last-child{break-after:auto;page-break-after:auto}.msheet{box-shadow:none}
+.pgc .card,.pgc .rc2{margin:0}.pgc:last-child,.pgs:last-child{break-after:auto;page-break-after:auto}.msheet{box-shadow:none}
 .prt .t{font-size:9.5px;margin-bottom:10px}.prt .t td,.prt .t th{padding:2px}.prt .t tr{page-break-inside:avoid}.prt thead{display:table-header-group}
 .t td.pn,.t th.pn{position:static}.prt .rm{font-size:8px}}
 /* ---- save-as-PDF menu + progress ---- */
@@ -183,8 +183,11 @@ body{background:#fff}#ap,#lg,#sp,#tt,#pm,#pg,.pdfx{display:none!important}.prt{d
 .pdfx{position:fixed;left:0;top:0;width:794px;background:#fff;z-index:150}
 .pdfx .rc2,.pdfx .card{margin:0!important;max-width:none!important}
 .pdfx .rc2{font-size:11.5px}.pdfx .card{font-size:12px}
-</style></head><body>
-
+.rc2.fit,.card.fit{display:flex;flex-direction:column}
+.rc2.fit .bd2{flex:1;display:flex;flex-direction:column}
+.rc2.fit .ft2{margin-top:auto}
+.card.fit .sg{margin-top:auto;padding-top:30px}
+</style><style id="ps"></style></head><body>
 <div id="sp" class="bg"><div><div class="lgo"><img src="Screenshot_20261030-124739.png" alt="" onerror="this.hidden=true;this.nextElementSibling.style.display='block'"><b class="fb">TSCS</b></div>
 <h1>TENDER SPROUT<br>COMM. SCHOOL</h1><div class="pill">SBA SYSTEM</div><div class="ld"><i></i><i></i><i></i></div></div>
 <div class="vis">Our Vision · Your Future</div></div>
@@ -266,7 +269,24 @@ addEventListener("online",net);addEventListener("offline",net);
 addEventListener("afterprint",()=>{$("#pp").innerHTML=""});
 const ready=()=>{ar=true;if(mn)$("#sp").classList.add("out")};
 setTimeout(()=>{mn=true;if(ar)$("#sp").classList.add("out")},2300);
-window.printHTML=h=>{$("#pp").innerHTML=h;setTimeout(()=>print(),350)};
+/* A4 FIX: every report card / mock slip is scaled to fill exactly one A4 portrait page */
+window.printHTML=h=>{
+ const land=h.includes('class="pgs"'),pp=$("#pp");
+ $("#ps").textContent="@page{size:A4 "+(land?"landscape":"portrait")+";margin:8mm}";
+ pp.innerHTML=h;
+ if(!land){
+  pp.style.cssText="display:block;position:absolute;left:-10000px;top:0;width:900px";
+  const W=733,H=1058;
+  pp.querySelectorAll(".pgc").forEach(g=>{
+   const c=g.firstElementChild;if(!c)return;
+   c.style.width="760px";c.style.maxWidth="none";c.style.margin="0";c.style.transformOrigin="0 0";
+   const k=Math.min(W/760,H/c.offsetHeight);
+   c.classList.add("fit");c.style.minHeight=(H/k)+"px";
+   c.style.marginLeft=((W-760*k)/2)+"px";c.style.transform="scale("+k+")";
+   g.style.cssText="width:"+W+"px;height:"+H+"px;overflow:hidden;position:relative"});
+  pp.style.cssText="";
+ }
+ setTimeout(()=>print(),350)};
 const ttl=t=>`<div class="ph"><b>TENDER SPROUT COMM. SCHOOL</b><span>${t} — ${cls} · ${esc(yr)} · Term ${term}</span></div>`;
 function shrink(file,w,q){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const k=Math.min(1,w/i.width),c=document.createElement("canvas");c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(i,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",q))};i.onerror=rej;i.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
 async function saveG(p){G=Object.assign({},G,p);try{localStorage.G=JSON.stringify(G)}catch(_){}
@@ -295,8 +315,6 @@ onAuthStateChanged(auth,async u=>{
  ready()});
 
 /* ---------- Live data ---------- */
-/* Attendance and report-card notes are stored in the existing "scores" collection
-   (subjects "__ATT" and "__META"; mock exams as "MOCK1|English"; shared lists/signature as "__LISTS") so your current Firestore rules keep working. */
 function watch(){un.forEach(f=>f());un=[];stu=[];sc={};att={};meta={};if(!cls)return;
  un.push(onSnapshot(doc(db,"scores","__LISTS"),s=>{if(s.exists()){G=Object.assign({},G,s.data().v||{});try{localStorage.G=JSON.stringify(G)}catch(_){}}live()},e=>{}));
  un.push(onSnapshot(query(collection(db,"students"),where("cls","==",cls)),s=>{stu=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.name.localeCompare(b.name));live()},e=>toast(e.code)));
@@ -478,6 +496,8 @@ window.pc=all=>pdfMenu("rc",all);
 function prog(m){const g=$("#pg");if(!m){g.hidden=true;return}g.hidden=false;g.querySelector("p").textContent=m}
 async function cardCanvas(html){
  const h=document.createElement("div");h.className="pdfx";h.innerHTML=html;document.body.appendChild(h);
+ /* A4 FIX: stretch the card to the exact A4 shape so it fills the whole page */
+ const c0=h.firstElementChild;if(c0){c0.classList.add("fit");c0.style.minHeight=Math.round(794*285/198)+"px"}
  try{
   h.querySelectorAll("svg rect").forEach(r=>{const f=getComputedStyle(r).fill;r.removeAttribute("style");r.setAttribute("fill",f)});
   if(document.fonts&&document.fonts.ready)await document.fonts.ready;

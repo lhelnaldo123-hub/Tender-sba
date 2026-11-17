@@ -16,6 +16,9 @@ A School-Based Assessment (SBA) system for Tender Sprout Community School. Teach
 - Performance analysis
 - Mock exam results and result slips (Basic 9, Mock 1-7)
 - Save report cards as PDF, one by one or all together (ZIP)
+- Pupil photos page: add one photo per pupil for the whole class
+- Subjects page (admin / head): add, remove or rename subjects for all classes or one class
+- Notices (admin / head): send a message that shows as a bar on top of everyone's screen
 - Pupil and teacher management
 - Light and dark mode, colours and text size
 - Installable on a phone, works offline

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b2a8f"><title>TSCS SBA System</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="Screenshot_20261030-124739.png">
+<link rel="apple-touch-icon" href="Screenshot_20261030-124739.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="TSCS SBA"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Gloria+Hallelujah&family=Indie+Flower&family=Kalam:wght@400;700&family=Nanum+Pen+Script&family=Patrick+Hand&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<style>
+:root{--b:#0b2a8f;--b2:#1d44c4;--d:#061a63;--y:#f5b800;--yl:#fff3c4}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:system-ui,sans-serif;background:#f2f5fc;color:#1b2133}
+[hidden]{display:none!important}
+input,select,textarea,button{font:inherit;border-radius:12px;border:1px solid #c9d1e6;padding:11px;margin:4px 0;max-width:100%;background:#fff;color:#1b2133}
+input,select,textarea{width:100%}
+button{background:var(--b);color:#fff;border:0;font-weight:700;cursor:pointer}button:disabled{opacity:.6}
+button.y{background:var(--y);color:#1b2133}button.r{background:#c0392b;padding:8px 11px;margin:0}
+.mu{color:#667089;font-size:13px}.er{color:#ffd1d1;font-size:13px;margin:10px 0 0}
+.bg{background:radial-gradient(circle at 50% 28%,var(--b2),var(--b) 55%,var(--d));color:#fff;overflow:hidden}
+.bg:before{content:"";position:absolute;right:-100px;top:-100px;width:270px;height:270px;border-radius:50%;background:var(--y)}
+.bg:after{content:"";position:absolute;left:-120px;bottom:-120px;width:300px;height:300px;border-radius:50%;background:#ffffff14}
+.bg>*{position:relative;z-index:1}
+#sp{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:opacity .6s,visibility .6s}
+#sp.out{opacity:0;visibility:hidden}
+.lgo{width:150px;height:150px;border-radius:38px;background:#fff;display:grid;place-items:center;margin:0 auto;box-shadow:0 0 0 7px #f5b80066,0 20px 44px #0007;animation:pop .8s ease both}
+.lgo.sm{width:118px;height:118px;border-radius:30px}
+.lgo img{width:82%}.fb{display:none;font-weight:900;font-size:34px;color:var(--b)}
+@keyframes pop{from{transform:scale(.55);opacity:0}to{transform:none;opacity:1}}
+#sp h1{font-size:21px;letter-spacing:2px;margin:22px 0 4px}
+.pill{display:inline-block;margin-top:8px;background:var(--y);color:#1b2133;font-weight:900;letter-spacing:5px;padding:7px 20px;border-radius:22px;font-size:13px}
+.ld{display:flex;gap:9px;justify-content:center;margin-top:30px}
+.ld i{width:12px;height:12px;border-radius:50%;background:var(--y);animation:bn 1s infinite ease-in-out}
+.ld i:nth-child(2){animation-delay:.18s}.ld i:nth-child(3){animation-delay:.36s}
+@keyframes bn{0%,80%,100%{transform:scale(.4);opacity:.4}40%{transform:scale(1);opacity:1}}
+.vis{position:absolute;bottom:calc(22px + env(safe-area-inset-bottom));left:0;right:0;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#ffd75e;font-weight:700}
+#lg{min-height:100vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 70px;text-align:center}
+.lb{background:#fff;color:#1b2133;border-radius:24px;padding:22px;width:100%;max-width:370px;margin-top:22px;border-bottom:7px solid var(--y);text-align:left}
+.lb h2{margin:0 0 6px;color:var(--b);font-size:19px}
+.pwr{position:relative}.pwr button{position:absolute;right:4px;top:8px;background:none;color:var(--b);padding:6px 10px;margin:0}
+.lb .go{width:100%;background:var(--b);margin-top:8px;padding:13px}
+.lb .er{color:#b3261e}
+header{position:sticky;top:0;z-index:5;background:var(--b);color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));border-bottom:4px solid var(--y)}
+header .lo{width:40px;height:40px;border-radius:11px;background:#fff;display:grid;place-items:center}header .lo img{width:32px}header .lo b{display:none;color:var(--b);font-size:12px}
+header .t1{flex:1;line-height:1.2;font-size:15px;font-weight:800}header small{font-weight:400;opacity:.9;font-size:11px}
+header button{background:#ffffff26;margin:0;padding:8px 12px}
+main{max-width:1000px;margin:auto;padding:12px}
+.r2{display:flex;gap:6px}.r2>*{flex:1;min-width:0}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 6px}.tabs button{flex:none;background:#e6ebf8;color:var(--b);padding:9px 14px;margin:0;border-radius:20px;white-space:nowrap}
+.tabs .on{background:var(--y);color:#1b2133;box-shadow:0 2px 6px #0003}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#999}.dot.on{background:#3ddc84}
+.tw{overflow:auto;background:#fff;border-radius:12px;max-height:70vh;box-shadow:0 1px 4px #0001}
+table.t{border-collapse:collapse;width:100%;font-size:12px}.t th{background:var(--b);color:#fff;padding:6px;white-space:nowrap;border-bottom:3px solid var(--y)}
+.t td{border:1px solid #e1e6f4;padding:3px;text-align:center;white-space:nowrap}
+.t td.pn,.t th.pn{position:sticky;left:0;text-align:left;min-width:120px;font-weight:600}.t td.pn{background:#fff}.t th.pn{z-index:2}
+.t input{width:54px;padding:6px 2px;text-align:center;margin:0}.sb{background:var(--yl);font-weight:700}.rm{font-size:11px;color:#445}
+.gx{font-size:11px;color:#667089;min-height:13px}
+.c{background:#fff;border-radius:12px;padding:10px 12px;margin:6px 0;display:flex;gap:8px;align-items:center;box-shadow:0 1px 4px #0001;border-left:5px solid var(--y)}
+.c .g1{flex:1;min-width:0}.ac{display:flex;gap:5px}.ac button{padding:8px 11px;margin:0}
+.ac button.off{background:#e6ebf8;color:#667089}.ac button.pp1{background:#1e9e58}.ac button.aa1{background:#c0392b}
+.bar{height:9px;background:#e6ebf8;border-radius:6px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--y),#ffd75e)}
+.fm{background:#fff;border-radius:14px;padding:12px;border-top:5px solid var(--y);box-shadow:0 1px 4px #0001;margin:8px 0}
+.fm label.l1{display:block;font-size:12px;font-weight:700;color:var(--b);margin-top:6px}
+.chk{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;font-size:13px}.chk label,.chk1{display:flex;align-items:center;gap:5px}.chk input,.chk1 input{width:auto;margin:0}
+.chk1{font-size:13px;margin:8px 0}
+/* ---- report card colour templates ---- */
+.th-y{--pa:#0b2a8f;--ac:#f5b800;--rt:#f5b800;--bg1:#fff2b0;--bg2:#fffbe0;--bd:#d9a500;--tx:#5a4a1a;--ink:#0d1f8f;--cell:#fffdf0;--ln:#8a6a00;--bar:rgba(245,184,0,.45)}
+.th-b{--pa:#0b2a8f;--ac:#3b82f6;--rt:#ffffff;--bg1:#cfe0ff;--bg2:#f3f8ff;--bd:#2f5fd0;--tx:#1f3a7a;--ink:#0a1a6e;--cell:#fbfdff;--ln:#5b7fd0;--bar:rgba(59,130,246,.28)}
+.th-p{--pa:#b0125f;--ac:#ff5fa2;--rt:#ffe3f0;--bg1:#ffd0e4;--bg2:#fff4f9;--bd:#e0529a;--tx:#7a2150;--ink:#8a0f4d;--cell:#fffafc;--ln:#d77aa8;--bar:rgba(255,95,162,.30)}
+.th-c{--pa:#14213d;--ac:#4a5a8a;--rt:#ffffff;--bg1:#e3e8f5;--bg2:#ffffff;--bd:#6b7280;--tx:#1f2a44;--ink:#14213d;--cell:#ffffff;--ln:#8a93a8;--bar:rgba(74,90,138,.30);--ttl:#1565ff;--hd:#111}
+.th-g{--pa:#0b6b3a;--ac:#22a55e;--rt:#ffffff;--bg1:#c9f2d9;--bg2:#f3fff8;--bd:#1f8f55;--tx:#1d4d33;--ink:#0a5a2e;--cell:#fbfffc;--ln:#5bb584;--bar:rgba(34,165,94,.30)}
+.th-v{--pa:#5b21b6;--ac:#a78bfa;--rt:#ffffff;--bg1:#e4d9ff;--bg2:#f8f5ff;--bd:#7c4dd6;--tx:#402a7a;--ink:#4a1d9a;--cell:#fcfaff;--ln:#9a7de0;--bar:rgba(167,139,250,.38)}
+.th-o{--pa:#c2410c;--ac:#fb923c;--rt:#ffffff;--bg1:#ffe0c7;--bg2:#fff8f2;--bd:#e0702a;--tx:#7a3510;--ink:#a33208;--cell:#fffcf9;--ln:#e09a62;--bar:rgba(251,146,60,.38)}
+.ink{font-family:var(--hwf,'Caveat','Segoe Script','Bradley Hand','Comic Sans MS',cursive);color:var(--ikc,var(--ink,#0d1f8f));font-weight:var(--hww,700);font-size:calc(17px*var(--hws,1));line-height:1.15}
+.rc2 .ink{font-size:calc(13px*var(--hws,1));line-height:1.1}
+.rc2 .ri .ink{font-size:calc(17px*var(--hws,1))}
+.rc2 .rs .ink{font-size:calc(15px*var(--hws,1))}
+.pth{width:46px;height:54px;border-radius:8px;border:1px solid #c9d1e6;background:var(--yl);display:grid;place-items:center;overflow:hidden;flex:none;font-weight:900;color:var(--b);font-size:16px}.pth img{width:100%;height:100%;object-fit:cover}
+.ptb{display:inline-block;background:var(--y);color:#1b2133;font-weight:700;border-radius:12px;padding:9px 12px;cursor:pointer;white-space:nowrap}
+#nb{margin:0;padding:0}
+.nbx{display:flex;align-items:center;gap:8px;background:#fff3c4;color:#1b2133;border-bottom:3px solid var(--y);padding:8px 12px;cursor:pointer}
+.nbx .ni{font-size:20px;flex:none}.nbx .nt1{flex:1;min-width:0;font-size:13px;line-height:1.3}
+.nbx .nt1 span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nbx button{background:none;color:#7a5a00;padding:4px 8px;margin:0;font-size:18px}
+.ntc{background:#fff;border-radius:12px;padding:10px 12px;margin:8px 0;box-shadow:0 1px 4px #0001;border-left:5px solid var(--y)}
+.ntc h4{margin:0 0 2px;color:var(--b);font-size:15px}.ntc p{margin:6px 0;white-space:pre-wrap;font-size:14px;line-height:1.45}
+.ntc .tg{display:inline-block;background:var(--yl);color:#5a4a1a;border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;margin-left:4px}
+.hwp{margin:6px 0 2px;padding:8px 10px;background:#fff;border:1px dashed #c9d1e6;border-radius:10px;color:#1b2133;font-size:13px}
+.card{position:relative;overflow:hidden;background:linear-gradient(var(--bg1),var(--bg2) 30%,var(--bg1));border:2px solid var(--bd);outline:2px solid var(--ac);outline-offset:-8px;border-radius:8px;padding:20px 18px;max-width:760px;margin:8px auto;color:#1b2133;font-size:13px}
+.card>*{position:relative;z-index:1}
+.ch{display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--pa);padding-bottom:8px}
+.lo2{width:62px;height:62px;border-radius:14px;background:#fff;display:grid;place-items:center;border:2px solid var(--pa);flex:none}.lo2 img{width:50px}.lo2 b{display:none;color:var(--pa)}
+.sn{font-weight:900;color:var(--pa);font-size:20px;letter-spacing:1px;line-height:1.1}.sl{font-size:11px;letter-spacing:3px;color:var(--tx);text-transform:uppercase;margin-top:3px}
+.rb{background:var(--pa);color:var(--rt);text-align:center;font-weight:900;letter-spacing:5px;padding:6px;margin:10px 0;border-radius:4px}
+.inf{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-bottom:10px}.inf div{border-bottom:1px dotted var(--ln);padding-bottom:1px}
+.inf small,.sm small{color:var(--tx);font-weight:700;text-transform:uppercase;font-size:10px;margin-right:5px}
+.rt{width:100%;border-collapse:collapse}.rt th{background:var(--pa);color:#fff;padding:5px;font-size:11px;border:1px solid var(--pa)}
+.rt td{border:1px solid var(--bd);padding:2px 5px;text-align:center;background:var(--cell)}.rt td.sj{text-align:left;font-weight:700;font-size:12px}.rt td.l{text-align:left}
+.sm{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}.sm div{background:#fff;border:1px solid var(--bd);border-radius:6px;padding:4px;text-align:center}.sm small{display:block;margin:0}
+.ln{border-bottom:1px dotted var(--ln);min-height:26px;margin:3px 0 8px;padding-top:2px}
+.lb2{font-size:10px;font-weight:700;color:var(--tx);text-transform:uppercase}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}.sg div{position:relative;border-top:1px solid #1b2133;text-align:center;font-size:11px;padding-top:2px}
+.sg .sgi{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);max-height:46px;max-width:90%}
+.sgi{max-height:44px;mix-blend-mode:multiply}
+.ky{font-size:10px;color:var(--tx);margin-top:10px;border-top:1px solid var(--bd);padding-top:4px}
+.nt{font-size:10.5px;color:var(--tx);margin-top:6px;line-height:1.35}
+.up{color:#0a7d3b}.dn{color:#c0392b}
+.th-y .ch{border-bottom:3px double var(--pa)}
+.th-y .rb:before{content:"★  "}.th-y .rb:after{content:"  ★"}
+.th-b.card{border:1px solid var(--bd);border-top:14px solid var(--pa);border-bottom:14px solid var(--pa);outline:0;border-radius:4px;background:var(--bg2)}
+.th-b.card:before,.th-b.card:after{content:"";position:absolute;width:150px;height:150px;z-index:0;opacity:.6}
+.th-b.card:before{top:0;right:0;background:linear-gradient(225deg,var(--bg1) 0 50%,transparent 50%)}
+.th-b.card:after{bottom:0;left:0;background:linear-gradient(45deg,var(--bg1) 0 50%,transparent 50%)}
+.th-b .ch{border-bottom:4px solid var(--ac)}
+.th-b .rb{background:linear-gradient(90deg,var(--pa),var(--ac));border-radius:0;color:#fff}
+.th-b .sm div{border-left:5px solid var(--ac)}
+.th-b .rt th{background:var(--pa)}
+.th-p.card{border:4px dotted var(--ac);outline:3px solid var(--pa);outline-offset:-11px;border-radius:28px;background:radial-gradient(circle at 0 0,var(--bg1) 0 110px,transparent 111px),radial-gradient(circle at 100% 100%,var(--bg1) 0 110px,transparent 111px),var(--bg2)}
+.th-p .ch{border-bottom:3px dotted var(--ac)}
+.th-p .lo2{border-radius:50%}
+.th-p .rb{border-radius:30px}
+.th-p .rb:before{content:"❀  "}.th-p .rb:after{content:"  ❀"}
+.th-p .rt th:first-child{border-top-left-radius:10px}.th-p .rt th:last-child{border-top-right-radius:10px}
+.th-p .sm div{border-radius:14px;border:2px dashed var(--ac)}
+.th-p .sg div{border-top:2px dotted var(--pa)}
+.th-c.card{outline:0;border-radius:4px;background:#fff;border:1px solid var(--bd)}
+.th-c .rb{background:var(--hd)}
+.th-g.card,.th-v.card,.th-o.card{border-radius:6px;border-top:12px solid var(--pa);border-bottom:12px solid var(--pa);outline:2px solid var(--ac);outline-offset:-8px}
+.mc .ch{background:var(--pa);margin:-20px -18px 0;padding:14px 18px;border-bottom:4px solid var(--ac)}
+.mc .sn{color:#fff}.mc .sl{color:var(--ac)}.mc .lo2{border-color:var(--ac)}
+.mc .rb{background:#fff;color:var(--pa);border:2px solid var(--pa);letter-spacing:3px;font-size:13px;margin-top:12px}
+.mc .rb:before,.mc .rb:after{content:""}
+.card>.stamp{position:absolute;right:16px;top:12px;width:66px;height:66px;border-radius:50%;background:var(--ac);color:#1b2133;border:3px double #fff;display:grid;place-items:center;align-content:center;text-align:center;font-weight:900;font-size:11px;line-height:1;transform:rotate(12deg);z-index:2}
+.stamp b{font-size:24px;display:block}
+.mt2 td.ink{font-size:16px}
+/* ---- NEW end-of-term report card (picture style) ---- */
+.rc2{background:#fff;border:1px solid var(--bd,#777);max-width:760px;margin:8px auto;color:#111;font-size:11px;position:relative;overflow:hidden}
+.rc2:not(.th-c){border-top:7px solid var(--pa);border-bottom:7px solid var(--pa)}
+.rc2 .rh{display:flex;align-items:center;gap:18px;padding:16px 20px;border-bottom:1px solid var(--bd,#777);min-height:112px}
+.rc2 .rh .lo2{width:78px;height:78px;border:0;background:none;border-radius:0}.rc2 .rh .lo2 img{width:78px}
+.rc2 .rh h2{margin:0 0 4px;font-size:21px;line-height:1.1;color:var(--ttl,var(--pa));font-weight:800;font-family:Arial,Helvetica,sans-serif}
+.rc2 .rh p{margin:1px 0;font-size:8.5px;color:#444}
+.rc2 .bd2{padding:8px 10px 10px}
+.rc2 .ri{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;font-size:13px;font-weight:700;line-height:1.75;margin:6px 0 12px}
+.rc2 .ri>div:first-child{flex:1.35}.rc2 .ri>div:nth-child(2){flex:1;padding-left:20px}
+.rc2 .ph2{width:88px;height:104px;border:1px solid #888;display:grid;place-items:center;color:#999;font-size:9px;overflow:hidden;flex:none}
+.rc2 .ph2 img{width:100%;height:100%;object-fit:cover}
+.rc2 .ph2:has(.ini){background:var(--bg1,#e3e8f5);border-color:var(--pa)}.rc2 .ph2 .ini{font-size:34px;font-weight:900;letter-spacing:2px;color:var(--pa);font-family:Arial,Helvetica,sans-serif}
+.rt2{width:100%;border-collapse:collapse;font-size:10.5px}
+.rt2 th{background:var(--hd,var(--pa));color:#fff;border:1px solid #111;padding:4px;font-size:10px}
+.rt2 td{border:1px solid #111;padding:3px 5px;text-align:center}.rt2 td.sj{text-transform:uppercase}
+.rs{display:flex;gap:14px;margin:10px 0 4px;font-size:10.5px;line-height:1.65}
+.rs>div:first-child{width:36%;padding-left:4px}.rs>div:last-child{flex:1}
+.cg{display:flex;gap:14px;align-items:flex-start;margin-top:6px}
+.cg>div:first-child{flex:1.35;min-width:0}.cg>div:last-child{flex:1}
+.cg h4,.bl h4{margin:0 0 4px;text-align:center;font-size:12.5px;font-weight:600}
+.gt2{width:100%;border-collapse:collapse;font-size:9.5px}.gt2 th{background:#e3e3e3;border:1px solid #111;padding:2px}.gt2 td{border:1px solid #111;padding:2px 3px;text-align:center}
+.bl{margin-top:16px}.bl table{width:100%;border-collapse:collapse;font-size:10.5px}.bl th{background:var(--bg1);border:1px solid #111;padding:3px}.bl td{border:1px solid #111;padding:3px;text-align:center}
+.ft2{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-top:10px;font-size:10px}
+.ft2 .hs{display:flex;align-items:flex-end;gap:6px;white-space:nowrap}
+/* ---- notice-board analysis sheet (one A4 landscape page) ---- */
+.pv{width:100%;overflow:hidden;margin-top:8px}.pv>div{width:281mm}
+.msheet{width:281mm;height:188mm;display:flex;flex-direction:column;background:#fff;color:#111;border:1.2mm solid var(--pa);border-radius:3mm;overflow:hidden}
+.mbn{display:flex;align-items:center;gap:4mm;background:linear-gradient(100deg,var(--pa),var(--pa) 70%,var(--ac));color:#fff;padding:2.5mm 5mm;border-bottom:1.5mm solid var(--ac)}
+.mbn .lo2{width:15mm;height:15mm;border-radius:3mm;border:0}.mbn .lo2 img{width:13mm}
+.mtt{flex:1}.m1{font-weight:900;font-size:6.5mm;letter-spacing:.6mm;line-height:1}.m2{font-size:3.8mm;font-weight:800;color:#ffe08a;margin-top:1mm;letter-spacing:.4mm}
+.m3{text-align:right;font-weight:800;font-size:3.6mm;line-height:1.25}
+.mbd{flex:1;min-height:0;padding:1.5mm 2mm 0;overflow:hidden}
+.mtb{width:100%;border-collapse:collapse;table-layout:fixed;font-size:var(--fs)}
+.mtb th{background:var(--pa);color:#fff;font-size:calc(var(--fs)*.85);padding:.6mm 0;text-align:center;border:.2mm solid var(--pa);overflow:hidden;white-space:nowrap}
+.mtb td{height:var(--rh);line-height:1;padding:0 .6mm;text-align:center;border:.2mm solid #cbd3e8;overflow:hidden;white-space:nowrap}
+.mtb tbody tr:nth-child(even){background:var(--bg2)}
+.mtb td.mn{text-align:left;font-weight:700;text-overflow:ellipsis}
+.mtb sup{font-size:.6em;line-height:0;color:var(--pa);margin-left:.2mm;vertical-align:top}
+.mp1{font-weight:900;color:var(--pa)}.mtt2{font-weight:900;background:var(--bg1)}.mag{font-weight:900;color:var(--pa);background:var(--bg1)}
+.mtb tbody tr.top1{background:#ffe27a}.mtb tbody tr.top2{background:#e5e9f2}.mtb tbody tr.top3{background:#f4d3b2}
+.mtb tr.mf td{background:var(--pa);color:#fff;font-weight:800}.mtb tr.mf td:first-child{text-align:left}
+.mft{display:flex;justify-content:space-between;gap:4mm;font-size:2.4mm;color:#445;padding:1mm 3mm;border-top:.4mm solid var(--ac)}
+.prt{display:none}
+.ph{display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px solid var(--y);margin-bottom:6px;color:var(--b)}.ph span{font-size:12px;font-weight:700}
+#tt{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--b);color:#fff;padding:10px 16px;border-radius:20px;display:none;z-index:9;border:2px solid var(--y);max-width:90%;text-align:center}
+@page card{size:A4 portrait;margin:8mm}
+@page sheet{size:A4 landscape;margin:8mm}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#fff}#ap,#lg,#sp,#tt,#pm,#pg,.pdfx{display:none!important}.prt{display:block}
+.pgc{page:card;break-after:page;page-break-after:always}.pgs{page:sheet;break-after:page;page-break-after:always}
+.pgc .card,.pgc .rc2{margin:0}.pgc:last-child,.pgs:last-child{break-after:auto;page-break-after:auto}.msheet{box-shadow:none}
+.prt .t{font-size:9.5px;margin-bottom:10px}.prt .t td,.prt .t th{padding:2px}.prt .t tr{page-break-inside:avoid}.prt thead{display:table-header-group}
+.t td.pn,.t th.pn{position:static}.prt .rm{font-size:8px}}
+/* ---- save-as-PDF menu + progress ---- */
+#pm{position:fixed;inset:0;z-index:50;background:#0006;display:flex;align-items:flex-end}
+.sh{background:#fff;width:100%;max-width:560px;margin:auto auto 0;border-radius:18px 18px 0 0;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+.sh button{width:100%;padding:13px;margin:5px 0}
+#pg{position:fixed;inset:0;z-index:200;background:var(--b);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+#pg p{font-size:17px;font-weight:700;margin:18px 0 4px}
+.pdfx{position:fixed;left:0;top:0;width:794px;background:#fff;z-index:150}
+.pdfx .rc2,.pdfx .card{margin:0!important;max-width:none!important}
+.pdfx .rc2{font-size:11.5px}.pdfx .card{font-size:12px}
+/* A4 FIX: card fills the page from top to bottom */
+.rc2.fit,.card.fit{display:flex;flex-direction:column}
+.rc2.fit .bd2{flex:1;display:flex;flex-direction:column}
+.rc2.fit .bd2{justify-content:space-between}
+.card.fit{justify-content:space-between}
+/* ================= v2: side menu, appearance (dark mode), parents ================= */
+main{zoom:var(--zm,1)}
+#mb{font-size:20px;line-height:1;padding:7px 12px!important}
+#mo{position:fixed;inset:0;background:#0007;z-index:40}
+#mn{position:fixed;top:0;bottom:0;left:0;width:290px;max-width:86vw;background:#fff;color:#1b2133;z-index:41;transform:translateX(-104%);transition:transform .22s;display:flex;flex-direction:column;box-shadow:4px 0 18px #0004;padding-bottom:env(safe-area-inset-bottom);visibility:hidden}
+#mn.open{transform:none;visibility:visible}
+#mn .mh{background:var(--b);color:#fff;padding:calc(16px + env(safe-area-inset-top)) 16px 14px;border-bottom:4px solid var(--y);display:flex;gap:12px;align-items:center}
+#mn .mh .lo2{width:46px;height:46px;border-radius:12px;border:0;flex:none}#mn .mh .lo2 img{width:38px}
+#mn .mh .lo2 b{display:none}
+#mn .mh div>b{display:block;font-size:13px;line-height:1.25}#mn .mh small{opacity:.9;font-size:11px}
+#mn .ml{flex:1;overflow:auto;padding:8px}
+#mn .ml h5{margin:14px 12px 4px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#667089}
+#mn .ml button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;color:inherit;font-weight:600;margin:1px 0;padding:12px;border:0;border-radius:12px;font-size:15px}
+#mn .ml button i{font-style:normal;width:24px;text-align:center;font-size:18px;flex:none}
+#mn .ml button.on{background:var(--yl);color:var(--b)}
+.pcv{color:var(--b)}
+.chip{display:inline-flex;gap:6px;align-items:center;background:var(--yl);border-radius:16px;padding:5px 10px;margin:3px 4px 3px 0;font-size:13px;font-weight:600}
+.chip a{cursor:pointer;color:#c0392b;font-weight:900}
+.okb{background:#e7f8ee;border:1px solid #1e9e58;color:#14532d;border-radius:12px;padding:10px;margin-top:8px;font-size:14px;line-height:1.5}
+button.off2{background:#e6ebf8;color:var(--b)}
+.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 4px}
+.swb{height:56px;border-radius:12px;color:#fff;font-size:11px;font-weight:800;margin:0;display:flex;align-items:flex-end;justify-content:flex-start;padding:6px 8px;text-shadow:0 1px 3px #000a}
+.swb.on{outline:3px solid var(--y);outline-offset:2px}
+.rbtn{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;background:var(--yl);color:var(--b);text-align:left;margin:5px 0;padding:12px 14px}
+.rbtn small{display:block;font-weight:400;opacity:.8}
+@media screen{
+body.dk{background:#0e1320;color:#e6e9f2;--yl:color-mix(in srgb,var(--y) 28%,#141b2b)}
+body.dk input,body.dk select,body.dk textarea{background:#182034;color:#e6e9f2;border-color:#34415f}
+body.dk .lb input{background:#fff;color:#1b2133;border-color:#c9d1e6}
+body.dk .mu{color:#9aa6c4}
+body.dk .ntc{background:#151c2d;color:#e6e9f2}body.dk .ntc h4{color:#9db4ff}body.dk .c,body.dk .fm,body.dk .tw,body.dk .sh,body.dk #mn{background:#151c2d;color:#e6e9f2}
+body.dk .t td{border-color:#2b3652}body.dk .t td.pn{background:#151c2d}
+body.dk .rm{color:#aab4d4}
+body.dk .tabs button{background:#222b44;color:#cdd6f6}body.dk .tabs .on{background:var(--y);color:#1b2133}
+body.dk .ac button.off,body.dk button.off2{background:#262f4a;color:#cdd6f6}
+body.dk .bar{background:#262f4a}
+body.dk .fm label.l1,body.dk h4{color:#9db4ff!important}
+body.dk .pcv{color:var(--y)}
+body.dk .rbtn,body.dk #mn .ml button.on{color:#fff}
+body.dk #mn .ml h5{color:#8f9bbd}
+body.dk .okb{color:#14532d}
+body.dk button[style*="e6ebf8"]{background:#262f4a!important;color:#cdd6f6!important}
+}
+</style><style id="ps"></style></head><body>
+
+<div id="sp" class="bg"><div><div class="lgo"><img src="Screenshot_20261030-124739.png" alt="" onerror="this.hidden=true;this.nextElementSibling.style.display='block'"><b class="fb">TSCS</b></div>
+<h1>TENDER SPROUT<br>COMM. SCHOOL</h1><div class="pill">SBA SYSTEM</div><div class="ld"><i></i><i></i><i></i></div></div>
+<div class="vis">Our Vision · Your Future</div></div>
+
+<div id="lg" class="bg"><div class="lgo sm"><img src="Screenshot_20261030-124739.png" alt="" onerror="this.hidden=true;this.nextElementSibling.style.display='block'"><b class="fb">TSCS</b></div>
+<div class="pill">SBA SYSTEM</div>
+<div class="lb"><h2>Sign in</h2>
+<input id="em" type="text" placeholder="Email or phone number" autocapitalize="none" autocomplete="username">
+<div class="pwr"><input id="pw" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"><button type="button" onclick="eye()">👁</button></div>
+<button id="lbtn" class="go" onclick="login()">Log in</button><p id="le" class="er"></p><p id="lc" class="mu"></p></div>
+<div class="vis">Our Vision · Your Future</div></div>
+
+<div id="ap" hidden>
+<header><button id="mb" onclick="openMenu()" aria-label="Menu">☰</button><div class="lo"><img src="Screenshot_20261030-124739.png" alt="" onerror="this.hidden=true;this.nextElementSibling.style.display='block'"><b>TS</b></div>
+<div class="t1">SBA System<br><small><span id="who"></span> · <i class="dot" id="dot"></i> <span id="ds"></span></small></div><button id="ib" hidden onclick="inst()">⬇ Install</button><button onclick="logout()">Log out</button></header>
+<div id="nb" hidden></div>
+<main>
+<div class="r2" id="rw"><select id="cs" onchange="setC(this.value)"></select><select id="tm" onchange="setT(this.value)"><option value="1">Term 1</option><option value="2">Term 2</option><option value="3">Term 3</option></select><input id="yr" onchange="setY(this.value)"></div>
+<select id="ss" onchange="setS(this.value)"></select>
+<div class="tabs" id="tbs"><button class="tb tp" data-t="ov" onclick="setTab('ov')">📊 Overview</button><button class="tb" data-t="sc" onclick="setTab('sc')">📝 Scores</button><button class="tb" data-t="at" onclick="setTab('at')">📅 Attendance</button><button class="tb" data-t="cn" onclick="setTab('cn')">🎭 Conduct</button><button class="tb" data-t="rc" onclick="setTab('rc')">📄 Report cards</button><button class="tb" data-t="rs" onclick="setTab('rs')">🏆 Analysis</button><button class="tb mk" data-t="mk" onclick="setTab('mk')">🎯 Mock</button><button class="tb" data-t="pu" onclick="setTab('pu')">👥 Pupils</button><button class="tb" data-t="pt" onclick="setTab('pt')">📷 Photos</button><button class="tb tp" data-t="pb" onclick="setTab('pb')">📢 Publish</button><button class="tb tp" data-t="pa" onclick="setTab('pa')">👪 Parents</button><button class="tb" data-t="nt" onclick="setTab('nt')">🔔 Notices</button><button class="tb tp" data-t="cl" onclick="setTab('cl')">🏫 Classes</button><button class="tb tp" data-t="sj" onclick="setTab('sj')">📚 Subjects</button><button class="tb tp" data-t="sd" onclick="setTab('sd')">⚙️ School</button><button class="tb tp" data-t="tp" onclick="setTab('tp')">🎨 Designs</button><button class="tb ad" data-t="tc" onclick="setTab('tc')">🧑‍🏫 Staff</button></div>
+<div class="tabs" id="tbp" hidden><button class="tb" data-t="ph" onclick="setTab('ph')">🏠 Reports</button><button class="tb" data-t="nt" onclick="setTab('nt')">🔔 Notices</button><button class="tb" data-t="ap" onclick="setTab('ap')">🎨 Appearance</button><button class="tb" data-t="ac" onclick="setTab('ac')">🔐 Account</button></div>
+<div id="bd"></div></main></div>
+<div id="pp" class="prt"></div>
+<div id="tt"></div>
+<div id="pm" hidden></div>
+<div id="mo" hidden onclick="closeMenu()"></div><div id="mn"></div>
+<div id="pg" hidden><div class="ld"><i></i><i></i><i></i></div><p></p><small>Please keep this screen open</small></div>
+
+<script>
+window.eye=()=>{const p=document.getElementById("pw");p.type=p.type=="password"?"text":"password"};
+window.login=()=>{document.getElementById("le").textContent="The app could not load. Open it from your https website (not from the phone's files) and check your internet."};
+/* ---- appearance (runs first, so colours / dark mode show on the sign-in screen too) ---- */
+const AP_D={mode:"l",p:"#0b2a8f",a:"#f5b800",z:1};
+window.getAP=()=>{try{return Object.assign({},AP_D,JSON.parse(localStorage.ap||"{}"))}catch(_){return Object.assign({},AP_D)}};
+window.applyAP=()=>{const a=getAP(),r=document.documentElement.style,def=a.p==AP_D.p;
+ const dark=a.mode=="d"||(a.mode=="a"&&matchMedia("(prefers-color-scheme: dark)").matches);
+ const p=dark?"color-mix(in srgb,"+a.p+" 70%,#8fa8ff)":a.p;
+ r.setProperty("--b",p);
+ r.setProperty("--b2",def&&!dark?"#1d44c4":"color-mix(in srgb,"+p+" 82%,#fff)");
+ r.setProperty("--d",def&&!dark?"#061a63":"color-mix(in srgb,"+p+" 60%,#000)");
+ r.setProperty("--y",a.a);r.setProperty("--yl","color-mix(in srgb,"+a.a+" 22%,#fff)");r.setProperty("--zm",a.z);
+ document.body.classList.toggle("dk",dark);
+ const m=document.querySelector("meta[name=theme-color]");if(m)m.content=p};
+window.setAP=o=>{try{localStorage.ap=JSON.stringify(Object.assign(getAP(),o))}catch(_){}applyAP();if(window.appRefresh)appRefresh()};
+window.resetAP=()=>{try{localStorage.removeItem("ap")}catch(_){}applyAP();if(window.appRefresh)appRefresh()};
+applyAP();try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>applyAP())}catch(_){}
+setTimeout(()=>document.getElementById("sp").classList.add("out"),6500);
+/* ---- install + offline (PWA) ---- */
+let dip=null;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();dip=e;document.getElementById("ib").hidden=false});
+addEventListener("appinstalled",()=>{dip=null;document.getElementById("ib").hidden=true});
+window.inst=async()=>{if(!dip)return;dip.prompt();await dip.userChoice;dip=null;document.getElementById("ib").hidden=true};
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendPasswordResetEmail,onAuthStateChanged,signOut,updatePassword,reauthenticateWithCredential,EmailAuthProvider}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{initializeFirestore,persistentLocalCache,persistentMultipleTabManager,collection,doc,getDoc,setDoc,deleteDoc,onSnapshot,query,where,writeBatch}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ====== FIREBASE CONFIG ====== */
+const CFG={apiKey:"AIzaSyAOrd-iVpZHU2Oqbi3DNpvX-2VyHykjorE",authDomain:"tscs-sba.firebaseapp.com",projectId:"tscs-sba",storageBucket:"tscs-sba.firebasestorage.app",messagingSenderId:"542177617286",appId:"1:542177617286:web:12e8adfb847e7bc2bcf807"};
+/* ============================= */
+
+const app=initializeApp(CFG),auth=getAuth(app),auxAuth=getAuth(initializeApp(CFG,"aux"));
+const db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ord=n=>n+(["th","st","nd","rd"][(n%100>10&&n%100<14)?0:(n%10<4?n%10:0)]);
+const DCL=[],MX=[20,20,20,10,10,100],CL=[];
+/* class type: p = lower, j = JHS, m = final JHS class (JHS + BECE mocks). Own class names are set on the Classes page. */
+const lvl=c=>{const v=(G.cj||{})[c];if(v)return v;const n=+String(c).split(" ")[1];return c=="Basic 9"?"m":n>=7?"j":"p"};
+const jhs=c=>lvl(c)!="p",isMk=c=>lvl(c)=="m";
+const SUBD=c=>[];
+const subs=c=>{const o=(typeof G!=="undefined"&&G.sub)||{},l=(o[c]&&o[c].length?o[c]:o[jhs(c)?"_j":"_p"]);return l&&l.length?l:SUBD(c)};
+function gr(t,j){
+ if(j){const a=[[80,1],[70,2],[60,3],[55,4],[50,5],[45,6],[40,7],[35,8],[0,9]].find(x=>t>=x[0]);return[a[1],["","Highest","Higher","High","High Average","Average","Low Average","Low","Lower","Lowest"][a[1]]]}
+ const a=[[90,"A+","Excellent"],[80,"A","Very Good"],[70,"B","Good"],[60,"C","Satisfactory"],[50,"D","Fair"],[40,"E","Weak"],[0,"F","Needs Improvement"]].find(x=>t>=x[0]);return[a[1],a[2]]}
+function cs(a){if(!a||a.every(v=>v==null))return null;const m=a.slice(0,5).reduce((x,v)=>x+(+v||0),0),c=Math.round(m/80*50),e=Math.round((+a[5]||0)*.5);return{c,e,t:c+e}}
+const rank=v=>{const s=v.filter(x=>x!=null).sort((a,b)=>b-a);return v.map(x=>x==null?"":s.indexOf(x)+1)};
+const agg=(sub,ss)=>{const core=["English","Mathematics","Science","Social Studies"],g=ss.filter(x=>sub[x]).map(x=>({x,g:sub[x].g})),a=g.filter(v=>core.includes(v.x)),b=g.filter(v=>!core.includes(v.x)).map(v=>v.g).sort((p,q)=>p-q).slice(0,2);return a.length==4&&b.length==2?a.reduce((s,v)=>s+v.g,0)+b.reduce((s,v)=>s+v,0):null};
+const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const LOGO='<div class="lo2"><img src="Screenshot_20261030-124739.png" alt="" onerror="this.hidden=true;this.nextElementSibling.style.display=\'block\'"><b>TS</b></div>';
+const SITE="lhelnaldo123-hub.github.io/Tender-sba";
+/* ---- school details (typed on the School details page) show on every report ---- */
+const SCH_D={n:"TENDER SPROUT COMMUNITY SCHOOL",s:"TENDER SPROUT COMM. SCHOOL",m:"Our Vision · Your Future",p:"0243587607 | 0599317422",e:"tenderschool2021@gmail.com",w:SITE,l:"Dodowa",x:"",lg:""};
+const SC=()=>Object.assign({},SCH_D,G.sch||{});
+const SS=()=>{const S=SC();return(S.s||S.n||"").toUpperCase()};
+const LG=()=>{const l=SC().lg;return l?`<div class="lo2"><img src="${l}" alt=""></div>`:LOGO};
+const hdrLines=S=>{const o=[],em=[S.e?`<b>Email:</b> ${esc(S.e)}`:"",S.w?`<b>Website:</b> ${esc(S.w)}`:""].filter(Boolean).join(" | ");
+ if(S.p)o.push(`<p><b>Contact:</b> ${esc(S.p)}</p>`);if(em)o.push(`<p>${em}</p>`);if(S.l)o.push(`<p><b>Location:</b> ${esc(S.l)}</p>`);if(S.x)o.push(`<p>${esc(S.x)}</p>`);if(S.m)o.push(`<p><i>${esc(S.m)}</i></p>`);return o.join("")};
+const rcHead=()=>{const S=SC();return`<div class="rh">${LG()}<div><h2>${esc(S.n)}</h2>${hdrLines(S)}</div></div>`};
+/* ---- own report designs: stored in the same shared list as the school's other settings ---- */
+const hx=c=>{c=String(c||"").replace("#","");if(c.length==3)c=c.replace(/./g,m=>m+m);return[0,2,4].map(i=>parseInt(c.substr(i,2),16)||0)};
+const mixc=(a,b,t)=>{const x=hx(a),y=hx(b);return"#"+x.map((v,i)=>Math.round(v*(1-t)+y[i]*t).toString(16).padStart(2,"0")).join("")};
+const lumi=c=>{const r=hx(c);return(.299*r[0]+.587*r[1]+.114*r[2])/255};
+const isHex=c=>/^#[0-9a-f]{6}$/i.test(c||"");
+const TP=k=>(G.tp||[]).find(x=>x.k==k);
+const tplV=t=>{let pa=isHex(t.pa)?t.pa:"#0b2a8f";if(lumi(pa)>.55)pa=mixc(pa,"#000000",.5);
+ const ac=isHex(t.ac)?t.ac:"#f5b800",W="#ffffff",K="#000000",v={"--tpl":1,"--pa":pa,"--ac":ac,"--rt":W,"--bg1":mixc(ac,W,.72),"--bg2":mixc(ac,W,.93),"--bd":mixc(ac,K,.15),"--tx":mixc(pa,K,.25),"--ink":isHex(t.ik)?t.ik:pa,"--ttl":isHex(t.tt)?t.tt:pa,"--cell":mixc(ac,W,.96),"--ln":mixc(ac,K,.1),"--bar":"rgba("+hx(ac).join(",")+",.38)"};
+ return Object.keys(v).map(k=>k+":"+v[k]).join(";")};
+const thV=k=>{const t=TP(k);return t?tplV(t):""};
+const thA=k=>{const v=thV(k);return v?` style="${v}"`:""};
+
+let me=null,cls="",term=localStorage.t||"1",yr=localStorage.y||"2026/2027",sub="",tab="sc",stu=[],sc={},att={},meta={},un=[],ua=[],SIG="",aS=[],aC={},tl=[],ar=false,mn=false,adate=today(),rpid="",mk=localStorage.mk||"1",mv="e",th=localStorage.th||"c",hw=localStorage.hw||"Caveat",ik=localStorage.ik||"t",am="d",ROLE="teacher",rp={},pk="t",pl=[],PW={},PE="",CURR=null,PUBM={},NT=[],unN=null;
+/* shared lists + headmaster signature (same for every class) */
+let G={};try{G=JSON.parse(localStorage.G||"{}")}catch(_){G={}}
+const DEF={cd:["Respectful and well-behaved","Obedient and hardworking","Polite and cooperative","Disciplined and responsible","Is an enthusiastic learner who seems to enjoy school","Needs to improve his/her conduct"],at:["Humble","Hardworking","Cheerful","Attentive","Eager to learn","Needs to be more serious"],it:["Literacy","Numeracy","Reading","Sports","Drawing and Colouring","Music and Dance","Science","Creative Arts","Computing"],tr:["Well done.","Keep it up.","Excellent performance. Keep it up!","Good effort. Aim higher.","Needs to work harder."]};
+const LST=k=>G[k]&&G[k].length?G[k]:DEF[k];
+const YT=()=>yr.replace(/\W+/g,"-")+"-T"+term;
+const did=()=>(cls+"_"+YT()+"_"+sub).replace(/\s/g,"");
+const aid=()=>(cls+"_"+YT()+"_ATT_"+adate).replace(/\s/g,"");
+const mid=()=>(cls+"_"+YT()+"_META").replace(/\s/g,"");
+const mkey=(x,n=mk)=>"MOCK"+n+"|"+x;
+const RL={admin:"Admin",head:"Head teacher",teacher:"Teacher",parent:"Parent"},AL="@tscs-parent.com";
+const roleOf=t=>t.role||(t.admin?"admin":"teacher");
+const isAdm=()=>ROLE=="admin",isTop=()=>ROLE=="admin"||ROLE=="head";
+const mine=()=>isTop()?CL:((me&&me.classes)||[]);
+const busy=()=>/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)&&$("#bd").contains(document.activeElement);
+function toast(m){const t=$("#tt");t.textContent=m;t.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display="none",3000)}
+const net=()=>{$("#dot").classList.toggle("on",navigator.onLine);$("#ds").textContent=navigator.onLine?"Live":"Offline – will sync"};
+addEventListener("online",net);addEventListener("offline",net);
+/* print content is kept (not cleared on afterprint) so the Android print preview never goes blank; it is replaced on the next print */
+const ready=()=>{ar=true;if(mn)$("#sp").classList.add("out")};
+setTimeout(()=>{mn=true;if(ar)$("#sp").classList.add("out")},2300);
+/* A4 FIX: stretch a card to the full page height by spreading its sections and growing the table rows */
+const fillTo=(c,T)=>{const e=T-c.offsetHeight;c.style.minHeight=T+"px";if(e<=0)return;
+ const rs=c.querySelectorAll(".rt2 tr,.rt tr");if(!rs.length)return;
+ const p=Math.min(e*.45/rs.length/2,16);
+ c.querySelectorAll(".rt2 td,.rt td,.rt2 th,.rt th").forEach(x=>{x.style.paddingTop=x.style.paddingBottom=(3+p)+"px"})};
+/* A4 FIX: every report card / mock slip is scaled to fill exactly one A4 portrait page */
+window.printHTML=async h=>{
+ const land=h.includes('class="pgs"'),pp=$("#pp");
+ $("#ps").textContent="@page{size:A4 "+(land?"landscape":"portrait")+";margin:8mm}";
+ pp.innerHTML=h;
+ await hwLoad();
+ if(!land){
+  pp.style.cssText="display:block;position:absolute;left:-10000px;top:0;width:900px";
+  const W=733,H=1058;
+  pp.querySelectorAll(".pgc").forEach(g=>{
+   const c=g.firstElementChild;if(!c)return;
+   c.style.width="760px";c.style.maxWidth="none";c.style.margin="0";c.style.transformOrigin="0 0";
+   const k=Math.min(W/760,H/c.offsetHeight);
+   c.classList.add("fit");fillTo(c,H/k);
+   c.style.marginLeft=((W-760*k)/2)+"px";c.style.transform="scale("+k+")";
+   g.style.cssText="width:"+W+"px;height:"+H+"px;overflow:hidden;position:relative"});
+  pp.style.cssText="";
+ }
+ setTimeout(()=>print(),350)};
+const ttl=t=>`<div class="ph"><b>${esc(SS())}</b><span>${t} — ${cls} · ${esc(yr)} · Term ${term}</span></div>`;
+function shrink(file,w,q){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const k=Math.min(1,w/i.width),c=document.createElement("canvas");c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(i,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",q))};i.onerror=rej;i.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
+function setCL(){const l=G.cl&&G.cl.length?G.cl:DCL;CL.length=0;CL.push(...l)}
+setCL();
+function fixCls(){if(!me||ROLE=="parent")return false;const m=mine();if(cls&&m.includes(cls))return false;const n=m[0]||"";if(n===cls)return false;cls=n;return true}
+function gApply(){setCL();const k=localStorage.th||(ROLE=="parent"?"_s":"c");th=k=="_s"||thList().some(x=>x[0]==k)?k:"c"}
+async function saveG(p){G=Object.assign({},G,p);try{localStorage.G=JSON.stringify(G)}catch(_){}gApply();
+ try{await setDoc(doc(db,"scores","__LISTS"),{cls:"ALL",yt:"ALL",subject:"__LISTS",v:p},{merge:true});toast("Saved ✅")}catch(er){toast("Not saved: "+er.code)}
+ if(fixCls()){watch();draw();return}
+ if(tab=="rc")rcv();else if(tab=="cn")cnv();else if(tab=="mk"&&mv=="r")mockRC();else if(tab=="sj")sjView();else if(tab=="cl")clView();else if(tab=="sd")sdView();else if(tab=="tp")tpView()}
+
+/* ---------- Login ---------- */
+const AE={"auth/invalid-credential":"Wrong email or password, or this email has not been added in Firebase Authentication yet.","auth/wrong-password":"Wrong password.","auth/user-not-found":"No account with this email. Ask the admin to add you.","auth/invalid-email":"That email is not valid.","auth/operation-not-allowed":"Email/Password sign-in is not switched on in Firebase (Authentication → Sign-in method).","auth/network-request-failed":"No internet connection.","auth/too-many-requests":"Too many tries. Please wait a few minutes.","auth/invalid-api-key":"Your Firebase config is wrong (apiKey). Check CFG in the file.","auth/user-disabled":"This account has been disabled."};
+window.login=async()=>{
+ const e=$("#le");e.textContent="";$("#lc").textContent="";
+ if(CFG.apiKey==="PASTE")return e.textContent="First paste your Firebase config into the file (the CFG lines).";
+ let em=$("#em").value.trim().toLowerCase();const pw=$("#pw").value;
+ if(em&&!em.includes("@"))em=em.replace(/\D/g,"")+AL;
+ if(!em||!pw)return e.textContent="Type your email and password.";
+ $("#lbtn").disabled=true;
+ try{await signInWithEmailAndPassword(auth,em,pw)}catch(x){e.textContent=AE[x.code]||"Could not sign in.";$("#lc").textContent="("+x.code+")"}
+ $("#lbtn").disabled=false};
+window.logout=()=>signOut(auth);
+onAuthStateChanged(auth,async u=>{
+ if(!u){un.forEach(f=>f());ua.forEach(f=>f());un=[];ua=[];if(unN){unN();unN=null}NT=[];me=null;ntBar();closeMenu();$("#ap").hidden=true;$("#lg").hidden=false;ready();return}
+ try{
+  const em=u.email.toLowerCase();
+  const d=await getDoc(doc(db,"teachers",em));
+  if(d.exists()){me=Object.assign({email:em},d.data());me.role=roleOf(me);ROLE=me.role}
+  else{
+   const p=await getDoc(doc(db,"parents",em));
+   if(!p.exists()){$("#le").textContent="You signed in as "+u.email+", but this account is not registered at the school. Ask the school to add you.";await signOut(auth);ready();return}
+   me=Object.assign({email:em},p.data());me.role="parent";ROLE="parent"}
+  const P=ROLE=="parent";
+  gApply();$("#lg").hidden=true;$("#ap").hidden=false;$("#who").textContent=(me.name||u.email)+" · "+RL[ROLE];
+  $("#tbs").hidden=P;$("#tbp").hidden=!P;
+  tab=P?"ph":isTop()?(CL.length?"ov":"cl"):"sc";cls=P?"":isTop()?(CL[0]||""):((me.classes||[])[0]||"");
+  net();watch();draw();wNotices()}
+ catch(e){$("#le").textContent="Signed in, but school data could not load ("+e.code+"). Check that the Firestore rules are published.";await signOut(auth)}
+ ready()});
+
+/* ---------- Live data ---------- */
+function watch(){un.forEach(f=>f());un=[];stu=[];sc={};att={};meta={};if(ROLE=="parent")return;
+ un.push(onSnapshot(doc(db,"scores","__LISTS"),s=>{if(s.exists()){G=Object.assign({},G,s.data().v||{});try{localStorage.G=JSON.stringify(G)}catch(_){}gApply();if(fixCls()){watch();draw();return}if(tab=="cl"&&!busy())clView()}live()},e=>{}));
+ if(!cls)return;
+ un.push(onSnapshot(query(collection(db,"students"),where("cls","==",cls)),s=>{stu=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.name.localeCompare(b.name));live()},e=>toast(e.code)));
+ un.push(onSnapshot(query(collection(db,"scores"),where("cls","==",cls),where("yt","==",YT())),s=>{sc={};att={};meta={};s.docs.forEach(d=>{const x=d.data();if(x.subject=="__ATT")att[x.date]=x.v||{};else if(x.subject=="__META")meta=x.v||{};else sc[x.subject]=x.v||{}});live()},e=>toast(e.code)))}
+function live(){
+ if(tab=="sc"){const g=stu.map(s=>s.id).join()+"|"+cls+sub+YT();if(g!==SIG){SIG=g;table()}else fill()}
+ else if(tab=="rs")results();else if(tab=="pu")pupils();else if(tab=="pt")ptView();else if(tab=="sj"&&!busy())sjView();
+ else if(tab=="mk"){if(mv=="e"){const g=mg();if(g!==SIG){SIG=g;mockT()}else mockF()}else if(!busy()){if(mv=="a")mockAn();else mockRC()}}
+ else if(!busy()){if(tab=="at")attView();else if(tab=="rc")rcv();else if(tab=="cn")cnv();else if(tab=="pb")pubView()}}
+function wAll(){
+ ua.push(onSnapshot(collection(db,"students"),s=>{aS=s.docs.map(d=>({id:d.id,...d.data()}));ov()},e=>toast(e.code)));
+ ua.push(onSnapshot(query(collection(db,"scores"),where("yt","==",YT())),s=>{aC={};s.docs.forEach(d=>{const x=d.data();(aC[x.cls]=aC[x.cls]||{})[x.subject]=x.v||{}});ov()},e=>toast(e.code)))}
+function wT(){ua.push(onSnapshot(collection(db,"teachers"),s=>{tl=s.docs.map(d=>({e:d.id,...d.data()})).sort((a,b)=>(a.name||"").localeCompare(b.name||""));tlist()},e=>toast(e.code)))}
+
+/* ---------- Navigation ---------- */
+function ctl(){const m=mine(),ss=subs(cls||"Basic 1");if(!ss.includes(sub))sub=ss[0]||"";
+ $("#cs").innerHTML=m.map(c=>`<option ${c==cls?"selected":""}>${c}</option>`).join("");
+ $("#ss").innerHTML=ss.map(c=>`<option ${c==sub?"selected":""}>${c}</option>`).join("");$("#tm").value=term;$("#yr").value=yr}
+function draw(){ctl();SIG="";ua.forEach(f=>f());ua=[];
+ const P=ROLE=="parent";
+ if(tab=="mk"&&!isMk(cls))tab="sc";
+ document.querySelectorAll(".ad").forEach(b=>b.hidden=!isAdm());
+ document.querySelectorAll(".tp").forEach(b=>b.hidden=!isTop());
+ document.querySelectorAll(".mk").forEach(b=>b.hidden=!isMk(cls));
+ document.querySelectorAll(".tb").forEach(b=>b.classList.toggle("on",b.dataset.t==tab));
+ $("#rw").hidden=P||["ap","ac","pa","ph","pr","nt","cl","sd","tp"].includes(tab);
+ $("#ss").hidden=P||tab!="sc";$("#cs").hidden=(tab=="ov"||tab=="tc");
+ if(tab=="nt"){ntView();return}if(tab=="ph"){pHome();return}if(tab=="pr"){pRepLoad();return}
+ if(tab=="ap"){appView();return}if(tab=="ac"){accView();return}
+ if(tab=="ov"){$("#bd").innerHTML="";wAll();return}
+ if(tab=="tc"){tcForm();wT();return}
+ if(tab=="cl"){clView();return}if(tab=="sd"){sdView();return}if(tab=="tp"){tpView();return}
+ if(tab=="pa"){parForm();wPar();return}
+ if(!cls){$("#bd").innerHTML=isTop()?'<p class="mu">You have no classes yet. Add your own classes first.</p><button class="y" style="width:100%" onclick="go(\'cl\')">🏫 Add my classes</button>':'<p class="mu">No class has been assigned to you yet. Ask the admin.</p>';return}
+ if(tab=="sj"&&isTop()){sjView();return}
+ if(tab=="pb")wPub();
+ live()}
+window.setC=v=>{cls=v;watch();draw()};window.setT=v=>{term=v;localStorage.t=v;watch();draw()};
+window.setY=v=>{yr=v.trim()||yr;localStorage.y=yr;watch();draw()};window.setS=v=>{sub=v;draw()};window.setTab=t=>{tab=t;draw()};
+window.goC=c=>{cls=c;tab="sc";watch();draw()};
+
+/* ---------- Scores ---------- */
+const NOSUB=()=>isTop()?'<p class="mu">This class has no subjects yet. Add your own subjects first.</p><button class="y" style="width:100%" onclick="go(\'sj\')">📚 Add my subjects</button>':'<p class="mu">No subjects have been set for this class yet. Ask the admin to add them.</p>';
+function table(){
+ if(!sub){$("#bd").innerHTML=NOSUB();return}
+ $("#bd").innerHTML=stu.length?`<p class="mu">3 tests /20 · project /10 · group /10 → scaled to 50. Exam /100 → scaled to 50. Saves instantly and every teacher sees it live.</p><div class="tw"><table class="t"><tr><th class="pn">Pupil</th><th>Test 1<br>/20</th><th>Test 2<br>/20</th><th>Test 3<br>/20</th><th>Project<br>/10</th><th>Group<br>/10</th><th>Exam<br>/100</th><th>Class<br>/50</th><th>Exam<br>/50</th><th>Total</th><th>Grd</th><th>Pos</th><th>Remark</th></tr>${stu.map(s=>`<tr data-id="${s.id}"><td class="pn">${esc(s.name)}</td>${MX.map((m,i)=>`<td><input type="number" inputmode="numeric" step="1" min="0" max="${m}" data-i="${i}" data-m="${m}"></td>`).join("")}<td class="c1"></td><td class="e1"></td><td class="t1 sb"></td><td class="g1"></td><td class="p1"></td><td class="r1"></td></tr>`).join("")}</table></div>`:'<p class="mu">No pupils in this class yet. Add them in the Pupils tab.</p>';fill()}
+function fill(){if(tab!="sc"||!stu.length)return;
+ const j=jhs(cls),V=sc[sub]||{},r=stu.map(s=>cs(V[s.id])),p=rank(r.map(x=>x&&x.t));
+ stu.forEach((s,k)=>{const tr=document.querySelector(`tr[data-id="${s.id}"]`);if(!tr)return;
+  const a=V[s.id]||[],x=r[k],g=x?gr(x.t,j):["",""],set=(c,v)=>tr.querySelector("."+c).textContent=v;
+  tr.querySelectorAll("input").forEach((e,i)=>{if(document.activeElement!==e)e.value=a[i]??""});
+  set("c1",x?x.c:"");set("e1",x?x.e:"");set("t1",x?x.t:"");set("g1",g[0]);set("p1",x?ord(p[k]):"");set("r1",g[1])})}
+$("#bd").addEventListener("change",async e=>{
+ const el=e.target;
+ if(el.dataset.ms!==undefined){ /* mock score */
+  const id=el.closest("tr").dataset.id,x=el.dataset.ms,k=mkey(x);
+  const v=el.value===""?null:Math.round(Math.max(0,Math.min(100,+el.value)));if(v!==null&&v!=+el.value)el.value=v;
+  (sc[k]=sc[k]||{})[id]=[v];mockF();
+  try{await setDoc(doc(db,"scores",(cls+"_"+YT()+"_"+k).replace(/[\s|]/g,"")),{cls,yt:YT(),subject:k,v:{[id]:[v]}},{merge:true})}catch(er){toast("Not saved: "+er.code)}
+  return}
+ if(el.dataset.i===undefined)return;
+ const id=el.closest("tr").dataset.id,k=+el.dataset.i,m=+el.dataset.m;
+ const v=el.value===""?null:Math.round(Math.max(0,Math.min(m,+el.value)));if(v!==null&&v!=+el.value)el.value=v;
+ const a=((sc[sub]||{})[id]||[null,null,null,null,null,null]).slice();a[k]=v;(sc[sub]=sc[sub]||{})[id]=a;fill();
+ try{await setDoc(doc(db,"scores",did()),{cls,yt:YT(),subject:sub,v:{[id]:a}},{merge:true})}catch(er){toast("Not saved: "+er.code)}});
+
+/* ---------- Shared calculation (every subject linked) ---------- */
+function calc(){
+ const j=jhs(cls),ss=subs(cls),rows=stu.map(s=>({s,sub:{},gt:0,n:0}));
+ ss.forEach(x=>{const r=rows.map(o=>cs((sc[x]||{})[o.s.id])),p=rank(r.map(y=>y&&y.t));
+  rows.forEach((o,i)=>{const y=r[i];if(y){const g=gr(y.t,j);o.sub[x]={c:y.c,e:y.e,t:y.t,g:g[0],m:g[1],p:p[i]};o.gt+=y.t;o.n++}})});
+ rows.forEach(o=>{o.avg=o.n?Math.round(o.gt/o.n):0;o.ag=j?agg(o.sub,ss):null});
+ const rk=rows.filter(o=>o.n).sort((a,b)=>j?((a.ag??99)-(b.ag??99))||b.gt-a.gt:b.gt-a.gt);
+ rows.forEach(o=>o.pos=o.n?rk.findIndex(x=>x.gt===o.gt&&x.ag===o.ag)+1:"");
+ return rows}
+
+/* ---------- Terminal report analysis (subject positions + overall position) ---------- */
+function anTable(rows,p,l){const j=jhs(cls),e6="<td></td>".repeat(6);
+ return`<table class="t"><thead><tr><th class="pn" rowspan="2">Pupil</th>${p.map(x=>`<th colspan="6">${x}</th>`).join("")}${l?`<th colspan="${j?4:3}">OVERALL</th>`:""}</tr><tr>${p.map(()=>"<th>Class<br>/50</th><th>Exam<br>/50</th><th>Total</th><th>Pos</th><th>Grd</th><th>Remark</th>").join("")}${l?`<th>Total</th><th>Avg</th>${j?"<th>Agg</th>":""}<th>Pos</th>`:""}</tr></thead><tbody>${rows.map(o=>`<tr><td class="pn">${esc(o.s.name)}</td>${p.map(x=>{const y=o.sub[x];return y?`<td>${y.c}</td><td>${y.e}</td><td class="sb">${y.t}</td><td>${ord(y.p)}</td><td><b>${y.g}</b></td><td class="rm">${y.m}</td>`:e6}).join("")}${l?`<td class="sb">${o.n?o.gt:""}</td><td>${o.n?o.avg:""}</td>${j?`<td class="sb">${o.ag??""}</td>`:""}<td class="sb">${o.pos?ord(o.pos):""}</td>`:""}</tr>`).join("")}</tbody></table>`}
+function results(){
+ const ss=subs(cls),rows=calc();
+ $("#bd").innerHTML=stu.length?`<p class="mu">${cls} · ${esc(yr)} · Term ${term} — Terminal Report Analysis. Every subject is linked: class score, exam score, subject position, grade, remark and the overall position. Updates live. Scroll sideways.</p><button class="y" style="width:100%" onclick="pa()">🖨 Print analysis sheet (all subjects)</button><button style="width:100%" onclick="pn()">📌 Print notice-board sheet (everything on one page)</button><div class="tw">${anTable(rows,ss,true)}</div>`:'<p class="mu">No pupils in this class yet.</p>'}
+window.pa=()=>{const ss=subs(cls),rows=calc(),n=Math.ceil(ss.length/3);let h="";
+ for(let b=0;b<n;b++){const p=ss.slice(b*3,b*3+3);h+=`<div class="pgs">${ttl("TERMINAL REPORT ANALYSIS")}<p style="margin:0 0 4px;font-size:11px"><b>Part ${b+1} of ${n}</b></p>${anTable(rows,p,b==n-1)}</div>`}
+ printHTML(h)};
+
+/* ---------- Attendance (daily marking + term totals) ---------- */
+const abar=()=>`<div class="r2"><button class="${am=="d"?"y":""}" onclick="setAM('d')">📅 Daily marking</button><button class="${am=="s"?"y":""}" onclick="setAM('s')">🧮 Term totals</button></div>`;
+window.setAM=v=>{am=v;unfocus();attView()};
+function attView(){
+ if(am=="s")return attSum();
+ const A=att[adate]||{},days=Object.keys(att).length,pr=stu.filter(s=>A[s.id]=="P").length,ab=stu.filter(s=>A[s.id]=="A").length;
+ $("#bd").innerHTML=abar()+`<div class="fm"><b>Daily attendance — ${cls}</b><input type="date" id="ad" value="${adate}" onchange="setD(this.value)"><div class="r2"><button class="y" onclick="allP()">✔ Everyone present</button><button class="r" style="padding:11px" onclick="clrD()">Clear this day</button></div><p class="mu" style="margin-bottom:0">Present ${pr} · Absent ${ab} · Not marked ${stu.length-pr-ab} · ${days} school day(s) recorded this term. Tap to mark; it saves instantly and feeds the report cards.</p></div>`+(stu.map(s=>{const p=Object.values(att).filter(d=>d[s.id]=="P").length;return`<div class="c"><div class="g1"><b>${esc(s.name)}</b><div class="mu">Present ${p} of ${days} days</div></div><div class="ac"><button class="${A[s.id]=="P"?"pp1":"off"}" onclick="mark('${s.id}','P')">P</button><button class="${A[s.id]=="A"?"aa1":"off"}" onclick="mark('${s.id}','A')">A</button></div></div>`}).join("")||'<p class="mu">No pupils in this class yet.</p>')}
+function attSum(){
+ const C=meta._c||{},days=Object.keys(att).length;
+ $("#bd").innerHTML=abar()+`<div class="fm"><b>Term attendance totals — ${cls}</b><label class="l1">Total days school opened this term (write once for the whole class)</label><input id="aop" type="number" inputmode="numeric" min="0" value="${esc(C.opened)}" placeholder="${days?days+" (counted from daily marks)":"e.g. 60"}"><p class="mu" style="margin-bottom:0">Then write the number of days each pupil came. It goes straight to the report cards. If you leave a pupil empty, that pupil's daily marks are used instead.</p></div>`+(stu.map(s=>{const M=meta[s.id]||{},dp=Object.values(att).filter(d=>d[s.id]=="P").length;return`<div class="c"><div class="g1"><b>${esc(s.name)}</b><div class="mu">Daily marks: ${dp} present</div></div><input type="number" inputmode="numeric" min="0" data-ad="${s.id}" value="${esc(M.days)}" placeholder="days" style="width:84px;text-align:center"></div>`}).join("")||'<p class="mu">No pupils in this class yet.</p>')}
+window.setD=v=>{if(!v)return;const d=new Date(v+"T12:00:00").getDay();if((d==0||d==6)&&!confirm("That date is a weekend. Mark attendance anyway?")){attView();return}adate=v;attView()};
+window.mark=async(id,v)=>{(att[adate]=att[adate]||{})[id]=v;attView();
+ try{await setDoc(doc(db,"scores",aid()),{cls,yt:YT(),subject:"__ATT",date:adate,v:{[id]:v}},{merge:true})}catch(er){toast("Not saved: "+er.code)}};
+window.allP=async()=>{if(!stu.length)return;const v={};stu.forEach(s=>v[s.id]="P");att[adate]=Object.assign(att[adate]||{},v);attView();
+ try{await setDoc(doc(db,"scores",aid()),{cls,yt:YT(),subject:"__ATT",date:adate,v},{merge:true});toast("Everyone marked present ✅")}catch(er){toast("Not saved: "+er.code)}};
+window.clrD=async()=>{if(!confirm("Clear all attendance for "+adate+"?"))return;delete att[adate];attView();
+ try{await deleteDoc(doc(db,"scores",aid()));toast("Day cleared")}catch(er){toast(er.code)}};
+
+/* ---------- Conduct / Attitude / Interest (its own page) ---------- */
+const CNF=[["cd","Conduct"],["at","Attitude"],["it","Interest"]];
+function cnOpts(k,cur){const l=LST(k).slice();if(cur&&!l.includes(cur))l.unshift(cur);return'<option value="">— choose —</option>'+l.map(x=>`<option value="${esc(x)}" ${x==cur?"selected":""}>${esc(x)}</option>`).join("")}
+function cnv(){
+ if(!stu.length){$("#bd").innerHTML='<p class="mu">No pupils in this class yet. Add them in the Pupils tab.</p>';return}
+ $("#bd").innerHTML=`<p class="mu">${cls} · ${esc(yr)} · Term ${term} — choose conduct, attitude and interest for each pupil. It saves instantly and shows on the report card.</p>
+<div class="fm"><b>Same for the whole class</b><p class="mu">Pick one and tap Apply to give it to every pupil. You can still change single pupils below.</p>${CNF.map(f=>`<label class="l1">${f[1]}</label><div class="r2"><select id="ca_${f[0]}">${cnOpts(f[0],"")}</select><button class="y" style="flex:none;width:90px" onclick="cnAll('${f[0]}')">Apply</button></div>`).join("")}</div>`
+ +stu.map(s=>{const M=meta[s.id]||{};return`<div class="fm"><b>${esc(s.name)}</b>${CNF.map(f=>`<label class="l1">${f[1]}</label><select data-cn="${f[0]}" data-pid="${s.id}">${cnOpts(f[0],M[f[0]])}</select>`).join("")}</div>`}).join("")
+ +`<div class="fm"><b>Ready-made lists (shared by every class)</b><p class="mu">One per line. They show in the choose menus for conduct, attitude, interest and the class teacher's remarks in all classes.</p><label class="l1">Conduct</label><textarea id="lcd" rows="4">${esc(LST("cd").join("\n"))}</textarea><label class="l1">Attitude</label><textarea id="lat" rows="3">${esc(LST("at").join("\n"))}</textarea><label class="l1">Interest</label><textarea id="lit" rows="3">${esc(LST("it").join("\n"))}</textarea><label class="l1">Class teacher's remarks</label><textarea id="ltr" rows="3">${esc(LST("tr").join("\n"))}</textarea><button class="y" style="width:100%" onclick="saveL()">Save lists</button></div>`}
+window.cnAll=async k=>{const v=$("#ca_"+k).value;if(!v||!stu.length)return;if(!confirm("Give this to all "+stu.length+" pupils in "+cls+"?"))return;
+ const p={};stu.forEach(s=>{meta[s.id]=Object.assign({},meta[s.id]||{},{[k]:v});p[s.id]=meta[s.id]});
+ try{await setDoc(doc(db,"scores",mid()),{cls,yt:YT(),subject:"__META",v:p},{merge:true});toast("Applied to whole class ✅")}catch(er){toast("Not saved: "+er.code)}
+ cnv()};
+
+/* ---------- Report cards (END OF TERM – picture style) ---------- */
+const inis=n=>{const w=String(n||"").trim().split(/\s+/).filter(Boolean);if(!w.length)return"";return((w[0][0]||"")+(w.length>1?w[w.length-1][0]:"")).toUpperCase()};
+const auto=a=>a>=80?"Excellent performance. Keep it up!":a>=70?"Very good work. Aim even higher.":a>=60?"Good effort. Keep working hard.":a>=50?"Fair performance. More effort is needed.":a>=40?"Weak result. Needs serious improvement.":"Very poor result. Needs close supervision.";
+const fm=n=>"GH₵"+(+n||0).toFixed(2);
+const GT=j=>j?[[80,100,1,"Highest"],[70,79,2,"Higher"],[60,69,3,"High"],[55,59,4,"High Average"],[50,54,5,"Average"],[45,49,6,"Low Average"],[40,44,7,"Low"],[35,39,8,"Lower"],[0,34,9,"Lowest"]]:[[90,100,"A+","Excellent"],[80,89,"A","Very Good"],[70,79,"B","Good"],[60,69,"C","Satisfactory"],[50,59,"D","Fair"],[40,49,"E","Weak"],[0,39,"F","Needs Improvement"]];
+function chart(o,ss){const L=ss.filter(x=>o.sub[x]);if(!L.length)return"";
+ const W=400,H=175,l=28,b=46,t=14,pw=W-l-6,ph=H-b-t,bw=pw/L.length;
+ let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block">`;
+ [0,20,40,60,80,100].forEach(v=>{const y=t+ph-ph*v/100;s+=`<line x1="${l}" x2="${W-6}" y1="${y}" y2="${y}" stroke="#ddd"/><text x="${l-4}" y="${y+3}" font-size="8" text-anchor="end" fill="#666">${v}</text>`});
+ L.forEach((x,i)=>{const v=o.sub[x].t,h=ph*v/100,cx=l+bw*i+bw/2,lab=L.length>6?ab(x):x.toUpperCase();
+  s+=`<rect x="${cx-bw*.36}" y="${t+ph-h}" width="${bw*.72}" height="${h}" style="fill:var(--ac)"/><text x="${cx}" y="${t+ph-h-2}" font-size="8" text-anchor="middle" fill="#222">${v}</text><text transform="translate(${cx},${t+ph+8}) rotate(-25)" font-size="7" text-anchor="end" fill="#555">${esc(lab)}</text>`});
+ return s+`</svg>`}
+function card(s,rows){
+ const j=jhs(cls),ss=subs(cls),o=(rows||calc()).find(r=>r.s.id==s.id),M=meta[s.id]||{},C=meta._c||{};
+ const hasD=M.days!==undefined&&M.days!==""&&M.days!==null;
+ const p=hasD?+M.days:Object.values(att).filter(d=>d[s.id]=="P").length,dd=+C.opened||Object.keys(att).length;
+ const hasB=[C.tui,C.pta,C.toi,M.arr].some(v=>v!==undefined&&v!==""&&v!==null),tot=(+M.arr||0)+(+C.tui||0)+(+C.pta||0)+(+C.toi||0);
+ const sig=G.sig?`<img class="sgi" src="${G.sig}" alt="">`:"";
+ const b=v=>`<span class="ink">${esc(v||"")}</span>`;
+ return`<div class="rc2 th-${th}"${thA(th)}>${rcHead()}
+<div class="bd2"><div class="ri"><div>Name: <span class="ink">${esc(s.name.toUpperCase())}</span><br>Class: <span class="ink">${cls.toUpperCase()}</span><br>Term / Year: <span class="ink">Term ${term} / ${esc(yr)}</span></div><div>No. on Roll: <span class="ink">${stu.length}</span><br>Vac date: ${b(C.vacate)}<br>Open date: ${b(C.reopen)}</div><div class="ph2">${(M.ph||s.ph)?`<img src="${M.ph||s.ph}" alt="">`:`<span class="ini">${esc(inis(s.name))}</span>`}</div></div>
+<table class="rt2"><tr><th>Subject</th><th>Class Score (50%)</th><th>Exam Score (50%)</th><th>Total (100%)</th><th>Grade</th><th>Pos.</th><th>Remarks</th></tr>${ss.map(x=>{const y=o.sub[x];return`<tr><td class="sj">${x}</td><td class="ink">${y?y.c:""}</td><td class="ink">${y?y.e:""}</td><td class="ink">${y?y.t:""}</td><td class="ink">${y?y.g:""}</td><td class="ink">${y?ord(y.p):""}</td><td class="ink">${y?y.m:""}</td></tr>`}).join("")}</table>
+<div class="rs"><div>Average Score: <span class="ink">${o.n?o.avg:""}</span><br>Total Marks: <span class="ink">${o.n?o.gt:""}</span><br>${j?`Aggregate: <span class="ink">${o.ag??""}</span><br>`:""}Attendance: <span class="ink">${dd?p+" out of "+dd:(hasD?p+" days":"")}</span></div><div><b>Conduct:</b> ${b(M.cd)}<br>Attitude: ${b(M.at)}<br>Interest: ${b(M.it)}</div></div>
+<div class="cg"><div><h4>Graphical Representation of Scores</h4>${chart(o,ss)}</div><div><h4>Grading System</h4><table class="gt2"><tr><th>Min</th><th>Max</th><th>Grade</th><th>Remarks</th></tr>${GT(j).map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("")}</table></div></div>
+${hasB?`<div class="bl"><h4>Student Bill for Next Term</h4><table><tr><th>Arrears</th><th>Tuition</th><th>P.T.A</th><th>Toiletries</th><th>Total</th></tr><tr><td>${fm(M.arr)}</td><td>${fm(C.tui)}</td><td>${fm(C.pta)}</td><td>${fm(C.toi)}</td><td><b>${fm(tot)}</b></td></tr></table></div>`:""}
+<div class="ft2"><div><b>Class Teacher's Comment:</b> <span class="ink">${esc(M.tr||(o.n?auto(o.avg):""))}</span>${M.hr?`<br><b>Head Teacher's Remarks:</b> <span class="ink">${esc(M.hr)}</span>`:""}${M.promo?`<br><b>Promoted to:</b> <span class="ink">${esc(M.promo)}</span>`:""}</div><div class="hs"><b>Headmaster's Signature:</b> ${sig||"<span style='display:inline-block;width:110px;border-bottom:1px dotted #333;height:24px'></span>"}</div></div></div></div>`}
+const pick=(id,k,l)=>`<select onchange="pick('${k}',this.value)"><option value="">— pick a ready-made ${l} —</option>${LST(k).map(x=>`<option>${esc(x)}</option>`).join("")}</select>`;
+const sigBox=()=>`<div class="fm"><b>Headmaster's signature (all report cards &amp; mock slips)</b><p class="mu">Sign on white paper, take a clear photo and choose it here. It is saved once and used by every class.</p>${G.sig?`<img class="sgi" src="${G.sig}" alt="" style="max-height:60px;display:block">`:""}<input type="file" id="sgf" accept="image/*">${G.sig?'<button class="r" onclick="clrSig()">Remove signature</button>':""}</div>`;
+function rcv(){
+ if(!stu.length){$("#bd").innerHTML='<p class="mu">No pupils in this class yet.</p>';return}
+ if(!stu.find(s=>s.id==rpid))rpid=stu[0].id;
+ const s=stu.find(x=>x.id==rpid),M=meta[rpid]||{},C=meta._c||{},inp=(l,id,v,t)=>`<label class="l1">${l}</label><input id="${id}" ${t||""} value="${esc(v||"")}">`;
+ $("#bd").innerHTML=`<select id="rp" onchange="setRP(this.value)">${stu.map(x=>`<option value="${x.id}" ${x.id==rpid?"selected":""}>${esc(x.name)}</option>`).join("")}</select>${thSel()}${isTop()?'<button style="width:100%;background:#e6ebf8;color:var(--b)" onclick="go(\'tp\')">🎨 Make my own design</button>':""}${hwSel()}<div class="r2"><button class="y" onclick="pc(0)">🖨 Print / save this card</button><button onclick="pc(1)">🖨 Print / save all ${stu.length}</button></div><div style="overflow-x:auto"><div style="min-width:640px">${card(s)}</div></div>
+<div class="fm"><b>Notes for ${esc(s.name)}</b><p class="mu">Conduct, attitude and interest are chosen in the 🎭 Conduct tab. Attendance is in the 📅 Attendance tab.</p><label class="l1">Class teacher's remarks (leave empty to auto-write from the average)</label><textarea id="mtr" rows="2">${esc(M.tr)}</textarea>${pick("mtr","tr","remark")}<label class="l1">Head teacher's remarks</label><textarea id="mhr" rows="2">${esc(M.hr)}</textarea>${inp("Promoted to (optional, usually Term 3)","mpr",M.promo)}${inp("Arrears for next term bill (GH₵)","mar",M.arr,'type="number" inputmode="decimal"')}<label class="l1">Pupil photo (optional — or add photos for the whole class in the 📷 Pupil photos page)</label><input type="file" id="phf" accept="image/*">${M.ph?'<button class="r" onclick="clrPh()">Remove photo</button>':""}</div>
+<div class="fm"><b>Whole class — ${cls}, Term ${term}</b>${inp("Days school opened (empty = counted from attendance)","cop",C.opened,'type="number" inputmode="numeric"')}${inp("Next term begins (Open date)","cre",C.reopen)}${inp("Vacation date (Vac date)","cva",C.vacate)}${inp("Tuition for next term (GH₵)","ctu",C.tui,'type="number" inputmode="decimal"')}${inp("P.T.A (GH₵)","cpa",C.pta,'type="number" inputmode="decimal"')}${inp("Toiletries (GH₵)","cto",C.toi,'type="number" inputmode="decimal"')}</div>${sigBox()}`}
+window.setRP=v=>{rpid=v;rcv()};
+window.pick=(k,v)=>{if(v)saveM(k,v)};
+window.saveL=()=>{const g=id=>$("#"+id).value.split("\n").map(x=>x.trim()).filter(Boolean);saveG({cd:g("lcd"),at:g("lat"),it:g("lit"),tr:g("ltr")})};
+window.clrSig=()=>saveG({sig:""});
+window.clrPh=()=>saveM("ph","");
+$("#bd").addEventListener("change",async e=>{
+ const id=e.target.id,d=e.target.dataset;
+ if(d.ad!==undefined){let v=e.target.value;if(v!==""){v=Math.max(0,Math.round(+v));const o=+((meta._c||{}).opened);if(o&&v>o)v=o;e.target.value=v}saveMid(d.ad,"days",v);return}
+ if(id=="aop"){saveC("opened",e.target.value);return}
+ if(d.cn){saveMid(d.pid,d.cn,e.target.value);return}
+ if(id=="slg"&&e.target.files[0]){try{saveG({sch:Object.assign({},SC(),{lg:await shrink(e.target.files[0],240,.85)})})}catch(_){toast("Could not read that image")}return}
+ if(id=="sgf"&&e.target.files[0]){try{saveG({sig:await shrink(e.target.files[0],380,.8)})}catch(_){toast("Could not read that image")}return}
+ if(id=="phf"&&e.target.files[0]){try{saveM("ph",await shrink(e.target.files[0],140,.7))}catch(_){toast("Could not read that image")}return}
+ if(d.pt&&e.target.files[0]){ptSave(d.pt,e.target.files[0]);return}
+ const m={mtr:"tr",mhr:"hr",mpr:"promo",mar:"arr"},c={cop:"opened",cre:"reopen",cva:"vacate",ctu:"tui",cpa:"pta",cto:"toi"};
+ if(m[id])saveM(m[id],e.target.value);else if(c[id])saveC(c[id],e.target.value)});
+async function saveMid(pid,k,v){meta[pid]=Object.assign({},meta[pid]||{},{[k]:v});
+ try{await setDoc(doc(db,"scores",mid()),{cls,yt:YT(),subject:"__META",v:{[pid]:meta[pid]}},{merge:true});toast("Saved ✅")}catch(er){toast("Not saved: "+er.code)}}
+async function saveM(k,v){await saveMid(rpid,k,v);if(tab=="rc")rcv()}
+async function saveC(k,v){meta._c=Object.assign({},meta._c||{},{[k]:v});
+ try{await setDoc(doc(db,"scores",mid()),{cls,yt:YT(),subject:"__META",v:{_c:meta._c}},{merge:true});toast("Saved ✅")}catch(er){toast("Not saved: "+er.code)}if(tab=="rc")rcv()}
+/* ---------- Print or save as PDF (one file / ZIP of separate PDFs / separate downloads) ---------- */
+const U_H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",U_PDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",U_ZIP="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+const LP={};
+const loadJS=u=>LP[u]||(LP[u]=new Promise((res,rej)=>{const e=document.createElement("script");e.src=u;e.onload=res;e.onerror=()=>{delete LP[u];rej(new Error("load"))};document.head.appendChild(e)}));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const fnm=x=>String(x).replace(/[\\\/:*?"<>|]+/g,"").trim().replace(/\s+/g,"_")||"pupil";
+let PM=[],PK="rc",PB="";
+function pdfItems(kind,all){
+ const l=all?stu:stu.filter(s=>s.id==rpid);
+ if(kind=="rc"){const rows=calc();return l.map(s=>({name:s.name,html:card(s,rows)}))}
+ const rows=mockCalc(),prev=mk>1?mockCalc(mk-1):null;return l.map(s=>({name:s.name,html:mcard(s,rows,prev,+mk)}))}
+function pdfMenu(kind,all,items,base){PK=kind;PB=base||"";PM=items||pdfItems(kind,all);
+ if(!PM.length)return toast("No pupils in this class yet");
+ const n=PM.length;
+ $("#pm").innerHTML=`<div class="sh"><b>${all?"All "+n+" "+(kind=="rc"?"report cards":"mock slips"):esc(PM[0].name)}</b><p class="mu">Choose what to do. Saved files go to your phone's Downloads folder.</p><button onclick="pdfGo('print')">🖨 Print now</button>${all&&n>1?`<button class="y" onclick="pdfGo('one')">📄 One PDF – all together</button><button class="y" onclick="pdfGo('zip')">🗂 Separate PDFs inside one ZIP file</button><button class="y" onclick="pdfGo('each')">📑 Separate PDFs, downloaded one by one</button>`:`<button class="y" onclick="pdfGo('one')">📄 Save as PDF</button>`}<button class="r" onclick="pdfX()">Cancel</button></div>`;
+ $("#pm").hidden=false}
+window.pdfX=()=>{$("#pm").hidden=true};
+window.pc=all=>pdfMenu("rc",all);
+function prog(m){const g=$("#pg");if(!m){g.hidden=true;return}g.hidden=false;g.querySelector("p").textContent=m}
+async function cardCanvas(html){
+ const h=document.createElement("div");h.className="pdfx";h.innerHTML=html;document.body.appendChild(h);
+ /* A4 FIX: stretch the card to the exact A4 shape so it fills the whole page top to bottom */
+ await hwLoad();
+ const c0=h.firstElementChild;if(c0){c0.classList.add("fit");fillTo(c0,Math.round(794*285/198))}
+ try{
+  h.querySelectorAll("svg rect").forEach(r=>{const f=getComputedStyle(r).fill;r.removeAttribute("style");r.setAttribute("fill",f)});
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  await sleep(80);
+  return await window.html2canvas(h,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false,scrollX:0,scrollY:0,windowWidth:794,windowHeight:1400})
+ }finally{h.remove()}}
+function addCanvas(pdf,cv,first){
+ if(!first)pdf.addPage();
+ const pw=210,ph=297,m=6,mw=pw-2*m,mh=ph-2*m;let w=mw,h=cv.height*w/cv.width;if(h>mh){h=mh;w=cv.width*h/cv.height}
+ pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",(pw-w)/2,m,w,h)}
+function dl(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),30000)}
+window.pdfGo=async mode=>{
+ const it=PM;pdfX();if(!it.length)return;
+ if(mode=="print"){printHTML(it.map(i=>`<div class="pgc">${i.html}</div>`).join(""));return}
+ const base=PB||(cls+"_"+yr+"_Term"+term+(PK=="mk"?"_Mock"+mk:"")).replace(/[^\w-]+/g,"_");
+ try{
+  prog("Getting ready…");
+  await Promise.all([loadJS(U_H2C),loadJS(U_PDF),mode=="zip"?loadJS(U_ZIP):0]);
+  const J=window.jspdf.jsPDF,newPdf=()=>new J({unit:"mm",format:"a4",orientation:"portrait"});
+  const one=mode=="one"?newPdf():null,z=mode=="zip"?new window.JSZip():null,used=new Set();
+  for(let i=0;i<it.length;i++){
+   prog("Making PDF "+(i+1)+" of "+it.length+"…");
+   const cv=await cardCanvas(it[i].html);
+   let fn=fnm(it[i].name);if(used.has(fn))fn+="_"+(i+1);used.add(fn);
+   if(one)addCanvas(one,cv,i==0);
+   else{const p=newPdf();addCanvas(p,cv,true);const b=p.output("blob");if(z)z.file(fn+".pdf",b);else{dl(b,fn+".pdf");await sleep(900)}}
+   await sleep(20)}
+  if(one)dl(one.output("blob"),(it.length==1?fnm(it[0].name):base)+".pdf");
+  if(z){prog("Making the ZIP…");dl(await z.generateAsync({type:"blob"}),base+".zip")}
+  prog("");toast("Done ✅ Check your Downloads folder")
+ }catch(e){prog("");toast("Could not make the PDF. Check your internet and try again.")}};
+
+/* ---------- Mock exams (Basic 9, Mock 1–7) ---------- */
+const r1=x=>Math.round(x);
+const ABR={"English":"ENG","Mathematics":"MATHS","Science":"SCI","Social Studies":"SOC.STD","Computing":"COMP","RME":"RME","Creative Arts":"C.ARTS","French":"FRE","Twi":"TWI","Career Technology":"CAR.TECH","History":"HIST"};
+const ab=x=>ABR[x]||x.slice(0,5).toUpperCase();
+const KEYJ="1: 80–100 Highest · 2: 70–79 Higher · 3: 60–69 High · 4: 55–59 High Average · 5: 50–54 Average · 6: 45–49 Low Average · 7: 40–44 Low · 8: 35–39 Lower · 9: 0–34 Lowest";
+/* ---------- Handwriting style for report cards & mock slips ---------- */
+const HWS=[["std","✏️ Normal printed text","Arial,Helvetica,sans-serif",400,.8],["Caveat","🖋 Caveat (neat)","'Caveat',cursive",700,1],["Kalam","🖋 Kalam (round)","'Kalam',cursive",700,.82],["Patrick Hand","🖋 Patrick Hand (clear)","'Patrick Hand',cursive",400,1],["Indie Flower","🖋 Indie Flower (friendly)","'Indie Flower',cursive",400,.85],["Shadows Into Light","🖋 Shadows Into Light (slim)","'Shadows Into Light',cursive",400,1.05],["Gloria Hallelujah","🖋 Gloria Hallelujah (wide)","'Gloria Hallelujah',cursive",400,.78],["Dancing Script","🖋 Dancing Script (joined)","'Dancing Script',cursive",700,.95],["Nanum Pen Script","🖋 Nanum Pen (pen)","'Nanum Pen Script',cursive",400,1.25]];
+const INK=[["t","Theme colour",""],["b","Blue pen","#1233b5"],["k","Black pen","#15171c"],["r","Red pen","#b3261e"],["g","Green pen","#0a6b34"]];
+const hwGet=()=>HWS.find(x=>x[0]==hw)||HWS[1];
+function applyHW(){const f=hwGet(),r=document.documentElement.style;
+ r.setProperty("--hwf",f[2]+",'Segoe Script','Bradley Hand','Comic Sans MS',cursive");r.setProperty("--hww",f[3]);r.setProperty("--hws",f[4]);
+ const c=(INK.find(x=>x[0]==ik)||INK[0])[2];if(c)r.setProperty("--ikc",c);else r.removeProperty("--ikc")}
+const hwLoad=()=>{if(!document.fonts||!document.fonts.load)return Promise.resolve();const f=hwGet();if(f[0]=="std")return Promise.resolve();
+ return Promise.race([document.fonts.load(f[3]+" 20px "+f[2].split(",")[0]).catch(()=>0),new Promise(r=>setTimeout(r,2500))])};
+const hwSel=()=>`<div class="r2"><select onchange="setHW(this.value)">${HWS.map(x=>`<option value="${x[0]}" ${hw==x[0]?"selected":""}>${x[1]}</option>`).join("")}</select><select onchange="setIK(this.value)">${INK.map(x=>`<option value="${x[0]}" ${ik==x[0]?"selected":""}>${x[0]=="t"?"🎨 ":"🖊 "}${x[1]}</option>`).join("")}</select></div><div class="hwp">Handwriting sample: <span class="ink">Ama Mensah · 85 · Excellent</span></div>`;
+const hwRe=()=>{unfocus();applyHW();if(tab=="rc")rcv();else if(tab=="mk")mockRender();else if(tab=="pr")pRepShow();else if(tab=="ap")appView()};
+window.setHW=v=>{hw=v;try{localStorage.hw=v}catch(_){}hwRe()};
+window.setIK=v=>{ik=v;try{localStorage.ik=v}catch(_){}hwRe()};
+applyHW();
+const TH0=[["c","⚪ Classic (like picture)"],["y","🟡 Yellow design"],["b","🔵 Blue design"],["p","🌸 Pink design"],["g","🟢 Green design"],["v","🟣 Purple design"],["o","🟠 Orange design"]];
+const thList=()=>TH0.concat((G.tp||[]).map(x=>[x.k,"⭐ "+x.n]));
+const thSel=()=>`<select onchange="setTh(this.value)">${(ROLE=="parent"?[["_s","🏫 School's own design"]]:[]).concat(thList()).map(x=>`<option value="${x[0]}" ${th==x[0]?"selected":""}>${esc(x[1])}</option>`).join("")}</select>`;
+const unfocus=()=>{if(document.activeElement&&document.activeElement.blur)document.activeElement.blur()};
+window.setTh=v=>{th=v;localStorage.th=v;unfocus();if(tab=="rc")rcv();else if(tab=="mk")mockRender();else if(tab=="pr")pRepShow()};
+function mockCalc(n=mk){const ss=subs(cls),rows=stu.map(s=>({s,sub:{},gt:0,n:0}));
+ ss.forEach(x=>{const k=mkey(x,n),vs=rows.map(o=>{const v=((sc[k]||{})[o.s.id]||[])[0];return v!=null&&v!==""?+v:null}),p=rank(vs);
+  rows.forEach((o,i)=>{const t=vs[i];if(t!=null){const g=gr(t,true);o.sub[x]={t,g:g[0],m:g[1],p:p[i]};o.gt+=t;o.n++}})});
+ rows.forEach(o=>{o.ag=agg(o.sub,ss);o.avg=o.n?r1(o.gt/o.n):0});
+ const rk=rows.filter(o=>o.n).sort((a,b)=>((a.ag??99)-(b.ag??99))||b.gt-a.gt);
+ rows.forEach(o=>o.pos=o.n?rk.findIndex(x=>x.gt===o.gt&&x.ag===o.ag)+1:"");return rows}
+function mstat(rows,ss){const o={};ss.forEach(x=>{const v=rows.filter(r=>r.sub[x]).map(r=>r.sub[x].t);o[x]={hi:v.length?Math.max(...v):"",av:v.length?r1(v.reduce((a,b)=>a+b,0)/v.length):""}});return o}
+const mg=()=>"m"+stu.map(s=>s.id).join()+"|"+cls+YT()+mk+mv;
+const mhead=()=>`<div class="r2"><select onchange="setM(this.value)">${[1,2,3,4,5,6,7].map(n=>`<option value="${n}" ${n==mk?"selected":""}>Mock ${n}</option>`).join("")}</select><select onchange="setMV(this.value)"><option value="e" ${mv=="e"?"selected":""}>✏️ Enter scores</option><option value="a" ${mv=="a"?"selected":""}>🏆 Analysis sheet</option><option value="r" ${mv=="r"?"selected":""}>📄 Report cards</option></select></div>`;
+function mockRender(){SIG=mv=="e"?mg():"";if(mv=="e")mockT();else if(mv=="a")mockAn();else mockRC()}
+window.setM=v=>{mk=v;localStorage.mk=v;unfocus();mockRender()};
+window.setMV=v=>{mv=v;unfocus();mockRender()};
+window.setRP2=v=>{rpid=v;unfocus();mockRC()};
+function mockT(){const ss=subs(cls);
+ $("#bd").innerHTML=mhead()+(stu.length?`<p class="mu">BECE mock — enter each subject out of 100. Grades 1–9, aggregate (4 core + best 2) and position are automatic. Every teacher sees it live. Use the menu above for the analysis sheet and report cards.</p><div class="tw"><table class="t"><tr><th class="pn">Pupil</th>${ss.map(x=>`<th>${x}<br>/100</th>`).join("")}<th>Total</th><th>Agg</th><th>Pos</th></tr>${stu.map(s=>`<tr data-id="${s.id}"><td class="pn">${esc(s.name)}</td>${ss.map(x=>`<td><input type="number" inputmode="numeric" step="1" min="0" max="100" data-ms="${x}"><div class="gx"></div></td>`).join("")}<td class="mt sb"></td><td class="ma sb"></td><td class="mp sb"></td></tr>`).join("")}</table></div>`:'<p class="mu">No pupils in this class yet.</p>');mockF()}
+function mockF(){if(tab!="mk"||mv!="e"||!stu.length)return;
+ mockCalc().forEach(o=>{const tr=document.querySelector(`tr[data-id="${o.s.id}"]`);if(!tr)return;
+  tr.querySelectorAll("input").forEach(e=>{const x=e.dataset.ms,v=((sc[mkey(x)]||{})[o.s.id]||[])[0];if(document.activeElement!==e)e.value=v??"";e.nextElementSibling.textContent=o.sub[x]?"("+o.sub[x].g+")":""});
+  tr.querySelector(".mt").textContent=o.n?o.gt:"";tr.querySelector(".ma").textContent=o.ag??"";tr.querySelector(".mp").textContent=o.pos?ord(o.pos):""})}
+
+/* notice-board sheet: everything squeezed on ONE A4 landscape page, ranked by position */
+function board(title,ss,rows,j){
+ const L=rows.slice().sort((a,b)=>(a.pos||9999)-(b.pos||9999)||a.s.name.localeCompare(b.s.name)),N=L.length,st=mstat(rows,ss);
+ const rh=Math.min(8,150/(N+3)),fs=Math.max(1.9,rh*.58),sw=((100-5-19-5.5*(2+(j?1:0)))/ss.length).toFixed(2);
+ const cg=`<colgroup><col style="width:5%"><col style="width:19%">${ss.map(()=>`<col style="width:${sw}%">`).join("")}<col style="width:5.5%"><col style="width:5.5%">${j?'<col style="width:5.5%">':""}</colgroup>`;
+ return`<div class="msheet th-${th}" style="--rh:${rh}mm;--fs:${fs}mm;${thV(th)}"><div class="mbn">${LG()}<div class="mtt"><div class="m1">${esc(SS())}</div><div class="m2">${title}</div></div><div class="m3">${cls}<br>${esc(yr)} · Term ${term}</div></div>
+<div class="mbd"><table class="mtb">${cg}<thead><tr><th>POS</th><th>PUPIL</th>${ss.map(x=>`<th>${ab(x)}</th>`).join("")}<th>TOTAL</th><th>AVG</th>${j?"<th>AGG</th>":""}</tr></thead><tbody>${L.map(o=>`<tr class="${o.pos&&o.pos<4?"top"+o.pos:""}"><td class="mp1">${o.pos?ord(o.pos):""}</td><td class="mn">${esc(o.s.name)}</td>${ss.map(x=>{const y=o.sub[x];return`<td>${y?y.t+"<sup>"+y.g+"</sup>":""}</td>`}).join("")}<td class="mtt2">${o.n?o.gt:""}</td><td>${o.n?o.avg:""}</td>${j?`<td class="mag">${o.ag??""}</td>`:""}</tr>`).join("")}<tr class="mf"><td colspan="2">HIGHEST</td>${ss.map(x=>`<td>${st[x].hi}</td>`).join("")}<td colspan="${j?3:2}"></td></tr><tr class="mf"><td colspan="2">CLASS AVERAGE</td>${ss.map(x=>`<td>${st[x].av}</td>`).join("")}<td colspan="${j?3:2}"></td></tr></tbody></table></div>
+<div class="mft"><span>${ss.map(x=>ab(x)+" = "+x).join(" · ")}</span><span>Small figure = grade${j?" · AGG = 4 core + best 2 (lower is better)":""} · Printed ${new Date().toLocaleDateString("en-GB")}</span></div></div>`}
+function fitPv(){const o=document.querySelector(".pv");if(!o)return;const i=o.firstElementChild;i.style.transform="none";const k=Math.min(1,o.clientWidth/i.offsetWidth);i.style.transformOrigin="0 0";i.style.transform=`scale(${k})`;o.style.height=(i.offsetHeight*k)+"px"}
+addEventListener("resize",fitPv);
+function mockAn(){const rows=mockCalc();
+ $("#bd").innerHTML=mhead()+(stu.length?`${thSel()}<p class="mu">Notice-board sheet for Mock ${mk}: all subjects, totals, aggregate and positions on one A4 landscape page, ranked best to last. Print it and paste it up.</p><button class="y" style="width:100%" onclick="pmA()">🖨 Print analysis sheet</button><div class="pv"><div>${board(cls.toUpperCase()+" · MOCK "+mk+" EXAMINATION · ANALYSIS SHEET",subs(cls),rows,true)}</div></div>`:'<p class="mu">No pupils in this class yet.</p>');fitPv()}
+window.pmA=()=>printHTML(`<div class="pgs">${board(cls.toUpperCase()+" · MOCK "+mk+" EXAMINATION · ANALYSIS SHEET",subs(cls),mockCalc(),true)}</div>`);
+window.pn=()=>printHTML(`<div class="pgs">${board("TERMINAL REPORT ANALYSIS · NOTICE BOARD",subs(cls),calc(),jhs(cls))}</div>`);
+
+/* mock result slip (report card) */
+function mcard(s,rows,prev,n){
+ const ss=subs(cls),o=rows.find(r=>r.s.id==s.id),pv=prev&&prev.find(r=>r.s.id==s.id),st=mstat(rows,ss);
+ const tr=(a,b)=>a>b?`<span class="up">▲ ${r1(a-b)}</span>`:a<b?`<span class="dn">▼ ${r1(b-a)}</span>`:"＝";
+ const L=ss.filter(x=>o.sub[x]).sort((a,b)=>o.sub[b].t-o.sub[a].t),best=L[0],worst=L[L.length-1],ag=o.ag;
+ const band=ag==null?"":ag<=10?"Excellent":ag<=15?"Very good":ag<=24?"Good":ag<=35?"Fair":"Needs urgent work";
+ const sig=G.sig?`<img class="sgi" src="${G.sig}" alt="">`:"";
+ let prog="First mock";
+ if(n>1){if(pv&&pv.ag!=null&&ag!=null)prog=ag<pv.ag?`<span class="up">▲ Improved by ${pv.ag-ag}</span>`:ag>pv.ag?`<span class="dn">▼ Dropped by ${ag-pv.ag}</span>`:"＝ Same aggregate";else if(pv&&pv.n&&o.n)prog=tr(o.avg,pv.avg)+" avg";else prog="–"}
+ const tbl=ss.map(x=>{const y=o.sub[x],py=pv&&pv.sub[x],w=y?Math.min(100,y.t):0;return`<tr><td class="sj">${x}</td><td class="ink" style="background:linear-gradient(90deg,var(--bar) ${w}%,transparent ${w}%)">${y?y.t:""}</td><td class="ink">${y?y.g:""}</td><td class="ink l">${y?y.m:""}</td><td class="ink">${y?ord(y.p):""}</td><td class="ink">${st[x].av}</td><td class="ink">${y&&py?tr(y.t,py.t):"–"}</td></tr>`}).join("");
+ return`<div class="card mc th-${th}"${thA(th)}><div class="stamp">MOCK<b>${n}</b></div>
+<div class="ch">${LG()}<div><div class="sn">${esc(SS())}</div><div class="sl">${esc(SC().m)}</div></div></div>
+<div class="rb">BECE MOCK EXAMINATION ${n} · RESULT SLIP</div>
+<div class="inf"><div><small>Candidate</small><span class="ink">${esc(s.name)}</span></div><div><small>Class</small><span class="ink">${cls}</span></div><div><small>Examination</small><span class="ink">Mock ${n}</span></div><div><small>Academic year</small><span class="ink">${esc(yr)} · Term ${term}</span></div></div>
+<table class="rt mt2"><tr><th style="text-align:left">Subject</th><th>Score<br>/100</th><th>Grade<br>(1–9)</th><th>Remark</th><th>Position</th><th>Class<br>average</th><th>Vs Mock ${n>1?n-1:"–"}</th></tr>${tbl}</table>
+<div class="sm"><div><small>Total marks</small><span class="ink">${o.n?o.gt+" / "+o.n*100:""}</span></div><div><small>Average</small><span class="ink">${o.n?o.avg+"%":""}</span></div><div><small>Aggregate</small><span class="ink">${ag??""}</span></div><div><small>Overall position</small><span class="ink">${o.pos?ord(o.pos)+" of "+stu.length:""}</span></div></div>
+<div class="sm" style="margin-top:0"><div><small>Readiness</small><span class="ink">${band}</span></div><div><small>Strongest subject</small><span class="ink">${best?best+" ("+o.sub[best].t+")":""}</span></div><div><small>Needs most work</small><span class="ink">${worst&&L.length>1?worst+" ("+o.sub[worst].t+")":""}</span></div><div><small>${n>1?"Vs Mock "+(n-1):"Progress"}</small><span class="ink">${prog}</span></div></div>
+<div class="nt"><b>How to read this slip:</b> grade 1 is the best and 9 the lowest. Aggregate = 4 core subjects (English, Mathematics, Science, Social Studies) + the best 2 others; the lower the aggregate, the better. A mock is practice for the BECE, so use the weakest subjects to plan your revision.</div>
+<div class="sg"><div>${sig}Head teacher's signature</div><div>Date</div></div>
+<div class="ky"><b>Grading key:</b> ${KEYJ}</div></div>`}
+function mockRC(){
+ if(!stu.length){$("#bd").innerHTML=mhead()+'<p class="mu">No pupils in this class yet.</p>';return}
+ if(!stu.find(s=>s.id==rpid))rpid=stu[0].id;
+ const rows=mockCalc(),prev=mk>1?mockCalc(mk-1):null,s=stu.find(x=>x.id==rpid);
+ $("#bd").innerHTML=mhead()+`<select onchange="setRP2(this.value)">${stu.map(x=>`<option value="${x.id}" ${x.id==rpid?"selected":""}>${esc(x.name)}</option>`).join("")}</select>${thSel()}${hwSel()}<div class="r2"><button class="y" onclick="pmc(0)">🖨 Print / save this slip</button><button onclick="pmc(1)">🖨 Print / save all ${stu.length}</button></div><div style="overflow-x:auto"><div style="min-width:640px">${mcard(s,rows,prev,+mk)}</div></div>${sigBox()}`}
+window.pmc=all=>pdfMenu("mk",all);
+
+/* ---------- Admin: overview ---------- */
+function ov(){if(tab!="ov")return;
+ $("#bd").innerHTML=`<p class="mu">${esc(yr)} · Term ${term} · tap a class to see exactly what its teacher sees.</p>`+(CL.length?"":'<p class="mu">You have no classes yet. Open ☰ → Classes to add your own.</p>')+CL.map(c=>{
+  const P=aS.filter(s=>s.cls==c),ss=subs(c),V=aC[c]||{};let done=0;
+  ss.forEach(x=>P.forEach(p=>{if(cs((V[x]||{})[p.id]))done++}));
+  const t=P.length*ss.length,pc=t?Math.round(done/t*100):0,st=ss.filter(x=>V[x]).length;
+  return`<div class="c" style="cursor:pointer" onclick="goC('${c}')"><div class="g1"><b>${c}</b><div class="mu">${P.length} pupils · ${st} of ${ss.length} subjects started</div><div class="bar"><i style="width:${pc}%"></i></div></div><b class="pcv">${pc}%</b></div>`}).join("")}
+
+/* ---------- Pupils (admin AND teachers, for their own classes) ---------- */
+function pupils(){
+ const keep=$("#nm")?$("#nm").value:"";
+ $("#bd").innerHTML=`<div class="fm"><b>Add pupils to ${cls}</b><p class="mu">One full name per line.</p><textarea id="nm" rows="5" placeholder="Ama Mensah&#10;Kofi Boateng">${esc(keep)}</textarea><button class="y" style="width:100%" onclick="addP()">+ Add pupils</button></div><p class="mu">${stu.length} pupils in ${cls}</p>${stu.map(s=>`<div class="c"><div class="g1">${esc(s.name)}</div><button class="r" onclick="delP('${s.id}')">🗑</button></div>`).join("")}`}
+window.addP=async()=>{const n=$("#nm").value.split("\n").map(x=>x.trim()).filter(Boolean);if(!n.length)return;
+ const b=writeBatch(db);n.forEach(x=>b.set(doc(collection(db,"students")),{name:x,cls}));
+ try{await b.commit();$("#nm").value="";toast(n.length+" pupils added ✅")}catch(e){toast("Failed: "+e.code)}};
+/* ---------- Subjects page (admin / head): edit the subjects of every class ---------- */
+const sjClean=t=>{const seen=new Set(),o=[];String(t||"").split("\n").forEach(x=>{x=x.replace(/[<>&"'`\/\\|]/g,"").replace(/\s+/g," ").trim().slice(0,30);if(!x||/^__/.test(x))return;const k=x.toLowerCase();if(seen.has(k))return;seen.add(k);o.push(x)});return o.slice(0,16)};
+function sjView(){
+ if(!isTop()){$("#bd").innerHTML='<p class="mu">Only the admin or head teacher can change subjects.</p>';return}
+ const o=G.sub||{},P=o._p&&o._p.length?o._p:SUBD("Basic 1"),J=o._j&&o._j.length?o._j:SUBD("Basic 7"),own=o[cls]&&o[cls].length,cur=subs(cls);
+ const box=(t,p,k,l)=>`<div class="fm"><b>${t}</b><p class="mu">${p}</p><textarea id="sj_${k}" rows="${Math.max(5,l.length+1)}">${esc(l.join("\n"))}</textarea><button class="y" style="width:100%" onclick="sjSave('${k}')">Save</button></div>`;
+ $("#bd").innerHTML=`<p class="mu">The app has no built-in subjects. Write one subject on each line, then tap Save. Scores, report cards, analysis and mock slips follow these lists straight away. Up to 16 subjects.</p>`
+ +box("Lower classes","Used by every class you set as a Lower class (set on the Classes page).","_p",P)
+ +box("JHS classes","Used by every class you set as a JHS class.","_j",J)
+ +`<div class="fm"><b>Only for ${esc(cls)}</b><p class="mu">${own?"This class has its own list.":"This class uses the list above."} Choose another class at the top to set a different one. A class list overrides the lists above.</p><textarea id="sj_c" rows="${Math.max(5,cur.length+1)}">${esc(cur.join("\n"))}</textarea><button class="y" style="width:100%" onclick="sjSave('${esc(cls)}')">Save for ${esc(cls)} only</button>${own?`<button style="width:100%;background:#e6ebf8;color:var(--b)" onclick="sjReset('${esc(cls)}')">Use the lists above again</button>`:""}</div>`
+ +`<div class="fm"><b>Good to know</b><p class="mu" style="margin-bottom:0">• If you rename a subject, it starts empty — the old scores stay saved under the old name.<br>• Removing a subject only hides it. Add the same name back and its scores return.<br>• Basic 9 mock aggregate uses English, Mathematics, Science and Social Studies, so keep those names as they are.<br>• Subject names cannot contain slashes, | &lt; &gt; &amp; or quote marks (they are removed).</p></div>`}
+window.sjSave=k=>{const l=sjClean($("#sj_"+(k=="_p"||k=="_j"?k:"c")).value);if(l.length<1)return toast("Write at least one subject");saveG({sub:Object.assign({},G.sub||{},{[k]:l})})};
+window.sjReset=k=>{if(!confirm("Make "+k+" use the shared list again?"))return;saveG({sub:Object.assign({},G.sub||{},{[k]:[]})})};
+
+/* ---------- Notices: heads / admin send a message, everyone sees a bar on top ---------- */
+const ntVis=n=>n.aud=="all"||(ROLE=="parent"?n.aud=="parents":n.aud=="staff");
+const ntDis=()=>{try{return JSON.parse(localStorage.ndis||"[]")}catch(_){return[]}};
+const ntWhen=t=>{try{return new Date(t).toLocaleString([],{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}catch(_){return""}};
+function ntBar(){const b=$("#nb");if(!b)return;
+ const d=ntDis(),L=NT.filter(n=>ntVis(n)&&!d.includes(n.id));
+ if(!L.length||!me){b.hidden=true;b.innerHTML="";return}
+ const n=L[0];
+ b.innerHTML=`<div class="nbx" onclick="ntOpen('${n.id}')"><span class="ni">🔔</span><div class="nt1"><b>${esc(n.title)}</b>${L.length>1?` <small>(+${L.length-1} more)</small>`:""}<br><span>${esc(n.msg)}</span></div><button aria-label="Dismiss" onclick="event.stopPropagation();ntDismiss('${n.id}')">✕</button></div>`;b.hidden=false}
+window.ntDismiss=id=>{const d=ntDis();if(!d.includes(id))d.push(id);try{localStorage.ndis=JSON.stringify(d.slice(-200))}catch(_){}ntBar()};
+window.ntOpen=id=>{const n=NT.find(x=>x.id==id);if(!n)return;
+ $("#pm").innerHTML=`<div class="sh"><b>${esc(n.title)}</b><p class="mu" style="margin:2px 0 8px">${ntWhen(n.at)} · ${esc(n.by||"School")}</p><p style="white-space:pre-wrap;line-height:1.5;margin:0 0 10px">${esc(n.msg)}</p><button class="y" onclick="ntDismiss('${n.id}');pdfX()">Got it — hide the bar</button><button style="background:#e6ebf8;color:var(--b)" onclick="pdfX()">Close</button></div>`;$("#pm").hidden=false};
+function wNotices(){if(unN){unN();unN=null}
+ unN=onSnapshot(collection(db,"notices"),s=>{NT=s.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.title).sort((a,b)=>(b.at||0)-(a.at||0));ntBar();if(tab=="nt"&&!busy())ntView()},e=>{NT=[];ntBar()})}
+const NTRULE="match /notices/{id} {\n  allow read: if request.auth != null;\n  allow write: if request.auth != null\n    && get(/databases/$(database)/documents/teachers/$(request.auth.token.email.lower())).data.get('role', 'teacher') in ['admin','head'];\n}";
+function ntView(){
+ const top=isTop(),L=NT.filter(n=>top||ntVis(n));
+ const AUD={all:"Everyone",staff:"Staff only",parents:"Parents only"};
+ const comp=top?`<div class="fm"><b>Send a notice</b><p class="mu">It shows as a bar at the top of the app for the people you choose.</p><input id="nt_t" maxlength="80" placeholder="Title, e.g. School closes on Friday"><textarea id="nt_m" rows="4" maxlength="1500" placeholder="Write the message…"></textarea><select id="nt_a"><option value="all">📣 Everyone (staff and parents)</option><option value="staff">🧑‍🏫 Staff only</option><option value="parents">👪 Parents only</option></select><button class="y" style="width:100%" onclick="ntSend()">🔔 Send notice</button><details><summary class="mu">If it says "permission-denied"</summary><p class="mu">In Firebase → Firestore → Rules, add this inside the <b>match /databases/{database}/documents</b> block, then Publish:</p><textarea rows="7" readonly onclick="this.select()">${esc(NTRULE)}</textarea></details></div>`:"";
+ $("#bd").innerHTML=comp+(L.length?L.map(n=>`<div class="ntc"><h4>${esc(n.title)}${top?`<span class="tg">${AUD[n.aud]||"Everyone"}</span>`:""}</h4><div class="mu">${ntWhen(n.at)} · ${esc(n.by||"School")}</div><p>${esc(n.msg)}</p>${top?`<button class="r" onclick="ntDel('${n.id}')">🗑 Delete</button>`:""}</div>`).join(""):'<p class="mu">No notices yet.</p>')}
+window.ntSend=async()=>{const t=$("#nt_t").value.trim(),m=$("#nt_m").value.trim(),a=$("#nt_a").value;
+ if(!t||!m)return toast("Write a title and a message");
+ try{await setDoc(doc(collection(db,"notices")),{title:t,msg:m,aud:a,at:Date.now(),by:me.name||me.email,byEmail:me.email});$("#nt_t").value="";$("#nt_m").value="";toast("Notice sent ✅")}
+ catch(er){toast(er.code=="permission-denied"?"Not sent: add the notices rule in Firebase (see below)":"Not sent: "+(er.code||"error"))}};
+window.ntDel=async id=>{if(!confirm("Delete this notice for everyone?"))return;try{await deleteDoc(doc(db,"notices",id))}catch(er){toast(er.code)}};
+
+/* ---------- Pupil photos page (one photo per pupil, saved once for all terms) ---------- */
+function ptView(){
+ if(!stu.length){$("#bd").innerHTML='<p class="mu">No pupils in this class yet. Add them in the Pupils tab.</p>';return}
+ const n=stu.filter(s=>s.ph).length;
+ $("#bd").innerHTML=`<p class="mu">${esc(cls)} — ${n} of ${stu.length} pupils have a photo. Pick the class at the top, then tap 📷 beside each pupil. A photo is saved once and shows on the report cards of every term. Pupils without a photo show their initials.</p>`
+ +stu.map(s=>`<div class="c"><div class="pth">${s.ph?`<img src="${s.ph}" alt="">`:`<span>${esc(inis(s.name))}</span>`}</div><div class="g1"><b>${esc(s.name)}</b></div><div class="ac"><label class="ptb">${s.ph?"Change":"📷 Add"}<input type="file" accept="image/*" data-pt="${s.id}" hidden></label>${s.ph?`<button class="r" onclick="ptDel('${s.id}')">🗑</button>`:""}</div></div>`).join("")}
+async function ptSave(id,f){try{toast("Saving photo…");const v=await shrink(f,220,.78);await setDoc(doc(db,"students",id),{ph:v},{merge:true});toast("Photo saved ✅")}catch(er){toast(er&&er.code?"Not saved: "+er.code:"Could not read that image")}}
+window.ptDel=async id=>{if(!confirm("Remove this photo?"))return;try{await setDoc(doc(db,"students",id),{ph:""},{merge:true});toast("Photo removed")}catch(er){toast(er.code)}};
+window.delP=async id=>{if(confirm("Delete this pupil?"))try{await deleteDoc(doc(db,"students",id))}catch(e){toast(e.code)}};
+
+/* ---------- Admin: teachers ---------- */
+function tcForm(){
+ $("#bd").innerHTML=`<div class="fm"><b>Add or edit a staff member</b><input id="tn" placeholder="Full name"><input id="te" type="email" placeholder="Teacher's Gmail / email" autocapitalize="none"><input id="tp" type="password" placeholder="Password (6+ characters) – only for a new person"><p class="mu">Classes this teacher can enter scores for:</p><div class="chk" id="cb">${CL.map(c=>`<label><input type="checkbox" value="${c}"> ${c}</label>`).join("")}</div><label class="l1">Role</label><select id="tr"><option value="teacher">Teacher – enters marks for the classes ticked above</option><option value="head">Head teacher – sees all classes, adds parents, publishes reports</option><option value="admin">Admin – everything, including adding staff</option></select><button class="y" style="width:100%" onclick="saveT()">Save</button></div><h4 style="color:var(--b)">Staff</h4><div id="tl"></div>`;tlist()}
+function tlist(){const l=$("#tl");if(!l)return;
+ l.innerHTML=tl.map(t=>`<div class="c"><div class="g1"><b>${esc(t.name)}</b>${roleOf(t)=="admin"?" ⭐":roleOf(t)=="head"?" 🎓":""}<div class="mu">${esc(t.e)}<br>${roleOf(t)=="admin"?"Admin · all classes":roleOf(t)=="head"?"Head teacher · all classes":esc((t.classes||[]).join(", ")||"No class yet")}</div></div><div class="ac"><button onclick="editT('${esc(t.e)}')">✏️</button><button class="y" onclick="resetT('${esc(t.e)}')">🔑</button><button class="r" onclick="delT('${esc(t.e)}')">🗑</button></div></div>`).join("")||'<p class="mu">No teachers yet.</p>'}
+window.editT=e=>{const t=tl.find(x=>x.e==e);if(!t)return;$("#tn").value=t.name||"";$("#te").value=e;$("#te").readOnly=true;$("#tr").value=roleOf(t);
+ document.querySelectorAll("#cb input").forEach(i=>i.checked=(t.classes||[]).includes(i.value));scrollTo(0,0);toast("Editing "+e)};
+window.saveT=async()=>{
+ const n=$("#tn").value.trim(),e=$("#te").value.trim().toLowerCase(),p=$("#tp").value,cl=[...document.querySelectorAll("#cb input:checked")].map(x=>x.value),rl=$("#tr").value;
+ if(!n||!e.includes("@"))return toast("Enter the name and email");
+ try{
+  if(p){if(p.length<6)return toast("Password needs 6 or more characters");
+   try{await createUserWithEmailAndPassword(auxAuth,e,p);await signOut(auxAuth)}
+   catch(er){if(er.code!="auth/email-already-in-use")throw er;toast("That login already existed – profile updated")}}
+  await setDoc(doc(db,"teachers",e),{name:n,role:rl,admin:rl=="admin",classes:cl});
+  toast(p?"Saved – they can log in now ✅":"Profile saved ✅ (add a password if they have no login yet)");tcForm()}
+ catch(er){toast("Failed: "+(er.code||er.message))}};
+window.resetT=async e=>{try{await sendPasswordResetEmail(auth,e);toast("Password reset email sent to "+e)}catch(er){toast(er.code)}};
+window.delT=async e=>{if(confirm("Remove this teacher's access?"))try{await deleteDoc(doc(db,"teachers",e))}catch(er){toast(er.code)}};
+
+/* =====================================================================
+   v2 ADDITIONS: side menu · parents · publishing to parents · appearance · account
+   ===================================================================== */
+
+/* ---------- Side menu (the ☰ button) ---------- */
+window.openMenu=()=>{
+ if(!me)return;
+ const P=ROLE=="parent",it=[],h=l=>it.push(`<h5>${l}</h5>`),
+  add=(t,i,l,show)=>{if(show!==false)it.push(`<button class="${tab==t?"on":""}" onclick="go('${t}')"><i>${i}</i>${l}</button>`)};
+ if(P){h("My children");add("ph","🏠","Report cards")}
+ else{
+  if(isTop()){h("School");add("ov","📊","Overview");add("cl","🏫","Classes");add("sj","📚","Subjects");add("sd","⚙️","School details");add("tp","🎨","Report designs")}
+  h("Class work");add("sc","📝","Scores");add("at","📅","Attendance");add("cn","🎭","Conduct, attitude &amp; interest");add("rc","📄","Terminal report cards");add("rs","🏆","Terminal analysis");add("mk","🎯","Mock exams (final JHS class)",mine().some(isMk));add("pu","👥","Pupils");add("pt","📷","Pupil photos");
+  if(isTop()){h("Parents");add("pb","📢","Publish to parents");add("pa","👪","Parent accounts")}
+  if(isAdm()){h("Administration");add("tc","🧑‍🏫","Staff (teachers &amp; heads)")}
+ }
+ h("Notices");add("nt","🔔","Notices");
+ h("Settings");add("ap","🎨","Appearance");add("ac","🔐","My account");
+ if(!$("#ib").hidden)it.push(`<button onclick="closeMenu();inst()"><i>⬇</i>Install app</button>`);
+ it.push(`<button onclick="closeMenu();logout()"><i>🚪</i>Log out</button>`);
+ $("#mn").innerHTML=`<div class="mh">${LG()}<div><b>${esc(SC().s||SC().n)}</b><small>${esc(me.name||me.email)} · ${RL[ROLE]}</small></div></div><div class="ml">${it.join("")}</div>`;
+ $("#mo").hidden=false;$("#mn").classList.add("open")};
+window.closeMenu=()=>{$("#mn").classList.remove("open");$("#mo").hidden=true};
+window.go=t=>{closeMenu();if(t=="mk"&&!isMk(cls)){const m=mine().find(isMk);if(m){cls=m;watch()}}tab=t;draw();scrollTo(0,0)};
+addEventListener("keydown",e=>{if(e.key=="Escape")closeMenu()});
+
+/* ---------- Parent accounts (head or admin) ---------- */
+function parForm(){
+ PW={};PE="";
+ $("#bd").innerHTML=`<div class="fm"><b id="pft">Add a parent</b>
+<input id="pn" placeholder="Parent's full name"><input id="pph" type="tel" inputmode="tel" placeholder="Phone number (the parent signs in with it)"><input id="pe" type="email" placeholder="Email (optional – only if the parent has one)" autocapitalize="none">
+<div class="r2"><input id="ppw" placeholder="Password (6+ characters)"><button type="button" class="y" style="flex:none;width:96px" onclick="genPw()">🎲 Make</button></div>
+<p class="mu" style="margin-bottom:2px">Link the parent to their child or children:</p><select id="pc" onchange="parPick()">${CL.map(c=>`<option>${c}</option>`).join("")}</select><div id="pk"></div><div id="pch"></div>
+<button class="y" style="width:100%" onclick="saveP()">Save parent</button><button style="width:100%;background:#e6ebf8;color:var(--b)" onclick="parForm()">Clear the form</button><div id="pinfo"></div></div>
+<h4 style="color:var(--b)">Parents (<span id="pcn">0</span>)</h4><input id="psq" placeholder="🔍 Search by parent, phone or child" oninput="parList()"><div id="pl"></div>`;
+ parPick();parChips();parList()}
+function parPick(){const c=$("#pc")&&$("#pc").value,k=$("#pk");if(!k)return;
+ const l=aS.filter(s=>s.cls==c).sort((a,b)=>a.name.localeCompare(b.name));
+ k.innerHTML=l.length?`<div class="chk" style="grid-template-columns:1fr 1fr;margin:6px 0">${l.map(s=>`<label><input type="checkbox" data-wid="${s.id}" data-wn="${esc(s.name)}" data-wc="${esc(c)}" ${PW[s.id]?"checked":""} onchange="togW(this)"> ${esc(s.name)}</label>`).join("")}</div>`:`<p class="mu">No pupils in ${esc(c||"")} yet.</p>`}
+window.parForm=parForm;window.parPick=parPick;
+window.togW=el=>{const d=el.dataset;if(el.checked)PW[d.wid]={n:d.wn,c:d.wc};else delete PW[d.wid];parChips()};
+function parChips(){const e=$("#pch");if(!e)return;const k=Object.keys(PW);
+ e.innerHTML=k.length?'<p class="mu" style="margin:6px 0 2px">Linked:</p>'+k.map(id=>`<span class="chip">${esc(PW[id].n)} <small>(${esc(PW[id].c)})</small> <a onclick="rmW('${id}')">✕</a></span>`).join(""):'<p class="mu">No child linked yet.</p>'}
+window.rmW=id=>{delete PW[id];parChips();parPick()};
+window.genPw=()=>{$("#ppw").value=String(Math.floor(100000+Math.random()*900000))};
+const loginOf=e=>e.endsWith(AL)?e.slice(0,-AL.length):e;
+function parList(){const l=$("#pl");if(!l)return;
+ const q=($("#psq")?$("#psq").value:"").toLowerCase().trim();
+ const L=pl.filter(p=>!q||(p.name||"").toLowerCase().includes(q)||(p.phone||"").includes(q)||Object.values(p.wardNames||{}).some(w=>(w.n||"").toLowerCase().includes(q)));
+ if($("#pcn"))$("#pcn").textContent=pl.length;
+ l.innerHTML=L.map(p=>`<div class="c"><div class="g1"><b>${esc(p.name)}</b><div class="mu">Login: ${esc(loginOf(p.e))}<br>${Object.values(p.wardNames||{}).map(w=>esc(w.n)+" ("+esc(w.c)+")").join(", ")||"No child linked"}</div></div><div class="ac"><button onclick="editP('${esc(p.e)}')">✏️</button><button class="y" onclick="resetP('${esc(p.e)}')">🔑</button><button class="r" onclick="delPa('${esc(p.e)}')">🗑</button></div></div>`).join("")||'<p class="mu">No parents yet.</p>'}
+window.parList=parList;
+function wPar(){
+ ua.push(onSnapshot(collection(db,"students"),s=>{aS=s.docs.map(d=>({id:d.id,...d.data()}));if(tab=="pa")parPick()},er=>toast(er.code)));
+ ua.push(onSnapshot(collection(db,"parents"),s=>{pl=s.docs.map(d=>({e:d.id,...d.data()})).sort((a,b)=>(a.name||"").localeCompare(b.name||""));if(tab=="pa")parList()},er=>toast(er.code)))}
+window.saveP=async()=>{
+ const n=$("#pn").value.trim(),ph=$("#pph").value.trim(),mail=$("#pe").value.trim().toLowerCase(),pw=$("#ppw").value.trim(),dg=ph.replace(/\D/g,"");
+ const e=PE||mail||(dg?dg+AL:"");
+ if(!n)return toast("Write the parent's name");
+ if(!e)return toast("Give a phone number or an email");
+ if(!Object.keys(PW).length)return toast("Link at least one child");
+ if(!PE&&!pw)return toast("Give the parent a password (6+ characters)");
+ if(pw&&pw.length<6)return toast("Password needs 6 or more characters");
+ let note="";
+ try{
+  if(pw){try{await createUserWithEmailAndPassword(auxAuth,e,pw);await signOut(auxAuth);note="new"}
+   catch(er){if(er.code!="auth/email-already-in-use")throw er;note="old"}}
+  await setDoc(doc(db,"parents",e),{name:n,phone:ph,login:e,wards:Object.keys(PW),wardNames:PW});
+  parForm();
+  $("#pinfo").innerHTML=note=="new"?`<div class="okb">✅ Saved. Give the parent these details:<br><b>Sign in with:</b> ${esc(loginOf(e))}<br><b>Password:</b> ${esc(pw)}<br><button class="y sm" style="padding:7px 11px" onclick="copyTxt('${esc(SC().s||SC().n)}\\nSign in with: ${esc(loginOf(e))}\\nPassword: ${esc(pw)}\\nOpen: https://${SITE}/')">📋 Copy</button></div>`:note=="old"?`<div class="okb">✅ Saved. This login already existed, so the parent's old password still works.</div>`:`<div class="okb">✅ Saved.</div>`;
+  toast("Parent saved ✅")}
+ catch(er){toast("Failed: "+(er.code||er.message))}};
+window.copyTxt=t=>{if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>toast("Copied ✅"),()=>toast("Could not copy"));else toast("Could not copy")};
+window.editP=e=>{const p=pl.find(x=>x.e==e);if(!p)return;
+ PE=e;PW=Object.assign({},p.wardNames||{});
+ $("#pft").textContent="Edit parent";$("#pn").value=p.name||"";$("#pph").value=p.phone||"";$("#pe").value=loginOf(e);$("#pe").readOnly=true;
+ $("#ppw").placeholder="New password (only if they have no login yet)";parChips();parPick();scrollTo(0,0);toast("Editing "+(p.name||e))};
+window.resetP=async e=>{
+ if(e.endsWith(AL))return alert("This parent signs in with a phone number, so no reset email can be sent.\n\nIf the parent forgot the password: add the parent again and type a NEW login in the Email box (for example 0244123456b@tscs-parent.com) with a new password, then delete the old entry. The parent then signs in with that new login.");
+ try{await sendPasswordResetEmail(auth,e);toast("Password reset email sent to "+e)}catch(er){toast(er.code)}};
+window.delPa=async e=>{if(confirm("Remove this parent's access? Their children and reports are not deleted."))try{await deleteDoc(doc(db,"parents",e));toast("Removed")}catch(er){toast(er.code)}};
+
+/* ---------- Publish reports to parents (head or admin) ---------- */
+const rid=pid=>pid+"_"+YT()+(pk=="m"?"_MOCK"+mk:"");
+function wPub(){rp={};
+ ua.push(onSnapshot(query(collection(db,"pubs"),where("cls","==",cls),where("yt","==",YT())),s=>{rp={};s.docs.forEach(d=>{rp[d.id]=d.data()});if(tab=="pb"&&!busy())pubView()},er=>toast(er.code)))}
+function pubView(){
+ if(!isMk(cls)&&pk=="m")pk="t";
+ const M=pk=="m",rows=M?mockCalc():calc(),n=stu.filter(s=>rp[rid(s.id)]).length;
+ const opts=`<option value="t" ${!M?"selected":""}>📄 Terminal report cards</option>`+(isMk(cls)?[1,2,3,4,5,6,7].map(k=>`<option value="m${k}" ${M&&mk==k?"selected":""}>🎯 Mock ${k} result slips</option>`).join(""):"");
+ $("#bd").innerHTML=`<div class="fm"><b>Publish to parents — ${esc(cls)} · ${esc(yr)} · Term ${esc(term)}</b><p class="mu">Parents see a report only after you publish it here. Publishing saves a copy of the card as it looks now. If you change marks later, tap <b>Update</b> to refresh it. Use the class, term and year boxes at the top to choose what to publish.</p><select onchange="setPK(this.value)">${opts}</select><p class="mu">Published for <b>${n}</b> of ${stu.length} pupils.</p><div class="r2"><button class="y" onclick="pubAll(true)">📢 Publish all</button><button class="r" style="padding:11px" onclick="pubAll(false)">Unpublish all</button></div></div>`
+ +(stu.length?stu.map(s=>{const p=rp[rid(s.id)],o=rows.find(r=>r.s.id==s.id),empty=!o||!o.n;
+  return`<div class="c"><div class="g1"><b>${esc(s.name)}</b><div class="mu">${p?"✅ Published "+new Date(p.at).toLocaleDateString("en-GB"):"Not published"}${empty?" · ⚠ no scores yet":""}</div></div><div class="ac"><button class="${p?"":"y"}" onclick="pubOne('${s.id}',true)">${p?"Update":"Publish"}</button>${p?`<button class="r" onclick="pubOne('${s.id}',false)">Unpublish</button>`:""}</div></div>`}).join(""):'<p class="mu">No pupils in this class yet.</p>')}
+window.setPK=v=>{if(v[0]=="m"){pk="m";mk=v.slice(1);localStorage.mk=mk}else pk="t";unfocus();pubView()};
+window.pubOne=(id,on)=>pubDo(stu.filter(s=>s.id==id),on);
+window.pubAll=on=>{if(!stu.length)return;
+ if(!confirm(on?"Publish "+(pk=="m"?"Mock "+mk:"the terminal reports")+" for all "+stu.length+" pupils in "+cls+"? Parents will be able to see them.":"Remove all published reports of "+cls+" from the parents?"))return;
+ pubDo(stu,on)};
+async function pubDo(list,on){
+ if(!list.length)return;
+ const M=pk=="m",rows=M?mockCalc():calc(),prev=M&&+mk>1?mockCalc(+mk-1):null,now=Date.now();
+ try{
+  for(let i=0;i<list.length;i+=100){
+   const b=writeBatch(db);
+   list.slice(i,i+100).forEach(s=>{const id=rid(s.id),a=doc(db,"pubs",id),r=doc(db,"reports",id);
+    if(on){
+     b.set(a,{studentId:s.id,name:s.name,cls,yt:YT(),yr,term:+term,kind:M?"mock":"term",n:M?+mk:0,title:M?"Mock "+mk+" result slip":"Terminal report · Term "+term,at:now,by:me.email});
+     b.set(r,{studentId:s.id,html:M?mcard(s,rows,prev,+mk):card(s,rows),th,at:now})}
+    else{b.delete(a);b.delete(r)}});
+   await b.commit()}
+  toast(on?"Published ✅":"Removed from parents")
+ }catch(er){toast("Failed: "+(er.code||er.message))}}
+
+/* ---------- Parent screens ---------- */
+function pHome(){
+ const W=me.wardNames||{},ids=me.wards||[];
+ $("#bd").innerHTML=`<p class="mu">Hello ${esc(me.name||"")}. Your children's reports appear here as soon as the school publishes them.</p>`
+ +(ids.length?ids.map(id=>`<div class="fm"><b>${esc((W[id]||{}).n||"Pupil")}</b> <span class="mu">${esc((W[id]||{}).c||"")}</span><div id="w_${id}" class="mu">Loading…</div></div>`).join(""):'<p class="mu">No child is linked to your account yet. Please contact the school.</p>');
+ ids.forEach(id=>ua.push(onSnapshot(query(collection(db,"pubs"),where("studentId","==",id)),s=>{
+  const e=document.getElementById("w_"+id);if(!e)return;
+  const l=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.at||0)-(a.at||0));
+  l.forEach(r=>PUBM[r.id]=r);
+  e.innerHTML=l.length?l.map(r=>`<button class="rbtn" onclick="pRep('${r.id}')"><span>${r.kind=="mock"?"🎯":"📄"} <b>${esc(r.title)}</b><small>${esc(r.yr)}${r.kind=="mock"?" · Term "+esc(r.term):""} · published ${new Date(r.at).toLocaleDateString("en-GB")}</small></span><span>View ›</span></button>`).join(""):"No report has been published yet."},
+  er=>{const e=document.getElementById("w_"+id);if(e)e.textContent="Could not load ("+er.code+")"})))}
+window.pRep=id=>{CURR={id,html:""};tab="pr";draw();scrollTo(0,0)};
+async function pRepLoad(){
+ $("#bd").innerHTML='<p class="mu">Loading the report…</p>';
+ try{const d=await getDoc(doc(db,"reports",CURR.id));if(tab!="pr")return;
+  if(!d.exists()){$("#bd").innerHTML='<p class="mu">This report is no longer available.</p><button onclick="go(\'ph\')">‹ Back</button>';return}
+  CURR.html=d.data().html;pRepShow()}
+ catch(er){if(tab=="pr")$("#bd").innerHTML='<p class="mu">Could not open the report ('+esc(er.code||"error")+').</p><button onclick="go(\'ph\')">‹ Back</button>'}}
+function pRepShow(){
+ if(!CURR||!CURR.html||tab!="pr")return;
+ const m=PUBM[CURR.id]||{},h=th=="_s"?CURR.html:CURR.html.replace(/ style="--tpl:1[^"]*"/,"").replace(/(class="(?:rc2|card mc) th-)[a-z0-9]+/,"$1"+th);CURR.cur=h;CURR.m=m;
+ $("#bd").innerHTML=`<button style="background:#e6ebf8;color:var(--b)" onclick="go('ph')">‹ Back</button> <b>${esc(m.name||"")}</b> <span class="mu">${esc(m.title||"")}</span>${thSel()}${hwSel()}<button class="y" style="width:100%" onclick="pRepPrint()">🖨 Print / save as PDF</button><div style="overflow-x:auto"><div style="min-width:640px">${h}</div></div>`}
+window.pRepPrint=()=>{const m=CURR.m||{};pdfMenu("rc",false,[{name:(m.name||"Pupil")+" "+(m.title||"Report")+" "+(m.yr||""),html:CURR.cur}],fnm((m.name||"Report")+"_"+(m.yr||"")+"_"+(m.title||"")))};
+
+/* ---------- Appearance ---------- */
+function appView(){
+ const a=getAP(),PRE=[["Royal blue","#0b2a8f","#f5b800"],["Forest green","#0b6b3a","#f5b800"],["Purple","#5b21b6","#fbbf24"],["Maroon","#7f1d1d","#f5b800"],["Teal","#0f766e","#f59e0b"],["Charcoal","#1f2937","#38bdf8"]];
+ const b=(on,fn,l)=>`<button class="${on?"y":"off2"}" onclick="${fn}">${l}</button>`;
+ $("#bd").innerHTML=`<div class="fm"><b>Mode</b><div class="r2">${b(a.mode=="l","setAP({mode:'l'})","☀️ Light")}${b(a.mode=="d","setAP({mode:'d'})","🌙 Dark")}${b(a.mode=="a","setAP({mode:'a'})","📱 Auto")}</div><p class="mu" style="margin-bottom:0">Auto follows your phone's own light / dark setting.</p></div>
+<div class="fm"><b>Colours</b><div class="sw">${PRE.map(p=>`<button class="swb ${a.p==p[1]&&a.a==p[2]?"on":""}" style="background:linear-gradient(135deg,${p[1]} 58%,${p[2]} 58%)" onclick="setAP({p:'${p[1]}',a:'${p[2]}'})">${p[0]}</button>`).join("")}</div>
+<div class="r2"><div><label class="l1">Main colour</label><input type="color" value="${a.p}" onchange="setAP({p:this.value})" style="height:44px;padding:3px"></div><div><label class="l1">Accent colour</label><input type="color" value="${a.a}" onchange="setAP({a:this.value})" style="height:44px;padding:3px"></div></div></div>
+<div class="fm"><b>Text size</b><div class="r2">${[["Small",.9],["Normal",1],["Large",1.12],["Huge",1.25]].map(z=>b(a.z==z[1],"setAP({z:"+z[1]+"})",z[0])).join("")}</div></div>
+<div class="fm"><b>Report card design</b><p class="mu">The colour style used when you view or print report cards and mock slips on this phone.</p>${thSel()}</div>
+<div class="fm"><b>Handwriting style</b><p class="mu">The writing used for names, scores, remarks and dates on report cards and mock slips. It is what gets printed or saved as PDF.</p>${hwSel()}</div>
+<p class="mu">These choices are saved on this phone only. Printed report cards keep their own design.</p>
+<button style="width:100%;background:#e6ebf8;color:var(--b)" onclick="resetAP()">↺ Back to the default look</button>`}
+window.appRefresh=()=>{if(tab=="ap")appView()};
+
+/* ---------- My account ---------- */
+function accView(){
+ $("#bd").innerHTML=`<div class="fm"><b>${esc(me.name||"")}</b><div class="mu">${RL[ROLE]} · ${esc(me.email.endsWith(AL)?loginOf(me.email)+" (phone login)":me.email)}</div></div>
+<div class="fm"><b>Change my password</b><input id="cpo" type="password" placeholder="Old password" autocomplete="current-password"><input id="cpn" type="password" placeholder="New password (6+ characters)" autocomplete="new-password"><input id="cpn2" type="password" placeholder="Type the new password again" autocomplete="new-password"><button class="y" style="width:100%" onclick="chPw()">Change password</button></div>
+<button class="r" style="width:100%;padding:12px" onclick="logout()">Log out</button>`}
+window.chPw=async()=>{
+ const o=$("#cpo").value,n=$("#cpn").value,n2=$("#cpn2").value;
+ if(!o)return toast("Type your old password");
+ if(n.length<6)return toast("The new password needs 6 or more characters");
+ if(n!==n2)return toast("The two new passwords are not the same");
+ try{const u=auth.currentUser;await reauthenticateWithCredential(u,EmailAuthProvider.credential(u.email,o));await updatePassword(u,n);
+  ["cpo","cpn","cpn2"].forEach(i=>$("#"+i).value="");toast("Password changed ✅")}
+ catch(er){toast(er.code=="auth/invalid-credential"||er.code=="auth/wrong-password"?"The old password is wrong":"Failed: "+(er.code||er.message))}};
+
+/* ---------- Classes (admin / head): type your own class names ---------- */
+const clClean=t=>{const seen=new Set(),o=[];String(t||"").split("\n").forEach(x=>{x=x.replace(/[<>&"'`\/\\|_]/g,"").replace(/\s+/g," ").trim().slice(0,24);if(!x)return;const k=x.toLowerCase().replace(/\s/g,"");if(seen.has(k))return;seen.add(k);o.push(x)});return o.slice(0,40)};
+const LVN={p:"Lower class (grades A+ to F)",j:"JHS class (grades 1–9 and aggregate)",m:"Final JHS class (JHS + BECE mocks)"};
+function clView(){
+ if(!isTop()){$("#bd").innerHTML='<p class="mu">Only the admin or head teacher can change classes.</p>';return}
+ const L=CL.slice();
+ $("#bd").innerHTML=`<p class="mu">The app has no built-in classes. Write the name of each of your classes on its own line, in the order you want. Then tap Save. Scores, attendance, pupils, report cards, Staff and Parents all use this list straight away.</p>
+<div class="fm"><b>Class names</b><textarea id="cl_t" rows="${Math.max(6,L.length+1)}" placeholder="Creche&#10;Nursery 1&#10;KG 1&#10;Basic 1">${esc(L.join("\n"))}</textarea><button class="y" style="width:100%" onclick="clSave()">Save class names</button></div>
+<div class="fm"><b>Class type and delete</b><p class="mu">Tap 🗑 beside a class to remove it. This tells the app how to grade each class. Lower classes use grades A+ to F. JHS classes use grades 1–9 with an aggregate. The final JHS class also gets the Mock exams.</p>${L.map(c=>`<label class="l1">${esc(c)}</label><div class="r2"><select data-lv="${esc(c)}">${Object.keys(LVN).map(k=>`<option value="${k}" ${lvl(c)==k?"selected":""}>${LVN[k]}</option>`).join("")}</select><button class="r" style="flex:none;width:54px;padding:11px" onclick="clDel('${esc(c)}')" aria-label="Delete ${esc(c)}">🗑</button></div>`).join("")}<button class="y" style="width:100%" onclick="clLv()">Save class types</button></div>
+<div class="fm"><b>Good to know</b><p class="mu" style="margin-bottom:0">• Removing a class only hides it. Write the same name back and its pupils and scores return.<br>• A changed spelling is a new class (it starts empty). The old one stays saved under the old name.<br>• After adding a class, tick it for each teacher in Staff, and give it its own subjects in Subjects if it needs them.<br>• Names cannot contain slashes, | _ &lt; &gt; &amp; or quote marks (they are removed).</p></div>`}
+window.clSave=()=>{const l=clClean($("#cl_t").value);if(!l.length)return toast("Write at least one class");const cj=Object.assign({},G.cj||{});l.forEach(c=>cj[c]=lvl(c));saveG({cl:l,cj})};
+window.clDel=c=>{if(!confirm("Remove "+c+" from your classes? Its pupils and scores stay saved and come back if you add the same name again."))return;saveG({cl:CL.filter(x=>x!=c)})};
+window.clLv=()=>{const cj=Object.assign({},G.cj||{});document.querySelectorAll("[data-lv]").forEach(e=>cj[e.dataset.lv]=e.value);saveG({cj})};
+
+/* ---------- School details (admin / head): shows on every report card, mock slip and sheet ---------- */
+function sdView(){
+ if(!isTop()){$("#bd").innerHTML='<p class="mu">Only the admin or head teacher can change the school details.</p>';return}
+ const S=SC(),f=(l,id,v,m)=>`<label class="l1">${l}</label><input id="${id}" maxlength="${m||80}" value="${esc(v)}">`;
+ $("#bd").innerHTML=`<p class="mu">Write your school's details once. They show at the top of every report card, mock slip and analysis sheet, and in the side menu. Leave a box empty to hide that line.</p>
+<div class="fm"><b>School details</b>${f("School name (full, on report cards)","sd_n",S.n)}${f("Short name (small headings, sheets, slips)","sd_s",S.s,40)}${f("Motto / tagline","sd_m",S.m,60)}${f("Phone number(s)","sd_p",S.p,60)}${f("Email","sd_e",S.e,60)}${f("Website","sd_w",S.w)}${f("Location / address","sd_l",S.l)}${f("Extra line (e.g. P.O. Box)","sd_x",S.x)}<button class="y" style="width:100%" onclick="sdSave()">Save school details</button><button style="width:100%;background:#e6ebf8;color:var(--b)" onclick="sdReset()">↺ Back to the original details</button></div>
+<div class="fm"><b>School logo</b><p class="mu">Shows on report cards, mock slips and sheets. Choose a clear picture.</p>${S.lg?`<div class="lo2" style="width:70px;height:70px"><img src="${S.lg}" alt="" style="width:58px"></div>`:""}<input type="file" id="slg" accept="image/*">${S.lg?'<button class="r" onclick="sdLogoClr()">Use the default logo</button>':""}</div>
+<p class="mu"><b>Preview of the report card top</b></p><div style="overflow-x:auto"><div style="min-width:640px"><div class="rc2 th-${th}"${thA(th)}>${rcHead()}</div></div></div>`}
+const sdC=(id,m)=>$("#"+id).value.replace(/[<>"'`\\]/g,"").replace(/\s+/g," ").trim().slice(0,m||80);
+window.sdSave=()=>{const S=Object.assign({},SC(),{n:sdC("sd_n"),s:sdC("sd_s",40),m:sdC("sd_m",60),p:sdC("sd_p",60),e:sdC("sd_e",60),w:sdC("sd_w"),l:sdC("sd_l"),x:sdC("sd_x")});if(!S.n)return toast("Write the school name");if(!S.s)S.s=S.n;saveG({sch:S})};
+window.sdReset=()=>{if(confirm("Go back to the original school details?"))saveG({sch:Object.assign({},SCH_D)})};
+window.sdLogoClr=()=>saveG({sch:Object.assign({},SC(),{lg:""})});
+
+/* ---------- Report designs (admin / head): your own design joins the same list as the built-in ones ---------- */
+let TE="";
+const tpRead=()=>({n:$("#tp_n").value,pa:$("#tp_a").value,ac:$("#tp_b").value,tt:$("#tp_t").value,ik:$("#tp_i").value});
+function tpView(){
+ if(!isTop()){$("#bd").innerHTML='<p class="mu">Only the admin or head teacher can make report designs.</p>';return}
+ const L=G.tp||[],t=TP(TE)||{n:"",pa:"#0b2a8f",ac:"#f5b800",tt:"#0b2a8f",ik:"#0b2a8f"},
+ col=(l,id,v)=>`<div><label class="l1">${l}</label><input type="color" id="${id}" value="${isHex(v)?v:"#0b2a8f"}" oninput="tpPv()" style="height:44px;padding:3px"></div>`;
+ $("#bd").innerHTML=`<p class="mu">Make your own report card design. It joins the same list as Classic, Yellow, Blue and the others, so you choose it the same way for report cards, mock slips and analysis sheets, and it does not add a second list. If you edit a design, every card that uses it changes too.</p>
+<div class="fm"><b>${TE?"Edit design":"New design"}</b><input id="tp_n" maxlength="20" placeholder="Design name, e.g. School colours" value="${esc(t.n)}" oninput="tpPv()"><div class="r2">${col("Main colour (headings, table heads)","tp_a",t.pa)}${col("Accent colour (borders, graph)","tp_b",t.ac)}</div><div class="r2">${col("School name colour","tp_t",t.tt||t.pa)}${col("Pen colour for scores","tp_i",t.ik||t.pa)}</div><p class="mu">Dark main colours work best, because table headings are written in white.</p><div id="tp_pv"></div><button class="y" style="width:100%" onclick="tpSave()">${TE?"Save changes":"Add this design"}</button>${TE?'<button style="width:100%;background:#e6ebf8;color:var(--b)" onclick="tpEdit(\'\')">Cancel and make a new one</button>':""}</div>
+<h4 style="color:var(--b)">My designs (${L.length})</h4>${L.map(x=>`<div class="c"><div class="g1"><b>${esc(x.n)}</b><div class="mu">${th==x.k?"In use on this phone":"Shows in every design list"}</div></div><div class="ac"><button class="y" onclick="setTh('${x.k}');tpView()">Use</button><button onclick="tpEdit('${x.k}')">✏️</button><button class="r" onclick="tpDel('${x.k}')">🗑</button></div></div>`).join("")||'<p class="mu">No design of your own yet.</p>'}`;
+ tpPv()}
+window.tpPv=()=>{const e=$("#tp_pv");if(!e)return;const t=tpRead();
+ e.innerHTML=`<div style="overflow-x:auto"><div style="min-width:560px"><div class="rc2 th-x" style="${tplV(t)}">${rcHead()}<div class="bd2"><div class="ri"><div>Name: <span class="ink">AMA MENSAH</span><br>Class: <span class="ink">${esc((cls||CL[0]||"").toUpperCase())}</span></div></div><table class="rt2"><tr><th>Subject</th><th>Class Score</th><th>Exam Score</th><th>Total</th><th>Grade</th></tr><tr><td class="sj">English</td><td class="ink">41</td><td class="ink">43</td><td class="ink">84</td><td class="ink">A</td></tr><tr><td class="sj">Mathematics</td><td class="ink">38</td><td class="ink">36</td><td class="ink">74</td><td class="ink">B</td></tr></table></div></div></div></div>`};
+window.tpEdit=k=>{TE=k;tpView()};
+window.tpSave=()=>{const t=tpRead();t.n=t.n.replace(/[<>&"'`\\]/g,"").replace(/\s+/g," ").trim().slice(0,20);if(!t.n)return toast("Give the design a name");
+ const L=(G.tp||[]).slice();let k=TE;
+ if(k){const i=L.findIndex(x=>x.k==k);t.k=k;if(i>=0)L[i]=t;else L.push(t)}
+ else{if(L.length>=8)return toast("You can keep up to 8 designs. Delete one first.");k=t.k="u"+Date.now().toString(36);L.push(t)}
+ TE="";th=k;try{localStorage.th=k}catch(_){}saveG({tp:L})};
+window.tpDel=k=>{const x=TP(k);if(!x||!confirm("Delete the design \""+x.n+"\"? Cards using it go back to Classic."))return;
+ if(th==k){th="c";try{localStorage.th="c"}catch(_){}}if(TE==k)TE="";saveG({tp:(G.tp||[]).filter(y=>y.k!=k)})};
+</script></body></html>

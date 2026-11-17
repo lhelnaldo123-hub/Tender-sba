@@ -10,15 +10,26 @@ A School-Based Assessment (SBA) system for Tender Sprout Community School. Teach
 - Overview dashboard
 - Scores entry
 - Attendance tracking
-- Printable report cards
+- Printable report cards (fits one A4 page)
+- Pupil initials shown on the report card when there is no photo
+- Handwriting styles and pen colours for report cards and mock slips
 - Performance analysis
-- Mock exam results
+- Mock exam results and result slips (Basic 9, Mock 1-7)
+- Save report cards as PDF, one by one or all together (ZIP)
 - Pupil and teacher management
-- Installable on a phone
+- Light and dark mode, colours and text size
+- Installable on a phone, works offline
 
 ## Built with
 - HTML, CSS and JavaScript
+- Firebase (sign-in and data)
 - GitHub Pages hosting
+
+## Files
+- `index.html` - the app
+- `sw.js` - offline support (change the version number when you upload a new `index.html`)
+- `manifest.json` - makes the app installable
+- `Screenshot_20261030-124739.png` - school logo and app icon
 
 ## Author
 Aaron Addo - [GitHub](https://github.com/lhelnaldo123-hub) - lhelnaldo123@gmail.com

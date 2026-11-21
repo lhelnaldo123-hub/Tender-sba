@@ -18,6 +18,8 @@ A School-Based Assessment (SBA) system for Tender Sprout Community School. Teach
 - Save report cards as PDF, one by one or all together (ZIP)
 - Pupil photos page: add one photo per pupil for the whole class
 - Subjects page (admin / head): add, remove or rename subjects for all classes or one class
+- Term dates: write the Vac date and Open date once for the whole school; they show on every report card
+- Fees & arrears: choose a class, write next-term fees and each pupil's arrears; they show on the report cards
 - Notices (admin / head): send a message that shows as a bar on top of everyone's screen
 - Pupil and teacher management
 - Light and dark mode, colours and text size

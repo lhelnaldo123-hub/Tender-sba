@@ -1,6 +1,6 @@
 /* TSCS SBA - install/offline helper for OLD phones (works on Chrome 70).
    Only controls sba.html. Change V when you upload a new sba.html. */
-var V="sba-legacy-v1";
+var V="sba-legacy-v2";
 var CORE=["./sba.html","./sba-manifest.json","./Screenshot_20261030-124739.png"];
 var HOSTS=["www.gstatic.com","fonts.googleapis.com","fonts.gstatic.com","cdnjs.cloudflare.com"];
 
